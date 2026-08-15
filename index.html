@@ -579,6 +579,15 @@ input[type=range]{
   accent-color:var(--tomato);
 }
 
+   .slider-range{
+  display:flex;
+  justify-content:space-between;
+  margin-top:5px;
+  font-size:12px;
+  color:#8c7b70;
+  font-weight:600;
+   }
+
 /* =========================================================
    LEVEL 2 PENDULUM
 ========================================================= */
@@ -1554,6 +1563,11 @@ window.givenK =
             step="0.1"
             value="1">
 
+            <div class="slider-range">
+  <span>0.5 kg</span>
+  <span>5.0 kg</span>
+</div>
+
         </div>
 
 
@@ -1575,7 +1589,11 @@ window.givenK =
             max="300"
             step="5"
             value="100">
-
+            
+<div class="slider-range">
+  <span>20 N/m</span>
+  <span>300 N/m</span>
+</div>
         </div>
 
       </div>
