@@ -2491,22 +2491,18 @@ function loadBossLevel(){
     "input",
     function(){
 
-        const value =
+      const value =
         parseFloat(slider.value);
 
-      document.getElementById(
-        "yourFreq"
-      ).textContent =
-        value.toFixed(2);
+      document.getElementById("yourFreq")
+        .textContent =
+          value.toFixed(2);
 
 
-      // ความแรงของการสั่น
-      const machine =
-        document.getElementById(
-          "bossMachine"
-        );
+      const arm =
+        document.getElementById("machineArm");
 
-      if(machine){
+      if(arm){
 
         const target = 1.50;
 
@@ -2519,10 +2515,11 @@ function loadBossLevel(){
             1 - difference / 1.5
           );
 
-        machine.style.setProperty(
-          "--shake",
-          intensity
-        );
+        arm.style.transform =
+          `rotate(${value * 120}deg)`;
+
+        arm.style.opacity =
+          0.5 + intensity * 0.5;
 
       }
 
@@ -2557,8 +2554,7 @@ function activateMachine(){
   const frequency =
     parseFloat(slider.value);
 
-  const target =
-    1.50;
+  const target = 1.50;
 
   const error =
     Math.abs(
@@ -2566,16 +2562,12 @@ function activateMachine(){
     );
 
 
-  /* -----------------------------------------
-     PERFECT
-  ----------------------------------------- */
-
   if(error <= 0.05){
 
     addScore(500);
 
     showMessage(
-      "RESONANCE PERFECT! 🍅 +500"
+      "RESONANCE PERFECT! Tomato รอดแล้ว! +500"
     );
 
 
@@ -2586,9 +2578,8 @@ function activateMachine(){
 
     if(machine){
 
-      machine.classList.add(
-        "resonating"
-      );
+      machine.style.animation =
+        "pulse .35s ease-in-out infinite";
 
     }
 
@@ -2602,24 +2593,16 @@ function activateMachine(){
   }
 
 
-  /* -----------------------------------------
-     CLOSE
-  ----------------------------------------- */
-
   else if(error <= 0.20){
 
     addScore(200);
 
     showMessage(
-      "ใกล้มาก! ความถี่เกือบตรงแล้ว +200"
+      "ใกล้มาก! ปรับอีกนิดเดียว +200"
     );
 
   }
 
-
-  /* -----------------------------------------
-     WRONG
-  ----------------------------------------- */
 
   else{
 
@@ -2648,6 +2631,7 @@ function nextLevel(){
 
   currentLevel++;
 
+
   if(currentLevel > 4){
 
     finishGame();
@@ -2655,6 +2639,7 @@ function nextLevel(){
     return;
 
   }
+
 
   updateStats();
 
@@ -2718,42 +2703,39 @@ function finishGame(){
   }
 
 
-  /* -----------------------------------------
-     RANK
-  ----------------------------------------- */
-
   const rank =
     document.getElementById(
       "rank"
     );
+
 
   if(rank){
 
     if(score >= 1400){
 
       rank.textContent =
-        "🍅 TOMATO PHYSICS MASTER";
+        "TOMATO PHYSICS MASTER";
 
     }
 
     else if(score >= 1000){
 
       rank.textContent =
-        "🌱 SHM EXPERT";
+        "SHM EXPERT";
 
     }
 
     else if(score >= 700){
 
       rank.textContent =
-        "⭐ PHYSICS EXPLORER";
+        "PHYSICS EXPLORER";
 
     }
 
     else{
 
       rank.textContent =
-        "🍅 TOMATO ROOKIE";
+        "TOMATO ROOKIE";
 
     }
 
@@ -2763,7 +2745,19 @@ function finishGame(){
 
 
 /* =========================================================
-   INITIALIZE
+   START GAME ON PAGE
 ========================================================= */
 
-updateStats();
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    updateStats();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
