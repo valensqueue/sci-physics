@@ -689,31 +689,12 @@ input[type=range]{
   background:#dff2fa;
 }
 
-.wave-grid{
+#waveCanvas{
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(rgba(117,159,176,.15) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(117,159,176,.15) 1px,transparent 1px);
-  background-size:40px 40px;
-}
-
-.wave-line{
-  position:absolute;
-  left:0;
-  top:50%;
   width:100%;
-  height:4px;
-  background:#83b4c8;
-}
-
-.wave-target{
-  position:absolute;
-  width:75px;
-  height:75px;
-  border:4px dashed var(--tomato);
-  border-radius:50%;
-  transform:translate(-50%,-50%);
+  height:100%;
+  z-index:1;
 }
 
 .wave-tomato{
@@ -724,11 +705,24 @@ input[type=range]{
   background:var(--tomato);
   transform:translate(-50%,-50%);
   z-index:4;
-  box-shadow:0 5px 0 rgba(116,73,66,.13);
+  box-shadow:
+    0 5px 0 rgba(116,73,66,.13);
+}
+
+.wave-target{
+  position:absolute;
+  width:70px;
+  height:70px;
+  border:4px dashed #f0c95b;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;
+  box-shadow:
+    0 0 0 5px rgba(240,201,91,.15);
 }
 
 .wave-instruction{
-  background:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.9);
   border:2px solid #d9cdbb;
   border-radius:14px;
   position:absolute;
@@ -736,6 +730,7 @@ input[type=range]{
   left:15px;
   padding:8px 14px;
   z-index:6;
+  font-size:13px;
 }
 
 .wave-score{
@@ -748,8 +743,6 @@ input[type=range]{
   border-radius:30px;
   border:2px solid #d9cdbb;
 }
-
-/* ใส่ต่อจากตรงนี้ */
 
 .wave-controls{
   display:flex;
@@ -2025,7 +2018,6 @@ document.addEventListener(
   }
 );
 
-
 /* =========================================================
    LEVEL 3
    WAVE CATCH
@@ -2033,119 +2025,89 @@ document.addEventListener(
 
 function loadWaveLevel(){
 
-  document.getElementById("levelLabel")
-    .textContent =
-      "LEVEL 3 • WAVE";
+  document.getElementById("levelLabel").textContent =
+    "LEVEL 3 • WAVE";
 
-  document.getElementById("levelTitle")
-    .textContent =
-      "Wave Catch";
+  document.getElementById("levelTitle").textContent =
+    "Wave Catch";
 
-  document.getElementById("levelDescription")
-    .textContent =
-      "ควบคุม Tomato ให้ตรงกับตำแหน่งการสั่น แล้วเก็บดาวให้ครบ 5 ดวง";
+  document.getElementById("levelDescription").textContent =
+    "ควบคุม Tomato ให้เคลื่อนที่ตามคลื่น และเก็บดาวให้ครบ 5 ดวง";
 
+  document.getElementById("gameContent").innerHTML = `
 
-  document.getElementById("gameContent")
-    .innerHTML = `
+    <div class="wave-game" id="waveGame">
+
+      <canvas id="waveCanvas"></canvas>
 
       <div
-        class="wave-game"
-        id="waveGame">
-
-        <div class="wave-grid"></div>
-
-        <div class="wave-line"></div>
-
-
-        <div class="wave-instruction">
-
-          ↑ ↓
-          หรือ
-          W S
-
-        </div>
-
-
-        <div class="wave-score">
-
-          ⭐
-          <span id="waveScore">
-            0
-          </span>
-          /5
-
-        </div>
-
-
-        <div
-          class="wave-tomato"
-          id="waveTomato">
-
-        </div>
-
-
-        <div
-          class="wave-target"
-          id="waveTarget">
-
-        </div>
-
+        class="wave-tomato"
+        id="waveTomato">
       </div>
 
-
       <div
-        class="control-box"
-        style="
-          margin-top:15px;
-          text-align:center;
-        ">
+        class="wave-target"
+        id="waveTarget">
+      </div>
 
-        <b>
-          x = A cos(ωt)
-        </b>
+      <div class="wave-instruction">
+        WAVE<br>
+        ควบคุม Tomato ให้ตรงกับคลื่น
+      </div>
 
+      <div class="wave-score">
+        ⭐
+        <span id="waveScore">0</span>/5
+      </div>
 
-        <p style="font-size:14px">
+    </div>
 
-          ขยับ Tomato ขึ้นลง
-          เพื่อเก็บดาว
+    <div
+      class="control-box"
+      style="
+        margin-top:15px;
+        text-align:center;
+      ">
 
-        </p>
+      <b>
+        y = A cos(ωt)
+      </b>
 
+      <p style="font-size:14px">
+        กด ▲ ▼ เพื่อปรับตำแหน่ง Tomato
+      </p>
+
+      <button
+        class="cute-button yellow"
+        onclick="startWaveGame()">
+
+        START WAVE
+
+      </button>
+
+      <div class="wave-controls">
 
         <button
-  class="cute-button yellow"
-  onclick="startWaveGame()">
+          class="wave-control-btn"
+          onclick="moveWaveTomato(-25)">
+          ▲
+        </button>
 
-  START WAVE
-
-</button>
-
-<div class="wave-controls">
-
-  <button
-    class="wave-control-btn"
-    onclick="moveWaveTomato(-25)">
-    ▲
-  </button>
-
-  <button
-    class="wave-control-btn"
-    onclick="moveWaveTomato(25)">
-    ▼
-  </button>
-
-</div>
+        <button
+          class="wave-control-btn"
+          onclick="moveWaveTomato(25)">
+          ▼
+        </button>
 
       </div>
 
-    `;
+    </div>
 
+  `;
 
   window.waveScore = 0;
-
   window.waveRunning = false;
+  window.waveTomatoY = null;
 
 }
 
@@ -2159,318 +2121,317 @@ function startWaveGame(){
     return;
   }
 
+  const game =
+    document.getElementById("waveGame");
+
+  const tomato =
+    document.getElementById("waveTomato");
+
+  if(!game || !tomato){
+    return;
+  }
+
+  const rect =
+    game.getBoundingClientRect();
 
   window.waveRunning = true;
 
   window.waveStart =
     performance.now();
 
+  window.waveTomatoY =
+    rect.height / 2;
+
+  tomato.style.left =
+    (rect.width / 2) + "px";
+
+  tomato.style.top =
+    window.waveTomatoY + "px";
 
   placeWaveTarget();
 
-  animateWave();
-
-}
-   function moveWaveTomato(amount){
-
-  const tomato =
-    document.getElementById("waveTomato");
-
-  const game =
-    document.getElementById("waveGame");
-
-  if(!tomato || !game){
-    return;
-  }
-
-  const rect =
-    game.getBoundingClientRect();
-
-  let top =
-    parseFloat(
-      tomato.dataset.y ||
-      rect.height / 2
-    );
-
-  top += amount;
-
-  top =
-    Math.max(
-      30,
-      Math.min(
-        rect.height - 30,
-        top
-      )
-    );
-
-  tomato.dataset.y = top;
-
-  tomato.style.top =
-    top + "px";
-   }
-
-
-/* =========================================================
-   PLACE TARGET
-========================================================= */
-
-function placeWaveTarget(){
-
-  const game =
-    document.getElementById(
-      "waveGame"
-    );
-
-  const target =
-    document.getElementById(
-      "waveTarget"
-    );
-
-
-  if(!game || !target){
-    return;
-  }
-
-
-  const rect =
-    game.getBoundingClientRect();
-
-
-const x =
-  rect.width / 2;
-
-
-  const y =
-    70 +
-    Math.random() *
-    (rect.height - 140);
-
-
-  target.style.left =
-    x + "px";
-
-  target.style.top =
-    y + "px";
+  drawWave();
 
 }
 
 
 /* =========================================================
-   WAVE ANIMATION
+   MOVE TOMATO
 ========================================================= */
 
-function animateWave(){
+function moveWaveTomato(amount){
 
   if(!window.waveRunning){
     return;
   }
 
+  const game =
+    document.getElementById("waveGame");
 
   const tomato =
-    document.getElementById(
-      "waveTomato"
-    );
+    document.getElementById("waveTomato");
 
-  const game =
-    document.getElementById(
-      "waveGame"
-    );
-
-
-  if(!tomato || !game){
+  if(!game || !tomato){
     return;
   }
-
 
   const rect =
     game.getBoundingClientRect();
 
+  window.waveTomatoY += amount;
 
-  const t =
+  window.waveTomatoY =
+    Math.max(
+      35,
+      Math.min(
+        rect.height - 35,
+        window.waveTomatoY
+      )
+    );
+
+  tomato.style.top =
+    window.waveTomatoY + "px";
+
+}
+
+
+/* =========================================================
+   PLACE STAR
+========================================================= */
+
+function placeWaveTarget(){
+
+  const game =
+    document.getElementById("waveGame");
+
+  const target =
+    document.getElementById("waveTarget");
+
+  if(!game || !target){
+    return;
+  }
+
+  const rect =
+    game.getBoundingClientRect();
+
+  const x =
+    80 +
+    Math.random() *
+    (rect.width - 160);
+
+  target.style.left =
+    x + "px";
+
+  target.dataset.x =
+    x;
+
+  target.style.top =
+    "50%";
+
+   }
+
+   /* =========================================================
+   DRAW REAL WAVE
+========================================================= */
+
+function drawWave(){
+
+  if(!window.waveRunning){
+    return;
+  }
+
+  const canvas =
+    document.getElementById("waveCanvas");
+
+  const game =
+    document.getElementById("waveGame");
+
+  const tomato =
+    document.getElementById("waveTomato");
+
+  const target =
+    document.getElementById("waveTarget");
+
+  if(!canvas || !game || !tomato){
+    return;
+  }
+
+  const rect =
+    game.getBoundingClientRect();
+
+  const dpr =
+    window.devicePixelRatio || 1;
+
+  canvas.width =
+    rect.width * dpr;
+
+  canvas.height =
+    rect.height * dpr;
+
+  canvas.style.width =
+    rect.width + "px";
+
+  canvas.style.height =
+    rect.height + "px";
+
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+  ctx.clearRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+
+  const center =
+    rect.height / 2;
+
+  const amplitude =
+    Math.min(
+      120,
+      rect.height * 0.30
+    );
+
+  const time =
     (
       performance.now()
       -
       window.waveStart
     ) / 1000;
 
+  ctx.beginPath();
 
-  const A =
-    Math.min(
-      130,
-      rect.height / 2 - 40
-    );
+  for(
+    let x = 0;
+    x <= rect.width;
+    x += 4
+  ){
+
+    const y =
+      center +
+      amplitude *
+      Math.cos(
+        x * 0.025 -
+        time * 3
+      );
+
+    if(x === 0){
+      ctx.moveTo(x,y);
+    }else{
+      ctx.lineTo(x,y);
+    }
+
+  }
+
+  ctx.strokeStyle =
+    "#75aabd";
+
+  ctx.lineWidth = 5;
+
+  ctx.stroke();
 
 
-const y =
-  parseFloat(
-    tomato.dataset.y ||
-    rect.height / 2
-  );
-
-
-  const x =
-    rect.width / 2 +
-    260 *
-    Math.sin(t * .55);
-
+  const tomatoX =
+    rect.width / 2;
 
   tomato.style.left =
-    x + "px";
-
-  tomato.style.top =
-    y + "px";
+    tomatoX + "px";
 
 
-  const target =
-    document.getElementById(
-      "waveTarget"
-    );
+  if(target){
+
+    const targetX =
+      parseFloat(
+        target.dataset.x
+      );
+
+    const waveY =
+      center +
+      amplitude *
+      Math.cos(
+        targetX * 0.025 -
+        time * 3
+      );
+
+    target.style.top =
+      waveY + "px";
 
 
-  const tx =
-    parseFloat(
-      target.style.left
-    );
-
-  const ty =
-    parseFloat(
-      target.style.top
-    );
-
-
-  const distance =
-    Math.hypot(
-      x - tx,
-      y - ty
-    );
-
-
-  if(distance < 50){
-
-    window.waveScore++;
-
-    addScore(75);
-
-    showMessage(
-      "เก็บดาวได้! ⭐ +75"
-    );
-
-
-    if(window.waveScore >= 5){
-
-      window.waveRunning = false;
-
-      addScore(200);
-
-      showMessage(
-        "เก็บดาวครบแล้ว! +200"
+    const distance =
+      Math.abs(
+        window.waveTomatoY -
+        waveY
       );
 
 
-      setTimeout(() => {
+    if(
+      Math.abs(
+        tomatoX - targetX
+      ) < 45 &&
+      distance < 45
+    ){
 
-        nextLevel();
+      window.waveScore++;
 
-      }, 1200);
+      addScore(75);
+
+      showMessage(
+        "จับคลื่นได้! ⭐ +75"
+      );
 
 
-      return;
+      if(
+        window.waveScore >= 5
+      ){
+
+        window.waveRunning =
+          false;
+
+        addScore(200);
+
+        showMessage(
+          "จับคลื่นครบ 5 ดวง! +200"
+        );
+
+        setTimeout(
+          () => {
+            nextLevel();
+          },
+          1200
+        );
+
+        return;
+      }
+
+
+      document.getElementById(
+        "waveScore"
+      ).textContent =
+        window.waveScore;
+
+      placeWaveTarget();
 
     }
-
-
-    document.getElementById(
-      "waveScore"
-    ).textContent =
-      window.waveScore;
-
-
-    placeWaveTarget();
 
   }
 
 
   animationID =
     requestAnimationFrame(
-      animateWave
+      drawWave
     );
 
-}
-
-
-/* =========================================================
-   WAVE CONTROL
-========================================================= */
-
-document.addEventListener(
-  "keydown",
-  function(e){
-
-    if(currentLevel !== 3){
-      return;
-    }
-
-
-    const tomato =
-      document.getElementById(
-        "waveTomato"
-      );
-
-
-    if(!tomato){
-      return;
-    }
-
-
-let top =
-  parseFloat(
-    tomato.dataset.y ||
-    rect.height / 2
-  );
-
-
-    if(
-      e.key === "ArrowUp" ||
-      e.key.toLowerCase() === "w"
-    ){
-
-      top -= 20;
-
-    }
-
-
-    if(
-      e.key === "ArrowDown" ||
-      e.key.toLowerCase() === "s"
-    ){
-
-      top += 20;
-
-    }
-
-
-    top =
-      Math.max(
-        30,
-        Math.min(
-          400,
-          top
-        )
-      );
-
-     tomato.dataset.y = top;
-
-tomato.style.top =
-  top + "px";
-
-
-    tomato.style.top =
-      top + "px";
-
-  }
-);
-
-
+   }
 /* =========================================================
    LEVEL 4
    FINAL BOSS
