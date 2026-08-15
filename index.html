@@ -1302,8 +1302,9 @@ let gameRunning = false;
 
 function startGame(){
 
-  document.getElementById("startScreen").style.display = "none";
-  document.getElementById("gameScreen").style.display = "block";
+  document.getElementById("startScreen").classList.remove("active");
+  document.getElementById("gameScreen").classList.add("active");
+  document.getElementById("winScreen").classList.remove("active");
 
   score = 0;
   life = 3;
@@ -1312,8 +1313,8 @@ function startGame(){
   updateStats();
   loadLevel();
 
-   }
-
+}
+   
 /* =========================================================
    UPDATE SCORE / LIFE / LEVEL
 ========================================================= */
@@ -2537,17 +2538,6 @@ function loadBossLevel(){
 
 }
 
-function activateMachine(){
-
-  addScore(500);
-
-  showMessage("RESONANCE สำเร็จ! +500");
-
-  setTimeout(() => {
-    showWinScreen();
-  }, 500);
-
-}
    
 /* =========================================================
    FINAL BOSS
@@ -2556,13 +2546,35 @@ function activateMachine(){
 
 function activateMachine(){
 
-  addScore(500);
+  const frequency =
+    parseFloat(
+      document.getElementById("frequencySlider").value
+    );
 
-  setTimeout(() => {
-    showWinScreen();
-  }, 500);
+  const target = 1.50;
 
-   }
+  const error =
+    Math.abs(frequency - target);
+
+  if(error <= 0.05){
+
+    addScore(500);
+
+    setTimeout(() => {
+      showWinScreen();
+    }, 500);
+
+  }else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ตรง! ปรับความถี่ให้ใกล้ 1.50 Hz"
+    );
+
+  }
+
+}
 
 
   const frequency =
