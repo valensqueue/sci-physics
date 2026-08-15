@@ -1482,6 +1482,11 @@ function loadLevel(){
     loadEnergyLevel();
 
   }
+   else if(currentLevel === 6){
+
+  loadVelocityLevel();
+
+   }
 
    }
 
@@ -2871,6 +2876,233 @@ function checkEnergy(){
   }
 
 }
+   /* =========================================================
+   LEVEL 6
+   VELOCITY DASH
+========================================================= */
+
+function loadVelocityLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 6 • VELOCITY";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Velocity Dash";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "หาความเร็วของ Tomato ในตำแหน่งต่าง ๆ ของการสั่น!";
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="control-box"
+        style="
+          text-align:center;
+          padding:25px;
+        ">
+
+        <div style="
+          font-size:22px;
+          font-weight:700;
+          color:#683f39;
+        ">
+          VELOCITY LAB
+        </div>
+
+        <div style="
+          background:#e7f5ed;
+          border:2px dashed #8fba91;
+          border-radius:15px;
+          padding:15px;
+          margin:15px 0;
+        ">
+
+          <b style="font-size:20px;">
+            v = ω√(A² − x²)
+          </b>
+
+          <br><br>
+
+          <div>
+            ω = ความถี่เชิงมุม
+          </div>
+
+          <div>
+            A = แอมพลิจูด
+          </div>
+
+          <div>
+            x = ตำแหน่ง
+          </div>
+
+          <div>
+            v = ความเร็ว
+          </div>
+
+        </div>
+
+        <div style="
+          font-size:16px;
+          margin-bottom:15px;
+        ">
+
+          A =
+          <b id="velocityA">—</b>
+          m
+
+          <br>
+
+          ω =
+          <b id="velocityOmega">—</b>
+          rad/s
+
+          <br>
+
+          x =
+          <b id="velocityX">—</b>
+          m
+
+        </div>
+
+        <div>
+
+          <input
+            id="velocityAnswer"
+            type="number"
+            step="0.01"
+            placeholder="ใส่คำตอบ v"
+            style="
+              width:80%;
+              padding:12px;
+              border:2px solid #d7cbb9;
+              border-radius:12px;
+              text-align:center;
+              font-size:18px;
+              box-sizing:border-box;
+            ">
+
+        </div>
+
+        <br>
+
+        <button
+          class="cute-button red"
+          onclick="checkVelocity()">
+
+          CHECK VELOCITY
+
+        </button>
+
+      </div>
+
+    `;
+
+/* =========================================================
+   CHECK VELOCITY
+========================================================= */
+
+function checkVelocity(){
+
+  const input =
+    document.getElementById("velocityAnswer");
+
+  const answer =
+    parseFloat(input.value);
+
+  if(isNaN(answer)){
+
+    showMessage(
+      "กรุณาใส่คำตอบก่อน!"
+    );
+
+    return;
+
+  }
+
+
+  const A =
+    window.velocityA;
+
+  const omega =
+    window.velocityOmega;
+
+  const x =
+    window.velocityX;
+
+
+  const inside =
+    Math.max(
+      0,
+      A * A - x * x
+    );
+
+
+  const correctVelocity =
+    omega *
+    Math.sqrt(inside);
+
+
+  const error =
+    Math.abs(
+      answer - correctVelocity
+    );
+
+
+  if(error <= 0.05){
+
+    addScore(350);
+
+    showMessage(
+      "ถูกต้อง! ความเร็วพอดีเลย +350"
+    );
+
+    setTimeout(() => {
+
+      nextLevel();
+
+    }, 1200);
+
+  }else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ถูก! ลองใช้สูตร v = ω√(A² − x²) ใหม่"
+    );
+
+  }
+
+   }
+  /* =========================
+     RANDOM VALUES
+  ========================= */
+
+  window.velocityA = 1.0;
+
+  window.velocityOmega = 4;
+
+  window.velocityX =
+    [0, 0.2, 0.4, 0.6, 0.8][
+      Math.floor(Math.random() * 5)
+    ];
+
+
+  document.getElementById("velocityA")
+    .textContent =
+      window.velocityA.toFixed(1);
+
+  document.getElementById("velocityOmega")
+    .textContent =
+      window.velocityOmega.toFixed(1);
+
+  document.getElementById("velocityX")
+    .textContent =
+      window.velocityX.toFixed(1);
+
+}
 /* =========================================================
    NEXT LEVEL
 ========================================================= */
@@ -2886,7 +3118,7 @@ function nextLevel(){
   currentLevel++;
 
 
-  if(currentLevel > 5){
+  if(currentLevel > 6){
 
     finishGame();
 
