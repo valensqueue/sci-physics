@@ -2540,7 +2540,6 @@ function loadBossLevel(){
 
 }
 
-   
 /* =========================================================
    FINAL BOSS
    ACTIVATE MACHINE
@@ -2548,10 +2547,15 @@ function loadBossLevel(){
 
 function activateMachine(){
 
+  const slider =
+    document.getElementById("frequencySlider");
+
+  if(!slider){
+    return;
+  }
+
   const frequency =
-    parseFloat(
-      document.getElementById("frequencySlider").value
-    );
+    parseFloat(slider.value);
 
   const target = 1.50;
 
@@ -2562,9 +2566,15 @@ function activateMachine(){
 
     addScore(500);
 
+    showMessage(
+      "RESONANCE PERFECT! Tomato รอดแล้ว! +500"
+    );
+
     setTimeout(() => {
+
       showWinScreen();
-    }, 500);
+
+    }, 700);
 
   }else{
 
@@ -2577,73 +2587,6 @@ function activateMachine(){
   }
 
 }
-
-
-  const frequency =
-    parseFloat(slider.value);
-
-  const target = 1.50;
-
-  const error =
-    Math.abs(
-      frequency - target
-    );
-
-
-  if(error <= 0.05){
-
-    addScore(500);
-
-    showMessage(
-      "RESONANCE PERFECT! Tomato รอดแล้ว! +500"
-    );
-
-
-    const machine =
-      document.getElementById(
-        "bossMachine"
-      );
-
-    if(machine){
-
-      machine.style.animation =
-        "pulse .35s ease-in-out infinite";
-
-    }
-
-
-    setTimeout(() => {
-
-      finishGame();
-
-    }, 1600);
-
-  }
-
-
-  else if(error <= 0.20){
-
-    addScore(200);
-
-    showMessage(
-      "ใกล้มาก! ปรับอีกนิดเดียว +200"
-    );
-
-  }
-
-
-  else{
-
-    loseLife();
-
-    showMessage(
-      "ความถี่ยังไม่ตรง! ลองปรับใหม่"
-    );
-
-  }
-
-}
-
 
 /* =========================================================
    NEXT LEVEL
