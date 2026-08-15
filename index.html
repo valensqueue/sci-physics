@@ -2136,21 +2136,14 @@ function startWaveGame(){
 
   window.waveRunning = true;
 
-  window.waveStart =
-    performance.now();
+window.waveStart =
+  performance.now();
 
-  window.waveTomatoY =
-    rect.height / 2;
+window.waveTomatoOffset = 0;
 
-  tomato.style.left =
-    (rect.width / 2) + "px";
+placeWaveTarget();
 
-  tomato.style.top =
-    window.waveTomatoY + "px";
-
-  placeWaveTarget();
-
-  drawWave();
+drawWave();
 
 }
 
@@ -2165,34 +2158,26 @@ function moveWaveTomato(amount){
     return;
   }
 
-  const game =
-    document.getElementById("waveGame");
+  if(
+    window.waveTomatoOffset === undefined
+  ){
 
-  const tomato =
-    document.getElementById("waveTomato");
+    window.waveTomatoOffset = 0;
 
-  if(!game || !tomato){
-    return;
   }
 
-  const rect =
-    game.getBoundingClientRect();
+  window.waveTomatoOffset += amount;
 
-  window.waveTomatoY += amount;
-
-  window.waveTomatoY =
+  window.waveTomatoOffset =
     Math.max(
-      35,
+      -100,
       Math.min(
-        rect.height - 35,
-        window.waveTomatoY
+        100,
+        window.waveTomatoOffset
       )
     );
 
-  tomato.style.top =
-    window.waveTomatoY + "px";
-
-}
+   }
 
 
 /* =========================================================
@@ -2278,17 +2263,11 @@ function drawWave(){
     canvas.getContext("2d");
 
   ctx.setTransform(
-    dpr,
-    0,
-    0,
-    dpr,
-    0,
-    0
+    dpr,0,0,dpr,0,0
   );
 
   ctx.clearRect(
-    0,
-    0,
+    0,0,
     rect.width,
     rect.height
   );
@@ -2299,7 +2278,7 @@ function drawWave(){
   const amplitude =
     Math.min(
       120,
-      rect.height * 0.30
+      rect.height * .30
     );
 
   const time =
@@ -2321,7 +2300,7 @@ function drawWave(){
       center +
       amplitude *
       Math.cos(
-        x * 0.025 -
+        x * .025 -
         time * 3
       );
 
@@ -2340,13 +2319,37 @@ function drawWave(){
 
   ctx.stroke();
 
-
   const tomatoX =
-    rect.width / 2;
+    70 +
+    (
+      (time * 100)
+      %
+      (rect.width - 140)
+    );
+
+  const waveY =
+    center +
+    amplitude *
+    Math.cos(
+      tomatoX * .025 -
+      time * 3
+    );
+
+  if(
+    window.waveTomatoOffset === undefined
+  ){
+    window.waveTomatoOffset = 0;
+  }
+
+  const tomatoY =
+    waveY +
+    window.waveTomatoOffset;
 
   tomato.style.left =
     tomatoX + "px";
 
+  tomato.style.top =
+    tomatoY + "px";
 
   if(target){
 
@@ -2355,31 +2358,27 @@ function drawWave(){
         target.dataset.x
       );
 
-    const waveY =
+    const targetY =
       center +
       amplitude *
       Math.cos(
-        targetX * 0.025 -
+        targetX * .025 -
         time * 3
       );
 
-    target.style.top =
-      waveY + "px";
+    target.style.left =
+      targetX + "px";
 
+    target.style.top =
+      targetY + "px";
 
     const distance =
-      Math.abs(
-        window.waveTomatoY -
-        waveY
+      Math.hypot(
+        tomatoX - targetX,
+        tomatoY - targetY
       );
 
-
-    if(
-      Math.abs(
-        tomatoX - targetX
-      ) < 45 &&
-      distance < 45
-    ){
+    if(distance < 55){
 
       window.waveScore++;
 
@@ -2389,10 +2388,7 @@ function drawWave(){
         "จับคลื่นได้! ⭐ +75"
       );
 
-
-      if(
-        window.waveScore >= 5
-      ){
+      if(window.waveScore >= 5){
 
         window.waveRunning =
           false;
@@ -2413,7 +2409,6 @@ function drawWave(){
         return;
       }
 
-
       document.getElementById(
         "waveScore"
       ).textContent =
@@ -2425,13 +2420,13 @@ function drawWave(){
 
   }
 
-
   animationID =
     requestAnimationFrame(
       drawWave
     );
 
-   }
+}
+
 /* =========================================================
    LEVEL 4
    FINAL BOSS
