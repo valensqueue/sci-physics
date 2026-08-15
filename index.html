@@ -1487,6 +1487,12 @@ function loadSpringLevel(){
     .textContent =
       "ปรับมวลและค่าคงที่สปริงให้คาบตรงกับเป้าหมาย แล้วปล่อย Tomato!";
 
+   const targetPeriod =
+  [0.50, 0.75, 1.00, 1.25, 1.50, 1.75][
+    Math.floor(
+      Math.random() * 6
+    )
+  ];
 
   document.getElementById("gameContent")
     .innerHTML = `
@@ -1588,7 +1594,7 @@ function loadSpringLevel(){
           ">
 
           เป้าหมาย:
-          <b>1.00 s</b>
+          <b>${targetPeriod.toFixed(2)} s</b>
 
         </div>
 
@@ -1683,8 +1689,10 @@ function launchSpring(){
     Math.sqrt(m / k);
 
 
-  const target = 1.00;
 
+const target =
+  window.targetPeriod;
+   
   const error =
     Math.abs(T - target);
 
