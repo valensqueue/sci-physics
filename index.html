@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HARMONIC LAB</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Kanit', sans-serif;
+  background: #111827;
+  color: white;
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ---------- START SCREEN ---------- */
+
+.start-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 20% 20%, #263b70, transparent 35%),
+    radial-gradient(circle at 80% 80%, #49245c, transparent 35%),
+    #111827;
+}
+
+.start-box {
+  width: min(650px, 100%);
+  text-align: center;
+  padding: 50px 30px;
+  border: 1px solid #475569;
+  border-radius: 30px;
+  background: rgba(15, 23, 42, .88);
+  box-shadow: 0 25px 80px rgba(0,0,0,.4);
+}
+
+.logo {
+  font-size: clamp(42px, 10vw, 78px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: #67e8f9;
+  text-shadow: 0 0 25px rgba(103,232,249,.4);
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 35px;
+}
+
+.start-btn {
+  border: 0;
+  padding: 15px 45px;
+  border-radius: 999px;
+  background: #22d3ee;
+  color: #082f49;
+  font-size: 20px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(34,211,238,.4);
+}
+
+/* ---------- GAME ---------- */
+
+.game {
+  display: none;
+  min-height: 100vh;
+}
+
+.topbar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+}
+
+.title {
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #67e8f9;
+}
+
+.stats {
+  display: flex;
+  gap: 25px;
+  color: #cbd5e1;
+}
+
+.main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 35px 20px;
+}
+
+.room-title {
+  margin-bottom: 8px;
+  font-size: 30px;
+}
+
+.room-description {
+  color: #94a3b8;
+  margin-top: 0;
+}
+
+/* ---------- CARDS ---------- */
+
+.card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 20px;
+}
+
+.question {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.answer {
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 17px;
+  transition: .15s;
+}
+
+.answer:hover {
+  border-color: #22d3ee;
+  background: #164e63;
+}
+
+.correct {
+  background: #166534 !important;
+  border-color: #4ade80 !important;
+}
+
+.wrong {
+  background: #7f1d1d !important;
+  border-color: #f87171 !important;
+}
+
+.next {
+  display: none;
+  margin-top: 20px;
+  border: 0;
+  background: #22d3ee;
+  color: #082f49;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* ---------- SIMULATION ---------- */
+
+.simulation {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  background: #0f172a;
+  margin-bottom: 25px;
+}
+
+/* spring */
+
+.spring {
+  position: absolute;
+  left: 50%;
+  top: 30px;
+  width: 5px;
+  height: 190px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #94a3b8 0,
+    #94a3b8 7px,
+    transparent 7px,
+    transparent 14px
+  );
+  transform-origin: top;
+}
+
+.mass {
+  position: absolute;
+  left: calc(50% - 30px);
+  top: 210px;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: #22d3ee;
+  box-shadow: 0 0 25px rgba(34,211,238,.4);
+}
+
+/* pendulum */
+
+.pendulum {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 3px;
+  height: 210px;
+  background: #94a3b8;
+  transform-origin: top;
+}
+
+.bob {
+  position: absolute;
+  bottom: -20px;
+  left: -18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fbbf24;
+}
+
+/* ---------- GRAPH ---------- */
+
+.graph {
+  height: 280px;
+  position: relative;
+  background:
+    linear-gradient(#334155 1px, transparent 1px),
+    linear-gradient(90deg, #334155 1px, transparent 1px);
+  background-size: 40px 40px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- FINAL ---------- */
+
+.final {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+  background: radial-gradient(circle, #164e63, #111827 65%);
+}
+
+.final-box {
+  max-width: 650px;
+}
+
+.final h1 {
+  font-size: 55px;
+  color: #67e8f9;
+}
+
+.final-score {
+  font-size: 30px;
+  margin: 25px;
+}
+
+.restart {
+  border: 0;
+  padding: 13px 35px;
+  border-radius: 999px;
+  background: #22d3ee;
+  font-weight: 700;
+}
+
+/* mobile */
+
+@media(max-width:650px) {
+  .answers {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .topbar {
+    padding: 0 12px;
+  }
+
+  .main {
+    padding: 20px 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- START -->
+
+<section class="start-screen" id="startScreen">
+  <div class="start-box">
+    <div class="logo">HARMONIC</div>
+    <h2>LAB</h2>
+    <p class="subtitle">
+      ห้องทดลองลับแห่ง Simple Harmonic Motion
+    </p>
+
+    <p>
+      แก้ปริศนา • ทดลองฟิสิกส์ • ปลดล็อกห้องทดลอง
+    </p>
+
+    <button class="start-btn" onclick="startGame()">
+      START EXPERIMENT
+    </button>
+  </div>
+</section>
+
+
+<!-- GAME -->
+
+<section class="game" id="game">
+
+  <header class="topbar">
+    <div class="title">HARMONIC LAB</div>
+
+    <div class="stats">
+      <span>⭐ <b id="score">0</b></span>
+      <span>❤️ <b id="lives">3</b></span>
+      <span>ROOM <b id="room">1</b>/5</span>
+    </div>
+  </header>
+
+
+  <main class="main">
+
+    <h1 class="room-title" id="roomTitle"></h1>
+
+    <p class="room-description" id="roomDescription"></p>
+
+    <div id="content"></div>
+
+  </main>
+
+</section>
+
+
+<!-- FINAL -->
+
+<section class="final" id="final">
+
+  <div class="final-box">
+
+    <h1>LAB COMPLETE</h1>
+
+    <p>
+      ยินดีด้วย! คุณสามารถควบคุมระบบการสั่นได้สำเร็จ
+    </p>
+
+    <div class="final-score">
+      SCORE: <b id="finalScore">0</b>
+    </div>
+
+    <p id="rank"></p>
+
+    <button class="restart" onclick="location.reload()">
+      PLAY AGAIN
+    </button>
+
+  </div>
+
+</section>
+
+
+<script>
+
+let currentRoom = 0;
+let score = 0;
+let lives = 3;
+
+const rooms = [
+
+/* ROOM 1 */
+
+{
+  title: "ROOM 01 — SHM BASICS",
+  description: "เริ่มต้นด้วยการทำความเข้าใจแอมพลิจูดและการกระจัด",
+
+  html: `
+    <div class="card">
+
+      <div class="simulation">
+
+        <div
+          class="mass"
+          style="top:120px; animation: move 2s infinite alternate ease-in-out">
+        </div>
+
+      </div>
+
+      <div class="question">
+        วัตถุสั่นจากตำแหน่ง −10 cm ถึง +10 cm
+        แอมพลิจูดมีค่าเท่าใด?
+      </div>
+
+      <div class="answers">
+
+        <button class="answer" onclick="answer(this,false)">
+          5 cm
+        </button>
+
+        <button class="answer" onclick="answer(this,true)">
+          10 cm
+        </button>
+
+        <button class="answer" onclick="answer(this,false)">
+          20 cm
+        </button>
+
+        <button class="answer" onclick="answer(this,false)">
+          0 cm
+        </button>
+
+      </div>
+
+      <button class="next" onclick="nextRoom()">
+        NEXT ROOM →
+      </button>
+
+    </div>
+  `
+},
+
+/* ROOM 2 */
+
+{
+  title: "ROOM 02 — SPRING",
+  description: "ควบคุมคาบของสปริงด้วยมวลและค่าคงที่สปริง",
+
+  html: `
+    <div class="card">
+
+      <div class="simulation">
+
+        <div class="spring"></div>
+
+        <div class="mass"
+          id="springMass">
+        </div>
+
+      </div>
+
+      <div class="question">
+        สปริงมีมวล 1 kg และค่าคงที่สปริง
+        100 N/m คาบการสั่นประมาณเท่าใด?
+      </div>
+
+      <div class="answers">
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          0.1 s
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,true)">
+          0.63 s
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          1.57 s
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          6.28 s
+        </button>
+
+      </div>
+
+      <button class="next" onclick="nextRoom()">
+        NEXT ROOM →
+      </button>
+
+    </div>
+  `
+},
+
+/* ROOM 3 */
+
+{
+  title: "ROOM 03 — PENDULUM",
+  description: "ทดลองกับลูกตุ้มและดูผลของความยาวเชือก",
+
+  html: `
+    <div class="card">
+
+      <div class="simulation">
+
+        <div class="pendulum"
+          style="animation: swing 2s infinite ease-in-out">
+
+          <div class="bob"></div>
+
+        </div>
+
+      </div>
+
+      <div class="question">
+        ถ้าเพิ่มความยาวลูกตุ้มเป็น 4 เท่า
+        คาบจะเปลี่ยนเป็นกี่เท่า?
+      </div>
+
+      <div class="answers">
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          2 เท่า
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,true)">
+          2 เท่า
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          4 เท่า
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          8 เท่า
+        </button>
+
+      </div>
+
+      <button class="next" onclick="nextRoom()">
+        NEXT ROOM →
+      </button>
+
+    </div>
+  `
+},
+
+/* ROOM 4 */
+
+{
+  title: "ROOM 04 — GRAPH",
+  description: "อ่านกราฟการเคลื่อนที่แบบฮาร์มอนิกอย่างง่าย",
+
+  html: `
+    <div class="card">
+
+      <div class="graph">
+
+        <svg class="wave"
+          viewBox="0 0 800 280"
+          preserveAspectRatio="none">
+
+          <path
+            d="M0 140
+               C50 20, 150 20, 200 140
+               C250 260, 350 260, 400 140
+               C450 20, 550 20, 600 140
+               C650 260, 750 260, 800 140"
+
+            fill="none"
+            stroke="#22d3ee"
+            stroke-width="5"/>
+
+        </svg>
+
+      </div>
+
+      <div class="question">
+        เมื่อวัตถุอยู่ที่ตำแหน่ง x = A
+        ความเร็วของวัตถุเป็นเท่าใด?
+      </div>
+
+      <div class="answers">
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          มากที่สุด
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,true)">
+          0
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          ติดลบมากที่สุด
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          เท่ากับ A
+        </button>
+
+      </div>
+
+      <button class="next" onclick="nextRoom()">
+        NEXT ROOM →
+      </button>
+
+    </div>
+  `
+},
+
+/* ROOM 5 */
+
+{
+  title: "ROOM 05 — FINAL LAB",
+  description: "บททดสอบสุดท้าย รวมความรู้ทั้งหมด",
+
+  html: `
+    <div class="card">
+
+      <div class="question">
+
+        เครื่องทดลองมีมวล
+
+        <b>m = 2 kg</b>
+
+        และสปริงมีค่าคงที่
+
+        <b>k = 200 N/m</b>
+
+        <br><br>
+
+        จงหาความถี่ของระบบ
+
+        <br><br>
+
+        ใช้สูตร
+
+        <br>
+
+        ω = √(k/m)
+
+        <br>
+
+        และ
+
+        <br>
+
+        f = ω / 2π
+
+      </div>
+
+      <div class="answers">
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          0.5 Hz
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,true)">
+          ≈ 1.59 Hz
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          ≈ 3.18 Hz
+        </button>
+
+        <button class="answer"
+          onclick="answer(this,false)">
+          ≈ 6.28 Hz
+        </button>
+
+      </div>
+
+      <button class="next" onclick="nextRoom()">
+        COMPLETE LAB →
+      </button>
+
+    </div>
+  `
+}
+
+];
+
+
+function startGame() {
+
+  document.getElementById("startScreen").style.display = "none";
+
+  document.getElementById("game").style.display = "block";
+
+  loadRoom();
+
+}
+
+
+function loadRoom() {
+
+  const room = rooms[currentRoom];
+
+  document.getElementById("roomTitle").textContent =
+    room.title;
+
+  document.getElementById("roomDescription").textContent =
+    room.description;
+
+  document.getElementById("content").innerHTML =
+    room.html;
+
+  document.getElementById("room").textContent =
+    currentRoom + 1;
+
+}
+
+
+function answer(button, correct) {
+
+  const buttons =
+    document.querySelectorAll(".answer");
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+  });
+
+
+  if(correct) {
+
+    button.classList.add("correct");
+
+    score += 100;
+
+    document.getElementById("score").textContent =
+      score;
+
+    document.querySelector(".next").style.display =
+      "inline-block";
+
+  } else {
+
+    button.classList.add("wrong");
+
+    lives--;
+
+    document.getElementById("lives").textContent =
+      lives;
+
+    if(lives <= 0) {
+
+      alert("พลังงานหมด! เริ่มการทดลองใหม่");
+
+      location.reload();
+
+    } else {
+
+      document.querySelector(".next").style.display =
+        "inline-block";
+
+    }
+
+  }
+
+}
+
+
+function nextRoom() {
+
+  currentRoom++;
+
+  if(currentRoom >= rooms.length) {
+
+    finishGame();
+
+  } else {
+
+    loadRoom();
+
+  }
+
+}
+
+
+function finishGame() {
+
+  document.getElementById("game").style.display =
+    "none";
+
+  document.getElementById("final").style.display =
+    "flex";
+
+  document.getElementById("finalScore").textContent =
+    score;
+
+
+  let rank;
+
+  if(score >= 500)
+    rank = "🏆 RANK S — HARMONIC MASTER";
+
+  else if(score >= 400)
+    rank = "⭐ RANK A — PHYSICS EXPERT";
+
+  else if(score >= 300)
+    rank = "🥈 RANK B — GREAT EXPERIMENT";
+
+  else
+    rank = "🔬 RANK C — KEEP EXPERIMENTING";
+
+
+  document.getElementById("rank").textContent =
+    rank;
+
+}
+
+</script>
+
+
+<style>
+
+@keyframes move {
+
+  from {
+    transform: translateY(-40px);
+  }
+
+  to {
+    transform: translateY(40px);
+  }
+
+}
+
+@keyframes swing {
+
+  0%,100% {
+    transform: rotate(-25deg);
+  }
+
+  50% {
+    transform: rotate(25deg);
+  }
+
+}
+
+</style>
+
+</body>
+                </html>
