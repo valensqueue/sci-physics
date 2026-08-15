@@ -1081,12 +1081,10 @@ input[type=range]{
 
     </p>
 
-    <button class="start-button"
-            onclick="startGame()">
-
-      START GAME
-
-    </button>
+<button class="start-button"
+        onclick="startGame()">
+  START GAME
+</button>
 
     <div class="hint">
       ใช้เมาส์ / แตะหน้าจอ / Spacebar
@@ -1304,19 +1302,30 @@ let gameRunning = false;
 
 function startGame(){
 
-  document.getElementById("startScreen").classList.remove("active");
+  const startScreen =
+    document.getElementById("startScreen");
 
-  document.getElementById("gameScreen").classList.add("active");
+  const gameScreen =
+    document.getElementById("gameScreen");
+
+  if(!startScreen || !gameScreen){
+    return;
+  }
+
+  startScreen.classList.remove("active");
+
+  gameScreen.classList.add("active");
 
   score = 0;
   life = 3;
   currentLevel = 1;
+  gameRunning = true;
 
   updateStats();
 
   loadLevel();
 
-}
+   }
    
 /* =========================================================
    UPDATE SCORE / LIFE / LEVEL
