@@ -134,6 +134,17 @@ img.broken-hide{
   padding:30px 18px;
 }
 
+#startScreen:not(.active){
+  display:none !important;
+}
+
+#gameScreen{
+  display:none;
+}
+
+#gameScreen.active{
+  display:block !important;
+}
 .start-paper{
   width:min(780px,100%);
   min-height:600px;
@@ -1291,24 +1302,17 @@ let gameRunning = false;
 
 function startGame(){
 
-  document
-    .getElementById("startScreen")
-    .classList.remove("active");
-
-  document
-    .getElementById("gameScreen")
-    .classList.add("active");
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("gameScreen").style.display = "block";
 
   score = 0;
   life = 3;
   currentLevel = 1;
 
   updateStats();
-
   loadLevel();
 
-}
-
+   }
 
 /* =========================================================
    UPDATE SCORE / LIFE / LEVEL
