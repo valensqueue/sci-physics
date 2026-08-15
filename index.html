@@ -3,785 +3,2757 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HARMONIC LAB</title>
+
+<title>Tomato Harmonic Garden</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap');
 
-* {
-  box-sizing: border-box;
+/* =========================================================
+   TOMATO HARMONIC GARDEN
+   Cute scrapbook / handmade / gingham style
+========================================================= */
+
+:root{
+  --cream:#fff9e8;
+  --paper:#fffdf4;
+  --blue:#8fc7e8;
+  --blue2:#cde9f4;
+  --tomato:#e85d5d;
+  --tomato-dark:#c9434c;
+  --yellow:#f4d77b;
+  --yellow2:#fff0b5;
+  --green:#a7cf9c;
+  --green-dark:#67996c;
+  --pink:#f3aaa9;
+  --brown:#765c50;
+  --ink:#425d67;
+  --white:#ffffff;
+  --shadow:rgba(91,75,63,.16);
 }
 
-body {
-  margin: 0;
-  font-family: 'Kanit', sans-serif;
-  background: #111827;
-  color: white;
-  min-height: 100vh;
+*{
+  box-sizing:border-box;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
 }
 
-/* ---------- START SCREEN ---------- */
-
-.start-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+body{
+  font-family:"Mali",sans-serif;
+  color:var(--ink);
   background:
-    radial-gradient(circle at 20% 20%, #263b70, transparent 35%),
-    radial-gradient(circle at 80% 80%, #49245c, transparent 35%),
-    #111827;
+    linear-gradient(45deg,
+      rgba(143,199,232,.18) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(143,199,232,.18) 75%),
+    linear-gradient(45deg,
+      rgba(143,199,232,.18) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(143,199,232,.18) 75%),
+    var(--cream);
+  background-size:34px 34px;
+  background-position:0 0,17px 17px;
+  overflow-x:hidden;
 }
 
-.start-box {
-  width: min(650px, 100%);
-  text-align: center;
-  padding: 50px 30px;
-  border: 1px solid #475569;
-  border-radius: 30px;
-  background: rgba(15, 23, 42, .88);
-  box-shadow: 0 25px 80px rgba(0,0,0,.4);
+button,
+input{
+  font-family:inherit;
 }
 
-.logo {
-  font-size: clamp(42px, 10vw, 78px);
-  font-weight: 700;
-  letter-spacing: 5px;
-  color: #67e8f9;
-  text-shadow: 0 0 25px rgba(103,232,249,.4);
+/* =========================================================
+   DECORATIONS
+========================================================= */
+
+.deco{
+  position:absolute;
+  pointer-events:none;
+  user-select:none;
+  z-index:2;
 }
 
-.subtitle {
-  color: #94a3b8;
-  margin-bottom: 35px;
+.deco img{
+  display:block;
+  width:100%;
+  height:auto;
 }
 
-.start-btn {
-  border: 0;
-  padding: 15px 45px;
-  border-radius: 999px;
-  background: #22d3ee;
-  color: #082f49;
-  font-size: 20px;
-  font-weight: 700;
-  transition: .2s;
+/*
+  ถ้าไม่มี PNG จะซ่อนรูปทันที
+*/
+.deco img[src]{
+  min-height:0;
 }
 
-.start-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(34,211,238,.4);
+.deco img:not([src]),
+.deco img[src=""]{
+  display:none;
 }
 
-/* ---------- GAME ---------- */
-
-.game {
-  display: none;
-  min-height: 100vh;
+img.broken-hide{
+  display:block;
 }
 
-.topbar {
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 25px;
-  background: #0f172a;
-  border-bottom: 1px solid #334155;
+.deco img{
+  opacity:.95;
 }
 
-.title {
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #67e8f9;
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.screen{
+  display:none;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
 }
 
-.stats {
-  display: flex;
-  gap: 25px;
-  color: #cbd5e1;
+.screen.active{
+  display:block;
 }
 
-.main {
-  max-width: 1100px;
-  margin: auto;
-  padding: 35px 20px;
+/* =========================================================
+   START
+========================================================= */
+
+#startScreen{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:30px 18px;
 }
 
-.room-title {
-  margin-bottom: 8px;
-  font-size: 30px;
+.start-paper{
+  width:min(780px,100%);
+  min-height:600px;
+  position:relative;
+  background:
+    radial-gradient(#d8d0bc 1px,transparent 1px),
+    var(--paper);
+  background-size:15px 15px;
+  border-radius:12px;
+  border:3px solid #f1dfbd;
+  box-shadow:
+    0 15px 0 rgba(117,92,80,.08),
+    0 20px 50px var(--shadow);
+  padding:55px 35px 45px;
+  text-align:center;
+  transform:rotate(-.4deg);
 }
 
-.room-description {
-  color: #94a3b8;
-  margin-top: 0;
+.start-paper:before,
+.start-paper:after{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:28px;
+  background:rgba(246,215,123,.7);
+  top:12px;
 }
 
-/* ---------- CARDS ---------- */
-
-.card {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 20px;
-  padding: 25px;
-  margin-top: 20px;
+.start-paper:before{
+  left:35px;
+  transform:rotate(-4deg);
 }
 
-.question {
-  font-size: 22px;
-  margin-bottom: 20px;
+.start-paper:after{
+  right:35px;
+  transform:rotate(4deg);
 }
 
-.answers {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+.small-title{
+  font-size:20px;
+  color:var(--tomato);
+  font-weight:600;
+  letter-spacing:2px;
 }
 
-.answer {
-  border: 1px solid #475569;
-  background: #0f172a;
-  color: white;
-  padding: 15px;
-  border-radius: 12px;
-  font-size: 17px;
-  transition: .15s;
+.game-logo{
+  margin:8px 0 0;
+  font-family:"Itim",cursive;
+  font-size:clamp(55px,10vw,100px);
+  line-height:.9;
+  color:var(--tomato);
+  transform:rotate(-3deg);
+  text-shadow:
+    3px 3px 0 #fff,
+    6px 6px 0 rgba(201,67,76,.13);
 }
 
-.answer:hover {
-  border-color: #22d3ee;
-  background: #164e63;
+.game-logo span{
+  color:#5b9ec2;
+  display:block;
+  font-size:.58em;
+  transform:rotate(3deg);
 }
 
-.correct {
-  background: #166534 !important;
-  border-color: #4ade80 !important;
+.start-story{
+  max-width:530px;
+  margin:25px auto;
+  line-height:1.9;
+  font-size:16px;
 }
 
-.wrong {
-  background: #7f1d1d !important;
-  border-color: #f87171 !important;
+.start-story b{
+  color:var(--tomato-dark);
 }
 
-.next {
-  display: none;
-  margin-top: 20px;
-  border: 0;
-  background: #22d3ee;
-  color: #082f49;
-  padding: 12px 25px;
-  border-radius: 10px;
-  font-weight: 700;
+.main-start-tomato{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:var(--tomato);
+  margin:20px auto;
+  position:relative;
+  box-shadow:
+    inset -12px -12px rgba(151,42,50,.15),
+    0 8px 0 rgba(118,79,69,.12);
+  animation:floatTomato 2.3s ease-in-out infinite;
 }
 
-/* ---------- SIMULATION ---------- */
-
-.simulation {
-  height: 300px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 15px;
-  background: #0f172a;
-  margin-bottom: 25px;
-}
-
-/* spring */
-
-.spring {
-  position: absolute;
-  left: 50%;
-  top: 30px;
-  width: 5px;
-  height: 190px;
-  background: repeating-linear-gradient(
-    to bottom,
-    #94a3b8 0,
-    #94a3b8 7px,
-    transparent 7px,
-    transparent 14px
+.main-start-tomato:before{
+  content:"";
+  position:absolute;
+  width:55px;
+  height:30px;
+  background:var(--green);
+  top:-10px;
+  left:38px;
+  clip-path:polygon(
+    50% 0,
+    63% 38%,
+    100% 28%,
+    72% 55%,
+    85% 100%,
+    50% 67%,
+    20% 100%,
+    28% 55%,
+    0 28%,
+    38% 38%
   );
-  transform-origin: top;
 }
 
-.mass {
-  position: absolute;
-  left: calc(50% - 30px);
-  top: 210px;
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
-  background: #22d3ee;
-  box-shadow: 0 0 25px rgba(34,211,238,.4);
+.main-start-tomato:after{
+  content:"";
+  position:absolute;
+  width:28px;
+  height:20px;
+  background:#ff8580;
+  border-radius:50%;
+  top:32px;
+  left:25px;
+  transform:rotate(-25deg);
+  opacity:.7;
 }
 
-/* pendulum */
-
-.pendulum {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  width: 3px;
-  height: 210px;
-  background: #94a3b8;
-  transform-origin: top;
+.start-button{
+  border:0;
+  background:var(--tomato);
+  color:#fff;
+  font-size:22px;
+  font-weight:700;
+  padding:15px 45px;
+  border-radius:50px;
+  box-shadow:
+    0 7px 0 var(--tomato-dark),
+    0 12px 20px rgba(201,67,76,.18);
+  transition:.18s;
 }
 
-.bob {
-  position: absolute;
-  bottom: -20px;
-  left: -18px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #fbbf24;
+.start-button:hover{
+  transform:translateY(-3px) rotate(-1deg);
 }
 
-/* ---------- GRAPH ---------- */
+.start-button:active{
+  transform:translateY(4px);
+  box-shadow:0 3px 0 var(--tomato-dark);
+}
 
-.graph {
-  height: 280px;
-  position: relative;
+.hint{
+  margin-top:22px;
+  font-size:13px;
+  color:#9a877c;
+}
+
+/* =========================================================
+   GAME HEADER
+========================================================= */
+
+#gameScreen{
+  padding-bottom:40px;
+}
+
+.game-header{
+  position:relative;
+  z-index:10;
+  min-height:82px;
+  padding:12px 22px;
+  background:var(--paper);
+  border-bottom:3px dashed #b8d9e5;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  box-shadow:0 4px 12px var(--shadow);
+}
+
+.header-title{
+  font-family:"Itim",cursive;
+  font-size:30px;
+  color:var(--tomato);
+}
+
+.stats{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.stat{
+  background:#fff;
+  border:2px solid #d9cdbb;
+  border-radius:30px;
+  padding:7px 13px;
+  font-size:14px;
+  box-shadow:2px 3px 0 rgba(117,92,80,.08);
+}
+
+.stat b{
+  color:var(--tomato);
+}
+
+/* =========================================================
+   GAME AREA
+========================================================= */
+
+.game-container{
+  width:min(1050px,94%);
+  margin:30px auto;
+  position:relative;
+}
+
+.paper-card{
+  position:relative;
   background:
-    linear-gradient(#334155 1px, transparent 1px),
-    linear-gradient(90deg, #334155 1px, transparent 1px);
-  background-size: 40px 40px;
-  border-radius: 15px;
-  overflow: hidden;
+    radial-gradient(#ded8ca .8px,transparent .8px),
+    #fffdf6;
+  background-size:13px 13px;
+  border:3px solid #e9dcc6;
+  border-radius:14px;
+  box-shadow:0 12px 30px var(--shadow);
+  padding:28px;
 }
 
-.wave {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.paper-card:before{
+  content:"";
+  position:absolute;
+  top:-10px;
+  left:25%;
+  width:100px;
+  height:22px;
+  background:rgba(143,199,232,.65);
+  transform:rotate(-2deg);
 }
 
-/* ---------- FINAL ---------- */
-
-.final {
-  display: none;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 30px;
-  background: radial-gradient(circle, #164e63, #111827 65%);
+.level-label{
+  display:inline-block;
+  background:var(--yellow2);
+  border:2px solid #e4ca6f;
+  border-radius:30px;
+  padding:5px 15px;
+  transform:rotate(-2deg);
+  color:#816d39;
+  font-size:14px;
 }
 
-.final-box {
-  max-width: 650px;
+.level-title{
+  margin:10px 0 3px;
+  font-family:"Itim",cursive;
+  color:#4e8cad;
+  font-size:42px;
 }
 
-.final h1 {
-  font-size: 55px;
-  color: #67e8f9;
+.level-description{
+  margin:0 0 22px;
+  color:#7c6c62;
 }
 
-.final-score {
-  font-size: 30px;
-  margin: 25px;
+/* =========================================================
+   GAME BUTTONS
+========================================================= */
+
+.cute-button{
+  border:2px solid #6c9db7;
+  background:var(--blue2);
+  color:#416e84;
+  padding:10px 20px;
+  border-radius:30px;
+  font-size:16px;
+  font-weight:700;
+  box-shadow:0 4px 0 #9bc8db;
+  transition:.15s;
 }
 
-.restart {
-  border: 0;
-  padding: 13px 35px;
-  border-radius: 999px;
-  background: #22d3ee;
-  font-weight: 700;
+.cute-button:hover{
+  transform:translateY(-2px) rotate(-1deg);
 }
 
-/* mobile */
+.cute-button:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #9bc8db;
+}
 
-@media(max-width:650px) {
-  .answers {
-    grid-template-columns: 1fr;
+.cute-button.red{
+  background:#ffd0ca;
+  border-color:#d97873;
+  color:#a84949;
+  box-shadow:0 4px 0 #e8a09a;
+}
+
+.cute-button.yellow{
+  background:#fff0b8;
+  border-color:#d6bd66;
+  color:#817039;
+  box-shadow:0 4px 0 #e5ce78;
+}
+
+/* =========================================================
+   LEVEL 1 SPRING
+========================================================= */
+
+.spring-game{
+  position:relative;
+  min-height:400px;
+  overflow:hidden;
+  border:3px solid #b9d9e5;
+  border-radius:15px;
+  background:
+    linear-gradient(
+      to bottom,
+      #dff2fa 0%,
+      #e9f7e6 65%,
+      #b5d997 65%,
+      #a7cf8d 100%
+    );
+}
+
+.spring-ground{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:35%;
+  background:
+    radial-gradient(circle at 20% 20%,#91bd7e 0 5px,transparent 6px),
+    radial-gradient(circle at 60% 40%,#86b775 0 4px,transparent 5px),
+    #acd394;
+}
+
+.spring-platform{
+  position:absolute;
+  bottom:28%;
+  left:50%;
+  transform:translateX(-50%);
+  width:190px;
+  height:22px;
+  background:#e7c66f;
+  border:3px solid #b89b4d;
+  border-radius:8px;
+}
+
+.spring-line{
+  position:absolute;
+  bottom:calc(28% + 20px);
+  left:50%;
+  width:5px;
+  height:130px;
+  transform:translateX(-50%);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #7894a0 0 8px,
+      transparent 8px 15px
+    );
+}
+
+.tomato-player{
+  position:absolute;
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:var(--tomato);
+  left:50%;
+  bottom:calc(28% + 145px);
+  transform:translateX(-50%);
+  box-shadow:
+    inset -8px -8px rgba(120,40,40,.15),
+    0 5px 0 rgba(118,79,69,.12);
+  z-index:5;
+}
+
+.tomato-player:before{
+  content:"";
+  position:absolute;
+  width:35px;
+  height:22px;
+  left:15px;
+  top:-8px;
+  background:var(--green);
+  clip-path:polygon(
+    50% 0,
+    65% 45%,
+    100% 25%,
+    72% 62%,
+    80% 100%,
+    50% 70%,
+    20% 100%,
+    28% 62%,
+    0 25%,
+    38% 45%
+  );
+}
+
+.tomato-face:before{
+  content:"•  •";
+  position:absolute;
+  color:#683f39;
+  font-size:16px;
+  top:22px;
+  left:15px;
+  letter-spacing:8px;
+}
+
+.tomato-face:after{
+  content:"⌣";
+  position:absolute;
+  color:#683f39;
+  font-size:22px;
+  top:30px;
+  left:27px;
+}
+
+.spring-controls{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.control-box{
+  background:#fff;
+  border:2px dashed #b9a996;
+  border-radius:13px;
+  padding:15px;
+}
+
+.control-box label{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:var(--tomato);
+}
+
+/* =========================================================
+   LEVEL 2 PENDULUM
+========================================================= */
+
+.pendulum-game{
+  min-height:430px;
+  border:3px solid #b9d9e5;
+  border-radius:15px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #fffdf5,
+      #fffdf5 20px,
+      #f3f7ea 20px,
+      #f3f7ea 40px
+    );
+  position:relative;
+  overflow:hidden;
+}
+
+.pendulum-top{
+  position:absolute;
+  width:100px;
+  height:15px;
+  background:#79a4b8;
+  border-radius:20px;
+  top:35px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.pendulum-arm{
+  position:absolute;
+  width:5px;
+  height:220px;
+  background:#7293a1;
+  top:48px;
+  left:50%;
+  transform-origin:top center;
+  transform:translateX(-50%) rotate(25deg);
+}
+
+.pendulum-ball{
+  position:absolute;
+  width:62px;
+  height:62px;
+  background:var(--tomato);
+  border-radius:50%;
+  bottom:-30px;
+  left:-29px;
+  box-shadow:inset -8px -8px rgba(120,40,40,.15);
+}
+
+.pendulum-target{
+  position:absolute;
+  width:90px;
+  height:90px;
+  border:4px dashed var(--yellow);
+  border-radius:50%;
+  left:calc(50% + 160px);
+  top:240px;
+  transform:translate(-50%,-50%);
+}
+
+.pendulum-message{
+  position:absolute;
+  top:75px;
+  left:20px;
+  background:#fff;
+  border:2px solid #ddd0be;
+  padding:9px 14px;
+  border-radius:15px;
+}
+
+.tap-zone{
+  margin-top:18px;
+  text-align:center;
+}
+
+.tap-button{
+  width:170px;
+  height:70px;
+  border-radius:50px;
+  border:3px solid #d47d78;
+  background:#ffd4cf;
+  color:#9f4947;
+  font-size:24px;
+  font-weight:700;
+  box-shadow:0 6px 0 #e5aaa3;
+}
+
+.tap-button:active{
+  transform:translateY(5px);
+  box-shadow:0 1px 0 #e5aaa3;
+}
+
+/* =========================================================
+   LEVEL 3 WAVE
+========================================================= */
+
+.wave-game{
+  position:relative;
+  min-height:430px;
+  overflow:hidden;
+  border-radius:15px;
+  border:3px solid #b9d9e5;
+  background:#dff2fa;
+}
+
+.wave-grid{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(117,159,176,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(117,159,176,.15) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+.wave-line{
+  position:absolute;
+  left:0;
+  top:50%;
+  width:100%;
+  height:4px;
+  background:#83b4c8;
+}
+
+.wave-target{
+  position:absolute;
+  width:75px;
+  height:75px;
+  border:4px dashed var(--tomato);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+
+.wave-tomato{
+  position:absolute;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:var(--tomato);
+  transform:translate(-50%,-50%);
+  z-index:4;
+  box-shadow:0 5px 0 rgba(116,73,66,.13);
+}
+
+.wave-instruction{
+  background:rgba(255,255,255,.85);
+  border:2px solid #d9cdbb;
+  border-radius:14px;
+  position:absolute;
+  top:15px;
+  left:15px;
+  padding:8px 14px;
+  z-index:6;
+}
+
+.wave-score{
+  position:absolute;
+  right:15px;
+  top:15px;
+  z-index:6;
+  background:#fff;
+  padding:8px 14px;
+  border-radius:30px;
+  border:2px solid #d9cdbb;
+}
+
+/* =========================================================
+   LEVEL 4 BOSS
+========================================================= */
+
+.boss-game{
+  min-height:500px;
+  border-radius:15px;
+  overflow:hidden;
+  position:relative;
+  border:3px solid #b9d9e5;
+  background:
+    radial-gradient(circle at 20% 30%,#fff0b5 0 4px,transparent 5px),
+    radial-gradient(circle at 80% 20%,#f3aaa9 0 4px,transparent 5px),
+    #e7f5ed;
+}
+
+.boss-machine{
+  width:250px;
+  height:250px;
+  border:10px solid #79a9bd;
+  background:#fff;
+  border-radius:50%;
+  position:absolute;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  box-shadow:
+    inset 0 0 0 8px #d7e9ee,
+    0 10px 0 rgba(100,143,157,.12);
+}
+
+.machine-core{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:var(--tomato);
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:
+    0 0 0 10px #ffd9d4,
+    0 0 0 18px #f5e3a4;
+}
+
+.machine-arm{
+  width:5px;
+  height:105px;
+  background:#6c8791;
+  position:absolute;
+  left:50%;
+  top:15px;
+  transform-origin:bottom;
+}
+
+.boss-controls{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(700px,90%);
+  background:rgba(255,255,255,.92);
+  border:2px solid #d7cbb9;
+  border-radius:15px;
+  padding:15px;
+}
+
+.frequency-value{
+  text-align:center;
+  font-size:24px;
+  color:var(--tomato);
+  font-weight:700;
+}
+
+.target-frequency{
+  text-align:center;
+  color:#6e8b95;
+}
+
+/* =========================================================
+   MESSAGE / POPUP
+========================================================= */
+
+.message{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translateX(-50%) translateY(100px);
+  background:#fffdf5;
+  border:3px solid #dfcdb4;
+  border-radius:18px;
+  padding:13px 20px;
+  box-shadow:0 10px 30px var(--shadow);
+  z-index:999;
+  opacity:0;
+  transition:.3s;
+  max-width:90%;
+  text-align:center;
+}
+
+.message.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* =========================================================
+   WIN SCREEN
+========================================================= */
+
+#winScreen{
+  min-height:100vh;
+  padding:30px 15px;
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+#winScreen.active{
+  display:flex;
+}
+
+.win-paper{
+  width:min(700px,100%);
+  text-align:center;
+  background:
+    radial-gradient(#ded8ca .8px,transparent .8px),
+    #fffdf6;
+  background-size:13px 13px;
+  border:3px solid #e9dcc6;
+  border-radius:15px;
+  padding:55px 25px;
+  box-shadow:0 15px 45px var(--shadow);
+}
+
+.win-title{
+  font-family:"Itim",cursive;
+  font-size:70px;
+  color:var(--tomato);
+  transform:rotate(-3deg);
+}
+
+.big-score{
+  font-size:30px;
+  margin:20px;
+}
+
+.rank{
+  display:inline-block;
+  padding:10px 25px;
+  border-radius:40px;
+  background:var(--yellow2);
+  border:2px solid #e0c873;
+  font-size:20px;
+}
+
+/* =========================================================
+   DECORATIVE PNG POSITIONS
+========================================================= */
+
+.png1{width:80px;left:2%;top:8%;}
+.png2{width:90px;right:3%;top:14%;}
+.png3{width:100px;left:3%;bottom:10%;}
+.png4{width:85px;right:4%;bottom:8%;}
+
+.png5{width:75px;left:8%;top:25%;}
+.png6{width:100px;right:7%;top:34%;}
+.png7{width:80px;left:4%;bottom:28%;}
+.png8{width:90px;right:5%;bottom:25%;}
+
+.png9{width:70px;left:14%;top:15%;}
+.png10{width:80px;right:13%;top:18%;}
+.png11{width:70px;left:12%;bottom:15%;}
+.png12{width:95px;right:12%;bottom:12%;}
+
+.png13{width:75px;left:6%;top:7%;}
+.png14{width:100px;right:5%;top:9%;}
+.png15{width:75px;left:4%;bottom:5%;}
+.png16{width:90px;right:4%;bottom:5%;}
+
+.png17{width:65px;left:18%;top:5%;}
+.png18{width:70px;right:18%;top:6%;}
+.png19{width:80px;left:16%;bottom:5%;}
+.png20{width:80px;right:16%;bottom:5%;}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes floatTomato{
+  0%,100%{
+    transform:translateY(0) rotate(-3deg);
+  }
+  50%{
+    transform:translateY(-12px) rotate(3deg);
+  }
+}
+
+@keyframes swing{
+  0%{
+    transform:translateX(-50%) rotate(-25deg);
+  }
+  50%{
+    transform:translateX(-50%) rotate(25deg);
+  }
+  100%{
+    transform:translateX(-50%) rotate(-25deg);
+  }
+}
+
+@keyframes pulse{
+  0%,100%{
+    transform:translate(-50%,-50%) scale(1);
+  }
+  50%{
+    transform:translate(-50%,-50%) scale(1.12);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+  .game-header{
+    align-items:flex-start;
+    flex-direction:column;
   }
 
-  .stats {
-    gap: 10px;
-    font-size: 14px;
+  .stats{
+    justify-content:flex-start;
   }
 
-  .topbar {
-    padding: 0 12px;
+  .game-container{
+    width:96%;
+    margin:15px auto;
   }
 
-  .main {
-    padding: 20px 12px;
+  .paper-card{
+    padding:18px;
   }
+
+  .level-title{
+    font-size:34px;
+  }
+
+  .spring-controls{
+    grid-template-columns:1fr;
+  }
+
+  .start-paper{
+    padding:45px 20px 35px;
+  }
+
+  .main-start-tomato{
+    width:100px;
+    height:100px;
+  }
+
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- START -->
 
-<section class="start-screen" id="startScreen">
-  <div class="start-box">
-    <div class="logo">HARMONIC</div>
-    <h2>LAB</h2>
-    <p class="subtitle">
-      ห้องทดลองลับแห่ง Simple Harmonic Motion
-    </p>
+<!-- =======================================================
+     START SCREEN
+======================================================= -->
 
-    <p>
-      แก้ปริศนา • ทดลองฟิสิกส์ • ปลดล็อกห้องทดลอง
-    </p>
+<section id="startScreen" class="screen active">
 
-    <button class="start-btn" onclick="startGame()">
-      START EXPERIMENT
-    </button>
+  <!-- PNG DECORATIONS -->
+
+  <div class="deco png1">
+    <img src="png1.png"
+         onerror="this.style.display='none'"
+         alt="">
   </div>
+
+  <div class="deco png2">
+    <img src="png2.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png3">
+    <img src="png3.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png4">
+    <img src="png4.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+
+  <div class="start-paper">
+
+    <div class="small-title">
+      PHYSICS MINI GAME
+    </div>
+
+    <h1 class="game-logo">
+      Tomato
+      <span>Harmonic Garden</span>
+    </h1>
+
+    <div class="main-start-tomato"></div>
+
+    <p class="start-story">
+
+      ยินดีต้อนรับสู่สวนมะเขือเทศแสนวุ่นวาย!
+
+      <br>
+
+      วันนี้เครื่องจักรในสวนเกิดเสีย
+      มะเขือเทศทุกลูกกำลังเด้งไปมาแบบควบคุมไม่ได้
+
+      <br><br>
+
+      ช่วย <b>Tomato</b> ควบคุมการสั่น
+      และเก็บเมล็ดดาวให้ครบ
+      ด้วยความรู้เรื่อง
+
+      <b>Simple Harmonic Motion</b>
+
+    </p>
+
+    <button class="start-button"
+            onclick="startGame()">
+
+      START GAME
+
+    </button>
+
+    <div class="hint">
+      ใช้เมาส์ / แตะหน้าจอ / Spacebar
+    </div>
+
+  </div>
+
 </section>
 
 
-<!-- GAME -->
+<!-- =======================================================
+     GAME SCREEN
+======================================================= -->
 
-<section class="game" id="game">
+<section id="gameScreen" class="screen">
 
-  <header class="topbar">
-    <div class="title">HARMONIC LAB</div>
+  <header class="game-header">
+
+    <div class="header-title">
+      Tomato Harmonic Garden
+    </div>
 
     <div class="stats">
-      <span>⭐ <b id="score">0</b></span>
-      <span>❤️ <b id="lives">3</b></span>
-      <span>ROOM <b id="room">1</b>/5</span>
+
+      <div class="stat">
+        ⭐ SCORE:
+        <b id="score">0</b>
+      </div>
+
+      <div class="stat">
+        ❤️ LIFE:
+        <b id="life">3</b>
+      </div>
+
+      <div class="stat">
+        🌱 LEVEL:
+        <b id="level">1</b>/4
+      </div>
+
     </div>
+
+    </div>
+
   </header>
 
 
-  <main class="main">
+  <!-- =======================================================
+       GAME AREA
+  ======================================================= -->
 
-    <h1 class="room-title" id="roomTitle"></h1>
+  <div class="game-container">
 
-    <p class="room-description" id="roomDescription"></p>
+    <div class="paper-card">
 
-    <div id="content"></div>
+      <div class="level-label" id="levelLabel">
+        LEVEL 1
+      </div>
 
-  </main>
+      <h1 class="level-title" id="levelTitle">
+        Spring Bounce
+      </h1>
+
+      <p class="level-description" id="levelDescription">
+        Loading...
+      </p>
+
+      <!-- GAME CONTENT -->
+      <div id="gameContent"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       DECORATIVE PNG
+  ======================================================= -->
+
+  <div class="deco png5">
+    <img src="png5.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png6">
+    <img src="png6.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png7">
+    <img src="png7.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png8">
+    <img src="png8.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png9">
+    <img src="png9.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+  <div class="deco png10">
+    <img src="png10.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
 
 </section>
 
 
-<!-- FINAL -->
+<!-- =======================================================
+     WIN SCREEN
+======================================================= -->
 
-<section class="final" id="final">
+<section id="winScreen" class="screen">
 
-  <div class="final-box">
+  <div class="deco png17">
+    <img src="png17.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
 
-    <h1>LAB COMPLETE</h1>
+  <div class="deco png18">
+    <img src="png18.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
 
-    <p>
-      ยินดีด้วย! คุณสามารถควบคุมระบบการสั่นได้สำเร็จ
-    </p>
+  <div class="deco png19">
+    <img src="png19.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
 
-    <div class="final-score">
-      SCORE: <b id="finalScore">0</b>
+  <div class="deco png20">
+    <img src="png20.png"
+         onerror="this.style.display='none'"
+         alt="">
+  </div>
+
+
+  <div class="win-paper">
+
+    <div class="win-title">
+      YOU DID IT!
     </div>
 
-    <p id="rank"></p>
+    <div class="main-start-tomato"></div>
 
-    <button class="restart" onclick="location.reload()">
+    <p>
+      Tomato Garden กลับมาปกติแล้ว!
+    </p>
+
+    <p>
+      เธอผ่านการทดลอง SHM ครบทุกด่านแล้ว
+    </p>
+
+    <div class="big-score">
+      SCORE:
+      <b id="finalScore">0</b>
+    </div>
+
+    <div class="rank" id="rank">
+      TOMATO PHYSICS MASTER
+    </div>
+
+    <br><br>
+
+    <button
+      class="cute-button red"
+      onclick="location.reload()">
+
       PLAY AGAIN
+
     </button>
 
   </div>
 
 </section>
+
+
+<!-- =======================================================
+     POPUP MESSAGE
+======================================================= -->
+
+<div class="message" id="message"></div>
 
 
 <script>
 
-let currentRoom = 0;
+/* =========================================================
+   GAME VARIABLES
+========================================================= */
+
 let score = 0;
-let lives = 3;
+let life = 3;
+let currentLevel = 1;
 
-const rooms = [
+let animationID = null;
 
-/* ROOM 1 */
+let gameRunning = false;
 
-{
-  title: "ROOM 01 — SHM BASICS",
-  description: "เริ่มต้นด้วยการทำความเข้าใจแอมพลิจูดและการกระจัด",
 
-  html: `
-    <div class="card">
+/* =========================================================
+   START GAME
+========================================================= */
 
-      <div class="simulation">
+function startGame(){
 
-        <div
-          class="mass"
-          style="top:120px; animation: move 2s infinite alternate ease-in-out">
-        </div>
+  document
+    .getElementById("startScreen")
+    .classList.remove("active");
 
-      </div>
+  document
+    .getElementById("gameScreen")
+    .classList.add("active");
 
-      <div class="question">
-        วัตถุสั่นจากตำแหน่ง −10 cm ถึง +10 cm
-        แอมพลิจูดมีค่าเท่าใด?
-      </div>
+  score = 0;
+  life = 3;
+  currentLevel = 1;
 
-      <div class="answers">
+  updateStats();
 
-        <button class="answer" onclick="answer(this,false)">
-          5 cm
-        </button>
-
-        <button class="answer" onclick="answer(this,true)">
-          10 cm
-        </button>
-
-        <button class="answer" onclick="answer(this,false)">
-          20 cm
-        </button>
-
-        <button class="answer" onclick="answer(this,false)">
-          0 cm
-        </button>
-
-      </div>
-
-      <button class="next" onclick="nextRoom()">
-        NEXT ROOM →
-      </button>
-
-    </div>
-  `
-},
-
-/* ROOM 2 */
-
-{
-  title: "ROOM 02 — SPRING",
-  description: "ควบคุมคาบของสปริงด้วยมวลและค่าคงที่สปริง",
-
-  html: `
-    <div class="card">
-
-      <div class="simulation">
-
-        <div class="spring"></div>
-
-        <div class="mass"
-          id="springMass">
-        </div>
-
-      </div>
-
-      <div class="question">
-        สปริงมีมวล 1 kg และค่าคงที่สปริง
-        100 N/m คาบการสั่นประมาณเท่าใด?
-      </div>
-
-      <div class="answers">
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          0.1 s
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,true)">
-          0.63 s
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          1.57 s
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          6.28 s
-        </button>
-
-      </div>
-
-      <button class="next" onclick="nextRoom()">
-        NEXT ROOM →
-      </button>
-
-    </div>
-  `
-},
-
-/* ROOM 3 */
-
-{
-  title: "ROOM 03 — PENDULUM",
-  description: "ทดลองกับลูกตุ้มและดูผลของความยาวเชือก",
-
-  html: `
-    <div class="card">
-
-      <div class="simulation">
-
-        <div class="pendulum"
-          style="animation: swing 2s infinite ease-in-out">
-
-          <div class="bob"></div>
-
-        </div>
-
-      </div>
-
-      <div class="question">
-        ถ้าเพิ่มความยาวลูกตุ้มเป็น 4 เท่า
-        คาบจะเปลี่ยนเป็นกี่เท่า?
-      </div>
-
-      <div class="answers">
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          2 เท่า
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,true)">
-          2 เท่า
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          4 เท่า
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          8 เท่า
-        </button>
-
-      </div>
-
-      <button class="next" onclick="nextRoom()">
-        NEXT ROOM →
-      </button>
-
-    </div>
-  `
-},
-
-/* ROOM 4 */
-
-{
-  title: "ROOM 04 — GRAPH",
-  description: "อ่านกราฟการเคลื่อนที่แบบฮาร์มอนิกอย่างง่าย",
-
-  html: `
-    <div class="card">
-
-      <div class="graph">
-
-        <svg class="wave"
-          viewBox="0 0 800 280"
-          preserveAspectRatio="none">
-
-          <path
-            d="M0 140
-               C50 20, 150 20, 200 140
-               C250 260, 350 260, 400 140
-               C450 20, 550 20, 600 140
-               C650 260, 750 260, 800 140"
-
-            fill="none"
-            stroke="#22d3ee"
-            stroke-width="5"/>
-
-        </svg>
-
-      </div>
-
-      <div class="question">
-        เมื่อวัตถุอยู่ที่ตำแหน่ง x = A
-        ความเร็วของวัตถุเป็นเท่าใด?
-      </div>
-
-      <div class="answers">
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          มากที่สุด
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,true)">
-          0
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          ติดลบมากที่สุด
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          เท่ากับ A
-        </button>
-
-      </div>
-
-      <button class="next" onclick="nextRoom()">
-        NEXT ROOM →
-      </button>
-
-    </div>
-  `
-},
-
-/* ROOM 5 */
-
-{
-  title: "ROOM 05 — FINAL LAB",
-  description: "บททดสอบสุดท้าย รวมความรู้ทั้งหมด",
-
-  html: `
-    <div class="card">
-
-      <div class="question">
-
-        เครื่องทดลองมีมวล
-
-        <b>m = 2 kg</b>
-
-        และสปริงมีค่าคงที่
-
-        <b>k = 200 N/m</b>
-
-        <br><br>
-
-        จงหาความถี่ของระบบ
-
-        <br><br>
-
-        ใช้สูตร
-
-        <br>
-
-        ω = √(k/m)
-
-        <br>
-
-        และ
-
-        <br>
-
-        f = ω / 2π
-
-      </div>
-
-      <div class="answers">
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          0.5 Hz
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,true)">
-          ≈ 1.59 Hz
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          ≈ 3.18 Hz
-        </button>
-
-        <button class="answer"
-          onclick="answer(this,false)">
-          ≈ 6.28 Hz
-        </button>
-
-      </div>
-
-      <button class="next" onclick="nextRoom()">
-        COMPLETE LAB →
-      </button>
-
-    </div>
-  `
-}
-
-];
-
-
-function startGame() {
-
-  document.getElementById("startScreen").style.display = "none";
-
-  document.getElementById("game").style.display = "block";
-
-  loadRoom();
+  loadLevel();
 
 }
 
 
-function loadRoom() {
+/* =========================================================
+   UPDATE SCORE / LIFE / LEVEL
+========================================================= */
 
-  const room = rooms[currentRoom];
+function updateStats(){
 
-  document.getElementById("roomTitle").textContent =
-    room.title;
+  document.getElementById("score")
+    .textContent = score;
 
-  document.getElementById("roomDescription").textContent =
-    room.description;
+  document.getElementById("life")
+    .textContent = life;
 
-  document.getElementById("content").innerHTML =
-    room.html;
-
-  document.getElementById("room").textContent =
-    currentRoom + 1;
+  document.getElementById("level")
+    .textContent = currentLevel;
 
 }
 
 
-function answer(button, correct) {
+/* =========================================================
+   ADD SCORE
+========================================================= */
 
-  const buttons =
-    document.querySelectorAll(".answer");
+function addScore(amount){
 
-  buttons.forEach(btn => {
-    btn.disabled = true;
-  });
+  score += amount;
+
+  if(score < 0){
+    score = 0;
+  }
+
+  updateStats();
+
+}
 
 
-  if(correct) {
+/* =========================================================
+   LOSE LIFE
+========================================================= */
 
-    button.classList.add("correct");
+function loseLife(){
 
-    score += 100;
+  life--;
 
-    document.getElementById("score").textContent =
-      score;
+  updateStats();
 
-    document.querySelector(".next").style.display =
-      "inline-block";
+  if(life <= 0){
 
-  } else {
+    showMessage(
+      "มะเขือเทศเหนื่อยแล้ว! ลองใหม่อีกครั้งนะ"
+    );
 
-    button.classList.add("wrong");
-
-    lives--;
-
-    document.getElementById("lives").textContent =
-      lives;
-
-    if(lives <= 0) {
-
-      alert("พลังงานหมด! เริ่มการทดลองใหม่");
+    setTimeout(() => {
 
       location.reload();
 
-    } else {
+    }, 1300);
 
-      document.querySelector(".next").style.display =
-        "inline-block";
+  }
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+let messageTimer;
+
+function showMessage(text){
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = text;
+
+  box.classList.add("show");
+
+  clearTimeout(messageTimer);
+
+  messageTimer = setTimeout(() => {
+
+    box.classList.remove("show");
+
+  }, 1800);
+
+}
+
+
+/* =========================================================
+   LOAD LEVEL
+========================================================= */
+
+function loadLevel(){
+
+  cancelAnimationFrame(animationID);
+
+  gameRunning = false;
+
+  if(currentLevel === 1){
+
+    loadSpringLevel();
+
+  }
+
+  else if(currentLevel === 2){
+
+    loadPendulumLevel();
+
+  }
+
+  else if(currentLevel === 3){
+
+    loadWaveLevel();
+
+  }
+
+  else if(currentLevel === 4){
+
+    loadBossLevel();
+
+  }
+
+}
+
+
+/* =========================================================
+   LEVEL 1
+   SPRING BOUNCE
+========================================================= */
+
+function loadSpringLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent = "LEVEL 1 • SPRING";
+
+  document.getElementById("levelTitle")
+    .textContent = "Spring Bounce";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "ปรับมวลและค่าคงที่สปริงให้คาบตรงกับเป้าหมาย แล้วปล่อย Tomato!";
+
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="spring-game">
+
+        <div class="spring-ground"></div>
+
+        <div class="spring-platform"></div>
+
+        <div class="spring-line"></div>
+
+        <div
+          class="tomato-player"
+          id="springTomato">
+
+          <div class="tomato-face"></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="spring-controls">
+
+        <div class="control-box">
+
+          <label>
+
+            <span>
+              มวล m
+            </span>
+
+            <span id="massValue">
+              1.0 kg
+            </span>
+
+          </label>
+
+          <input
+            id="massSlider"
+            type="range"
+            min="0.5"
+            max="5"
+            step="0.1"
+            value="1">
+
+        </div>
+
+
+        <div class="control-box">
+
+          <label>
+
+            <span>
+              ค่าคงที่ k
+            </span>
+
+            <span id="kValue">
+              100 N/m
+            </span>
+
+          </label>
+
+          <input
+            id="kSlider"
+            type="range"
+            min="20"
+            max="300"
+            step="5"
+            value="100">
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="control-box"
+        style="
+          margin-top:15px;
+          text-align:center;
+        ">
+
+        <div>
+
+          คาบที่ได้:
+
+          <b id="periodValue">
+            —
+          </b>
+
+        </div>
+
+        <div
+          style="
+            font-size:13px;
+            color:#8c7b70;
+          ">
+
+          เป้าหมาย:
+          <b>1.00 s</b>
+
+        </div>
+
+        <br>
+
+        <button
+          class="cute-button red"
+          onclick="launchSpring()">
+
+          🍅 LET TOMATO BOUNCE!
+
+        </button>
+
+      </div>
+
+    `;
+
+
+  const mass =
+    document.getElementById("massSlider");
+
+  const k =
+    document.getElementById("kSlider");
+
+
+  function updateSpring(){
+
+    const m =
+      parseFloat(mass.value);
+
+    const springK =
+      parseFloat(k.value);
+
+    const T =
+      2 * Math.PI *
+      Math.sqrt(m / springK);
+
+
+    document.getElementById("massValue")
+      .textContent =
+        m.toFixed(1) + " kg";
+
+    document.getElementById("kValue")
+      .textContent =
+        springK + " N/m";
+
+    document.getElementById("periodValue")
+      .textContent =
+        T.toFixed(2) + " s";
+
+  }
+
+
+  mass.addEventListener(
+    "input",
+    updateSpring
+  );
+
+  k.addEventListener(
+    "input",
+    updateSpring
+  );
+
+  updateSpring();
+
+}
+
+
+/* =========================================================
+   SPRING GAME
+========================================================= */
+
+function launchSpring(){
+
+  const m =
+    parseFloat(
+      document.getElementById(
+        "massSlider"
+      ).value
+    );
+
+  const k =
+    parseFloat(
+      document.getElementById(
+        "kSlider"
+      ).value
+    );
+
+
+  const T =
+    2 * Math.PI *
+    Math.sqrt(m / k);
+
+
+  const target = 1.00;
+
+  const error =
+    Math.abs(T - target);
+
+
+  if(error <= 0.035){
+
+    addScore(250);
+
+    showMessage(
+      "ถูกต้อง! Tomato เด้งพอดีเลย! +250"
+    );
+
+
+    const tomato =
+      document.getElementById(
+        "springTomato"
+      );
+
+
+    tomato.style.transition =
+      "bottom .8s cubic-bezier(.2,.8,.3,1)";
+
+    tomato.style.bottom =
+      "calc(28% + 290px)";
+
+
+    setTimeout(() => {
+
+      tomato.style.bottom =
+        "calc(28% + 145px)";
+
+    }, 800);
+
+
+    setTimeout(() => {
+
+      nextLevel();
+
+    }, 1600);
+
+  }
+
+
+  else if(error <= 0.15){
+
+    addScore(100);
+
+    showMessage(
+      "เกือบแล้ว! คาบใกล้มาก +100"
+    );
+
+  }
+
+
+  else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ตรง! ลองปรับ m หรือ k ใหม่"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LEVEL 2
+   PENDULUM
+========================================================= */
+
+function loadPendulumLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 2 • PENDULUM";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Pendulum Swing";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "จับจังหวะลูกตุ้มให้ดี! กดตอนลูกตุ้มผ่านจุดกึ่งกลาง";
+
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="pendulum-game">
+
+        <div class="pendulum-top"></div>
+
+        <div
+          class="pendulum-arm"
+          id="pendulumArm">
+
+          <div class="pendulum-ball"></div>
+
+        </div>
+
+        <div class="pendulum-target"></div>
+
+        <div class="pendulum-message">
+
+          L = 1.00 m
+
+          <br>
+
+          g = 9.8 m/s²
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="control-box"
+        style="
+          margin-top:15px;
+          text-align:center;
+        ">
+
+        <div>
+
+          คาบของลูกตุ้ม ≈
+
+          <b id="pendulumPeriod">
+            —
+          </b>
+
+          s
+
+        </div>
+
+
+        <p style="font-size:14px">
+
+          กด
+          <b>SPACE</b>
+          หรือปุ่ม TAP
+
+          ตอนลูกตุ้มผ่านตรงกลาง
+
+        </p>
+
+
+        <div class="tap-zone">
+
+          <button
+            class="tap-button"
+            onclick="pendulumTap()">
+
+            TAP!
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+  const L = 1;
+
+  const g = 9.8;
+
+  const T =
+    2 * Math.PI *
+    Math.sqrt(L / g);
+
+
+  document.getElementById(
+    "pendulumPeriod"
+  ).textContent =
+    T.toFixed(2);
+
+
+  window.pendulumStart =
+    performance.now();
+
+  window.pendulumT =
+    T;
+
+
+  animatePendulum();
+
+}
+
+
+/* =========================================================
+   PENDULUM ANIMATION
+========================================================= */
+
+function animatePendulum(){
+
+  const arm =
+    document.getElementById(
+      "pendulumArm"
+    );
+
+  if(!arm){
+    return;
+  }
+
+
+  const now =
+    performance.now();
+
+
+  const t =
+    (now - window.pendulumStart)
+    / 1000;
+
+
+  const angle =
+    25 *
+    Math.sin(
+      2 * Math.PI *
+      t /
+      window.pendulumT
+    );
+
+
+  arm.style.transform =
+    `translateX(-50%) rotate(${angle}deg)`;
+
+
+  animationID =
+    requestAnimationFrame(
+      animatePendulum
+    );
+
+}
+
+
+/* =========================================================
+   PENDULUM TAP
+========================================================= */
+
+function pendulumTap(){
+
+  if(!window.pendulumStart){
+    return;
+  }
+
+
+  const now =
+    performance.now();
+
+
+  const t =
+    (now - window.pendulumStart)
+    / 1000;
+
+
+  const T =
+    window.pendulumT;
+
+
+  const halfPeriod =
+    T / 2;
+
+
+  const phase =
+    t % halfPeriod;
+
+
+  const distance =
+    Math.min(
+      phase,
+      halfPeriod - phase
+    );
+
+
+  if(distance < 0.12){
+
+    addScore(200);
+
+    showMessage(
+      "จับจังหวะได้เป๊ะมาก! +200"
+    );
+
+
+    cancelAnimationFrame(
+      animationID
+    );
+
+
+    setTimeout(() => {
+
+      nextLevel();
+
+    }, 1200);
+
+  }
+
+  else{
+
+    loseLife();
+
+    showMessage(
+      "เร็วหรือช้าไปนิด! ลองใหม่"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SPACEBAR
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.code === "Space" &&
+      currentLevel === 2
+    ){
+
+      e.preventDefault();
+
+      pendulumTap();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LEVEL 3
+   WAVE CATCH
+========================================================= */
+
+function loadWaveLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 3 • WAVE";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Wave Catch";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "ควบคุม Tomato ให้ตรงกับตำแหน่งการสั่น แล้วเก็บดาวให้ครบ 5 ดวง";
+
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div
+        class="wave-game"
+        id="waveGame">
+
+        <div class="wave-grid"></div>
+
+        <div class="wave-line"></div>
+
+
+        <div class="wave-instruction">
+
+          ↑ ↓
+          หรือ
+          W S
+
+        </div>
+
+
+        <div class="wave-score">
+
+          ⭐
+          <span id="waveScore">
+            0
+          </span>
+          /5
+
+        </div>
+
+
+        <div
+          class="wave-tomato"
+          id="waveTomato">
+
+        </div>
+
+
+        <div
+          class="wave-target"
+          id="waveTarget">
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="control-box"
+        style="
+          margin-top:15px;
+          text-align:center;
+        ">
+
+        <b>
+          x = A cos(ωt)
+        </b>
+
+
+        <p style="font-size:14px">
+
+          ขยับ Tomato ขึ้นลง
+          เพื่อเก็บดาว
+
+        </p>
+
+
+        <button
+          class="cute-button yellow"
+          onclick="startWaveGame()">
+
+          START WAVE
+
+        </button>
+
+      </div>
+
+    `;
+
+
+  window.waveScore = 0;
+
+  window.waveRunning = false;
+
+}
+
+
+/* =========================================================
+   START WAVE
+========================================================= */
+
+function startWaveGame(){
+
+  if(window.waveRunning){
+    return;
+  }
+
+
+  window.waveRunning = true;
+
+  window.waveStart =
+    performance.now();
+
+
+  placeWaveTarget();
+
+  animateWave();
+
+}
+
+
+/* =========================================================
+   PLACE TARGET
+========================================================= */
+
+function placeWaveTarget(){
+
+  const game =
+    document.getElementById(
+      "waveGame"
+    );
+
+  const target =
+    document.getElementById(
+      "waveTarget"
+    );
+
+
+  if(!game || !target){
+    return;
+  }
+
+
+  const rect =
+    game.getBoundingClientRect();
+
+
+  const x =
+    100 +
+    Math.random() *
+    (rect.width - 200);
+
+
+  const y =
+    70 +
+    Math.random() *
+    (rect.height - 140);
+
+
+  target.style.left =
+    x + "px";
+
+  target.style.top =
+    y + "px";
+
+}
+
+
+/* =========================================================
+   WAVE ANIMATION
+========================================================= */
+
+function animateWave(){
+
+  if(!window.waveRunning){
+    return;
+  }
+
+
+  const tomato =
+    document.getElementById(
+      "waveTomato"
+    );
+
+  const game =
+    document.getElementById(
+      "waveGame"
+    );
+
+
+  if(!tomato || !game){
+    return;
+  }
+
+
+  const rect =
+    game.getBoundingClientRect();
+
+
+  const t =
+    (
+      performance.now()
+      -
+      window.waveStart
+    ) / 1000;
+
+
+  const A =
+    Math.min(
+      130,
+      rect.height / 2 - 40
+    );
+
+
+  const y =
+    rect.height / 2 +
+    A *
+    Math.cos(
+      2 * Math.PI * .5 * t
+    );
+
+
+  const x =
+    rect.width / 2 +
+    260 *
+    Math.sin(t * .55);
+
+
+  tomato.style.left =
+    x + "px";
+
+  tomato.style.top =
+    y + "px";
+
+
+  const target =
+    document.getElementById(
+      "waveTarget"
+    );
+
+
+  const tx =
+    parseFloat(
+      target.style.left
+    );
+
+  const ty =
+    parseFloat(
+      target.style.top
+    );
+
+
+  const distance =
+    Math.hypot(
+      x - tx,
+      y - ty
+    );
+
+
+  if(distance < 50){
+
+    window.waveScore++;
+
+    addScore(75);
+
+    showMessage(
+      "เก็บดาวได้! ⭐ +75"
+    );
+
+
+    if(window.waveScore >= 5){
+
+      window.waveRunning = false;
+
+      addScore(200);
+
+      showMessage(
+        "เก็บดาวครบแล้ว! +200"
+      );
+
+
+      setTimeout(() => {
+
+        nextLevel();
+
+      }, 1200);
+
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      "waveScore"
+    ).textContent =
+      window.waveScore;
+
+
+    placeWaveTarget();
+
+  }
+
+
+  animationID =
+    requestAnimationFrame(
+      animateWave
+    );
+
+}
+
+
+/* =========================================================
+   WAVE CONTROL
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(currentLevel !== 3){
+      return;
+    }
+
+
+    const tomato =
+      document.getElementById(
+        "waveTomato"
+      );
+
+
+    if(!tomato){
+      return;
+    }
+
+
+    let top =
+      parseFloat(
+        tomato.style.top || "200"
+      );
+
+
+    if(
+      e.key === "ArrowUp" ||
+      e.key.toLowerCase() === "w"
+    ){
+
+      top -= 20;
+
+    }
+
+
+    if(
+      e.key === "ArrowDown" ||
+      e.key.toLowerCase() === "s"
+    ){
+
+      top += 20;
+
+    }
+
+
+    top =
+      Math.max(
+        30,
+        Math.min(
+          400,
+          top
+        )
+      );
+
+
+    tomato.style.top =
+      top + "px";
+
+  }
+);
+
+
+/* =========================================================
+   LEVEL 4
+   FINAL BOSS
+========================================================= */
+
+function loadBossLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "FINAL LEVEL • RESONANCE";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Tomato Machine";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "เครื่องจักรกำลังสั่น! ปรับความถี่ให้ตรงกับความถี่ธรรมชาติ";
+
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="boss-game">
+
+        <div
+          class="boss-machine"
+          id="bossMachine">
+
+          <div
+            class="machine-arm"
+            id="machineArm">
+          </div>
+
+          <div
+            class="machine-core">
+          </div>
+
+        </div>
+
+
+        <div class="boss-controls">
+
+          <div class="target-frequency">
+            NATURAL FREQUENCY
+          </div>
+
+
+          <div class="frequency-value">
+
+            Target:
+
+            <span id="targetFreq">
+              1.50
+            </span>
+
+            Hz
+
+          </div>
+
+
+          <input
+            type="range"
+            id="frequencySlider"
+            min="0.5"
+            max="3"
+            step="0.01"
+            value="1.0"
+          >
+
+
+          <div style="text-align:center">
+
+            Your frequency:
+
+            <b id="yourFreq">
+              1.00
+            </b>
+
+            Hz
+
+          </div>
+
+
+          <br>
+
+
+          <div style="text-align:center">
+
+            <button
+              class="cute-button red"
+              onclick="activateMachine()">
+
+              🍅 ACTIVATE!
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+  const slider =
+    document.getElementById(
+      "frequencySlider"
+    );
+
+
+  slider.addEventListener(
+    "input",
+    function(){
+
+        const value =
+        parseFloat(slider.value);
+
+      document.getElementById(
+        "yourFreq"
+      ).textContent =
+        value.toFixed(2);
+
+
+      // ความแรงของการสั่น
+      const machine =
+        document.getElementById(
+          "bossMachine"
+        );
+
+      if(machine){
+
+        const target = 1.50;
+
+        const difference =
+          Math.abs(value - target);
+
+        const intensity =
+          Math.max(
+            0.15,
+            1 - difference / 1.5
+          );
+
+        machine.style.setProperty(
+          "--shake",
+          intensity
+        );
+
+      }
+
+    }
+  );
+
+
+  slider.dispatchEvent(
+    new Event("input")
+  );
+
+}
+
+
+/* =========================================================
+   FINAL BOSS
+   ACTIVATE MACHINE
+========================================================= */
+
+function activateMachine(){
+
+  const slider =
+    document.getElementById(
+      "frequencySlider"
+    );
+
+  if(!slider){
+    return;
+  }
+
+
+  const frequency =
+    parseFloat(slider.value);
+
+  const target =
+    1.50;
+
+  const error =
+    Math.abs(
+      frequency - target
+    );
+
+
+  /* -----------------------------------------
+     PERFECT
+  ----------------------------------------- */
+
+  if(error <= 0.05){
+
+    addScore(500);
+
+    showMessage(
+      "RESONANCE PERFECT! 🍅 +500"
+    );
+
+
+    const machine =
+      document.getElementById(
+        "bossMachine"
+      );
+
+    if(machine){
+
+      machine.classList.add(
+        "resonating"
+      );
+
+    }
+
+
+    setTimeout(() => {
+
+      finishGame();
+
+    }, 1600);
+
+  }
+
+
+  /* -----------------------------------------
+     CLOSE
+  ----------------------------------------- */
+
+  else if(error <= 0.20){
+
+    addScore(200);
+
+    showMessage(
+      "ใกล้มาก! ความถี่เกือบตรงแล้ว +200"
+    );
+
+  }
+
+
+  /* -----------------------------------------
+     WRONG
+  ----------------------------------------- */
+
+  else{
+
+    loseLife();
+
+    showMessage(
+      "ความถี่ยังไม่ตรง! ลองปรับใหม่"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   NEXT LEVEL
+========================================================= */
+
+function nextLevel(){
+
+  cancelAnimationFrame(
+    animationID
+  );
+
+  gameRunning = false;
+
+  currentLevel++;
+
+  if(currentLevel > 4){
+
+    finishGame();
+
+    return;
+
+  }
+
+  updateStats();
+
+  loadLevel();
+
+}
+
+
+/* =========================================================
+   FINISH GAME
+========================================================= */
+
+function finishGame(){
+
+  cancelAnimationFrame(
+    animationID
+  );
+
+  gameRunning = false;
+
+
+  const gameScreen =
+    document.getElementById(
+      "gameScreen"
+    );
+
+  const winScreen =
+    document.getElementById(
+      "winScreen"
+    );
+
+
+  if(gameScreen){
+
+    gameScreen.classList.remove(
+      "active"
+    );
+
+  }
+
+
+  if(winScreen){
+
+    winScreen.classList.add(
+      "active"
+    );
+
+  }
+
+
+  const finalScore =
+    document.getElementById(
+      "finalScore"
+    );
+
+  if(finalScore){
+
+    finalScore.textContent =
+      score;
+
+  }
+
+
+  /* -----------------------------------------
+     RANK
+  ----------------------------------------- */
+
+  const rank =
+    document.getElementById(
+      "rank"
+    );
+
+  if(rank){
+
+    if(score >= 1400){
+
+      rank.textContent =
+        "🍅 TOMATO PHYSICS MASTER";
+
+    }
+
+    else if(score >= 1000){
+
+      rank.textContent =
+        "🌱 SHM EXPERT";
+
+    }
+
+    else if(score >= 700){
+
+      rank.textContent =
+        "⭐ PHYSICS EXPLORER";
+
+    }
+
+    else{
+
+      rank.textContent =
+        "🍅 TOMATO ROOKIE";
 
     }
 
@@ -790,85 +2762,8 @@ function answer(button, correct) {
 }
 
 
-function nextRoom() {
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
-  currentRoom++;
-
-  if(currentRoom >= rooms.length) {
-
-    finishGame();
-
-  } else {
-
-    loadRoom();
-
-  }
-
-}
-
-
-function finishGame() {
-
-  document.getElementById("game").style.display =
-    "none";
-
-  document.getElementById("final").style.display =
-    "flex";
-
-  document.getElementById("finalScore").textContent =
-    score;
-
-
-  let rank;
-
-  if(score >= 500)
-    rank = "🏆 RANK S — HARMONIC MASTER";
-
-  else if(score >= 400)
-    rank = "⭐ RANK A — PHYSICS EXPERT";
-
-  else if(score >= 300)
-    rank = "🥈 RANK B — GREAT EXPERIMENT";
-
-  else
-    rank = "🔬 RANK C — KEEP EXPERIMENTING";
-
-
-  document.getElementById("rank").textContent =
-    rank;
-
-}
-
-</script>
-
-
-<style>
-
-@keyframes move {
-
-  from {
-    transform: translateY(-40px);
-  }
-
-  to {
-    transform: translateY(40px);
-  }
-
-}
-
-@keyframes swing {
-
-  0%,100% {
-    transform: rotate(-25deg);
-  }
-
-  50% {
-    transform: rotate(25deg);
-  }
-
-}
-
-</style>
-
-</body>
-                </html>
+updateStats();
