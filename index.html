@@ -2151,10 +2151,8 @@ function placeWaveTarget(){
     game.getBoundingClientRect();
 
 
-  const x =
-    100 +
-    Math.random() *
-    (rect.width - 200);
+const x =
+  rect.width / 2;
 
 
   const y =
@@ -2218,12 +2216,11 @@ function animateWave(){
     );
 
 
-  const y =
-    rect.height / 2 +
-    A *
-    Math.cos(
-      2 * Math.PI * .5 * t
-    );
+const y =
+  parseFloat(
+    tomato.dataset.y ||
+    rect.height / 2
+  );
 
 
   const x =
@@ -2340,10 +2337,11 @@ document.addEventListener(
     }
 
 
-    let top =
-      parseFloat(
-        tomato.style.top || "200"
-      );
+let top =
+  parseFloat(
+    tomato.dataset.y ||
+    rect.height / 2
+  );
 
 
     if(
@@ -2374,6 +2372,11 @@ document.addEventListener(
           top
         )
       );
+
+     tomato.dataset.y = top;
+
+tomato.style.top =
+  top + "px";
 
 
     tomato.style.top =
@@ -2588,6 +2591,56 @@ function activateMachine(){
   }
 
 }
+
+ /* =========================================================
+   FIX FINAL BOSS LAYOUT
+========================================================= */
+
+.boss-game{
+  position:relative;
+  min-height:520px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:25px;
+  padding:25px 20px 35px;
+  overflow:hidden;
+}
+
+.boss-machine{
+  position:relative;
+  width:220px;
+  height:220px;
+  flex-shrink:0;
+  margin-top:10px;
+}
+
+.boss-controls{
+  position:relative;
+  width:min(500px,100%);
+  background:#fffdf5;
+  border:3px solid #e6d8bd;
+  border-radius:20px;
+  padding:20px;
+  z-index:5;
+}
+
+.target-frequency{
+  position:relative;
+  display:block;
+  width:fit-content;
+  margin:0 auto 12px;
+  padding:8px 18px;
+  background:#fff3b8;
+  border:2px solid #e5c96b;
+  border-radius:30px;
+  text-align:center;
+}
+
+.frequency-value{
+  text-align:center;
+  margin-bottom:15px;
+     }
 
 /* =========================================================
    NEXT LEVEL
