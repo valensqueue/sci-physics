@@ -1541,15 +1541,31 @@ window.givenK =
       </div>
 
 
-      <div class="spring-controls">
+<div class="control-box">
 
-        <div class="control-box">
+  <div
+    style="
+      font-size:18px;
+      font-weight:700;
+      color:#683f39;
+      margin-bottom:10px;
+    ">
+    โจทย์
+  </div>
 
-          <label>
+  <div id="givenValue"></div>
 
-            <span>
-              มวล m
-            </span>
+  <div
+    style="
+      margin-top:8px;
+      font-size:15px;
+      color:#8c7b70;
+    ">
+    ใช้สูตร:
+    <b>T = 2π√(m/k)</b>
+  </div>
+
+</div>
 
          
 
@@ -1617,13 +1633,6 @@ window.givenK =
 ">
   สูตร:
   T = 2π√(m/k)
-</div>
-           คาบที่ได้:
-          <b id="periodValue">
-            —
-          </b>
-
-        </div>
 
         <div
           style="
@@ -1642,18 +1651,35 @@ window.givenK =
     color:#683f39;
   ">
 </div>
+<div style="margin-top:15px;">
+
+  <input
+    id="answerInput"
+    type="number"
+    step="0.1"
+    placeholder="ใส่คำตอบที่คำนวณได้"
+    style="
+      width:80%;
+      padding:12px;
+      border:2px solid #d7cbb9;
+      border-radius:12px;
+      text-align:center;
+      font-size:18px;
+    ">
+
+</div>
 
         </div>
 
         <br>
 
         <button
-          class="cute-button red"
-          onclick="launchSpring()">
+  class="cute-button red"
+  onclick="launchSpring()">
 
-          🍅 LET TOMATO BOUNCE!
+  CHECK ANSWER
 
-        </button>
+</button>
 
       </div>
 
@@ -1681,64 +1707,7 @@ if(givenValue){
   }
 
 }
-   
 
-  const mass =
-    document.getElementById("massSlider");
-
-  const k =
-    document.getElementById("kSlider");
-
-   if(window.givenType === "mass"){
-
-  mass.value =
-    window.givenMass;
-
-}else{
-
-  k.value =
-    window.givenK;
-
-   }
-
-   if(window.givenType === "mass"){
-
-  mass.disabled = true;
-
-}else{
-
-  k.disabled = true;
-
-   }
-
-  function updateSpring(){
-
-  const m =
-    parseFloat(mass.value);
-
-  const springK =
-    parseFloat(k.value);
-
-  const T =
-    2 * Math.PI *
-    Math.sqrt(m / springK);
-
-}
-
-
-  mass.addEventListener(
-    "input",
-    updateSpring
-  );
-
-  k.addEventListener(
-    "input",
-    updateSpring
-  );
-
-  updateSpring();
-
-}
 
 
 /* =========================================================
@@ -1747,20 +1716,49 @@ if(givenValue){
 
 function launchSpring(){
 
-  const m =
-    parseFloat(
-      document.getElementById(
-        "massSlider"
-      ).value
-    );
+ const answer =
+  parseFloat(
+    document.getElementById(
+      "answerInput"
+    ).value
+  );
 
-  const k =
-    parseFloat(
-      document.getElementById(
-        "kSlider"
-      ).value
-    );
+if(isNaN(answer)){
+  showMessage(
+    "กรุณาใส่คำตอบก่อน!"
+  );
+  return;
+   }
 
+   let m;
+let k;
+
+if(window.givenType === "mass"){
+
+  m = window.givenMass;
+  k = answer;
+
+}else{
+
+  m = answer;
+  k = window.givenK;
+
+}
+
+   let m;
+let k;
+
+if(window.givenType === "mass"){
+
+  m = window.givenMass;
+  k = answer;
+
+}else{
+
+  m = answer;
+  k = window.givenK;
+
+}
 
   const T =
     2 * Math.PI *
