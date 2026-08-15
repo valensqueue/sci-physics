@@ -2537,7 +2537,18 @@ function loadBossLevel(){
 
 }
 
+function activateMachine(){
 
+  addScore(500);
+
+  showMessage("RESONANCE สำเร็จ! +500");
+
+  setTimeout(() => {
+    showWinScreen();
+  }, 500);
+
+}
+   
 /* =========================================================
    FINAL BOSS
    ACTIVATE MACHINE
@@ -2545,14 +2556,13 @@ function loadBossLevel(){
 
 function activateMachine(){
 
-  const slider =
-    document.getElementById(
-      "frequencySlider"
-    );
+  addScore(500);
 
-  if(!slider){
-    return;
-  }
+  setTimeout(() => {
+    showWinScreen();
+  }, 500);
+
+   }
 
 
   const frequency =
@@ -2761,6 +2771,16 @@ document.addEventListener(
   }
 );
 
+   function showWinScreen(){
+
+  document.getElementById("gameScreen").classList.remove("active");
+
+  document.getElementById("winScreen").classList.add("active");
+
+  document.getElementById("finalScore").textContent = score;
+
+   }
+   
 </script>
 
 </body>
