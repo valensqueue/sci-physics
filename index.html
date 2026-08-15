@@ -1475,7 +1475,11 @@ function loadLevel(){
     loadBossLevel();
 
   }
+else if(currentLevel === 5){
 
+  loadEnergyLevel();
+
+   }
 }
 
 
@@ -2665,7 +2669,206 @@ function activateMachine(){
   }
 
 }
+/* =========================================================
+   LEVEL 5
+   ENERGY & AMPLITUDE
+========================================================= */
 
+function loadEnergyLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent = "LEVEL 5 • ENERGY";
+
+  document.getElementById("levelTitle")
+    .textContent = "Energy Collector";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "คำนวณพลังงานของการสั่นด้วยสูตร E = ½kA²";
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="control-box"
+        style="text-align:center; padding:25px;">
+
+        <div style="
+          font-size:22px;
+          font-weight:700;
+          color:#683f39;
+        ">
+          ENERGY LAB
+        </div>
+
+        <div style="
+          background:#fff7c7;
+          border:2px dashed #d8bd5c;
+          border-radius:15px;
+          padding:15px;
+          margin:15px 0;
+        ">
+
+          <b style="font-size:20px;">
+            E = ½kA²
+          </b>
+
+          <br><br>
+
+          E = พลังงาน
+          <br>
+          k = ค่าคงที่สปริง
+          <br>
+          A = แอมพลิจูด
+
+        </div>
+
+        <div>
+          เป้าหมาย:
+          <b id="energyTarget">—</b> J
+        </div>
+
+        <div style="margin-top:15px;">
+
+          <label>
+            ค่าคงที่สปริง k
+          </label>
+
+          <input
+            id="energyK"
+            type="range"
+            min="20"
+            max="100"
+            step="10"
+            value="50">
+
+        </div>
+
+        <div style="margin-top:15px;">
+
+          <label>
+            แอมพลิจูด A
+          </label>
+
+          <input
+            id="energyA"
+            type="range"
+            min="0.1"
+            max="1.0"
+            step="0.1"
+            value="0.5">
+
+        </div>
+
+        <div style="margin-top:15px;">
+
+          พลังงานปัจจุบัน:
+          <b id="energyValue">—</b> J
+
+        </div>
+
+        <br>
+
+        <button
+          class="cute-button red"
+          onclick="checkEnergy()">
+
+          COLLECT ENERGY
+
+        </button>
+
+      </div>
+
+    `;
+
+  window.energyTarget = 4;
+
+  document.getElementById("energyTarget")
+    .textContent =
+      window.energyTarget.toFixed(1);
+
+  updateEnergy();
+
+  document.getElementById("energyK")
+    .addEventListener("input", updateEnergy);
+
+  document.getElementById("energyA")
+    .addEventListener("input", updateEnergy);
+
+   }
+   /* =========================================================
+   UPDATE ENERGY
+========================================================= */
+
+function updateEnergy(){
+
+  const k =
+    parseFloat(
+      document.getElementById("energyK").value
+    );
+
+  const A =
+    parseFloat(
+      document.getElementById("energyA").value
+    );
+
+  const E =
+    0.5 * k * A * A;
+
+  document.getElementById("energyValue")
+    .textContent =
+      E.toFixed(2);
+
+   }
+   /* =========================================================
+   CHECK ENERGY
+========================================================= */
+
+function checkEnergy(){
+
+  const k =
+    parseFloat(
+      document.getElementById("energyK").value
+    );
+
+  const A =
+    parseFloat(
+      document.getElementById("energyA").value
+    );
+
+  const E =
+    0.5 * k * A * A;
+
+  const target =
+    window.energyTarget;
+
+  const error =
+    Math.abs(E - target);
+
+  if(error <= 0.15){
+
+    addScore(300);
+
+    showMessage(
+      "ถูกต้อง! เก็บพลังงานได้แล้ว! +300"
+    );
+
+    setTimeout(() => {
+
+      nextLevel();
+
+    }, 1200);
+
+  }else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ตรง! ลองปรับ k และ A ใหม่"
+    );
+
+  }
+
+}
 /* =========================================================
    NEXT LEVEL
 ========================================================= */
@@ -2681,7 +2884,7 @@ function nextLevel(){
   currentLevel++;
 
 
-  if(currentLevel > 4){
+  if(currentLevel > 5){
 
     finishGame();
 
