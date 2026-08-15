@@ -1148,7 +1148,7 @@ input[type=range]{
 
       <div class="stat">
         🌱 LEVEL:
-        <b id="level">1</b>/4
+        <b id="level">1</b>/10
       </div>
 
     </div>
@@ -2876,7 +2876,7 @@ function checkEnergy(){
   }
 
 }
-   /* =========================================================
+/* =========================================================
    LEVEL 6
    VELOCITY DASH
 ========================================================= */
@@ -2893,7 +2893,7 @@ function loadVelocityLevel(){
 
   document.getElementById("levelDescription")
     .textContent =
-      "หาความเร็วของ Tomato ในตำแหน่งต่าง ๆ ของการสั่น!";
+      "คำนวณความเร็วของวัตถุที่กำลังสั่นแบบ SHM";
 
   document.getElementById("gameContent")
     .innerHTML = `
@@ -2908,6 +2908,7 @@ function loadVelocityLevel(){
           font-size:22px;
           font-weight:700;
           color:#683f39;
+          margin-bottom:15px;
         ">
           VELOCITY LAB
         </div>
@@ -2917,37 +2918,27 @@ function loadVelocityLevel(){
           border:2px dashed #8fba91;
           border-radius:15px;
           padding:15px;
-          margin:15px 0;
         ">
 
-          <b style="font-size:20px;">
+          <div style="
+            font-size:22px;
+            font-weight:700;
+          ">
             v = ω√(A² − x²)
-          </b>
-
-          <br><br>
-
-          <div>
-            ω = ความถี่เชิงมุม
           </div>
 
-          <div>
-            A = แอมพลิจูด
-          </div>
+          <br>
 
-          <div>
-            x = ตำแหน่ง
-          </div>
-
-          <div>
-            v = ความเร็ว
-          </div>
+          <div>v = ความเร็ว</div>
+          <div>ω = ความถี่เชิงมุม</div>
+          <div>A = แอมพลิจูด</div>
+          <div>x = ตำแหน่ง</div>
 
         </div>
 
-        <div style="
-          font-size:16px;
-          margin-bottom:15px;
-        ">
+        <br>
+
+        <div style="font-size:17px;">
 
           A =
           <b id="velocityA">—</b>
@@ -2967,32 +2958,29 @@ function loadVelocityLevel(){
 
         </div>
 
-        <div>
-
-          <input
-            id="velocityAnswer"
-            type="number"
-            step="0.01"
-            placeholder="ใส่คำตอบ v"
-            style="
-              width:80%;
-              padding:12px;
-              border:2px solid #d7cbb9;
-              border-radius:12px;
-              text-align:center;
-              font-size:18px;
-              box-sizing:border-box;
-            ">
-
-        </div>
-
         <br>
+
+        <input
+          id="velocityAnswer"
+          type="number"
+          step="0.01"
+          placeholder="ใส่คำตอบ v"
+          style="
+            width:80%;
+            padding:12px;
+            border:2px solid #d7cbb9;
+            border-radius:12px;
+            text-align:center;
+            font-size:18px;
+          ">
+
+        <br><br>
 
         <button
           class="cute-button red"
           onclick="checkVelocity()">
 
-          CHECK VELOCITY
+          CHECK ANSWER
 
         </button>
 
@@ -3000,7 +2988,42 @@ function loadVelocityLevel(){
 
     `;
 
-/* =========================================================
+
+  /* =========================
+     RANDOM QUESTION
+  ========================= */
+
+  window.velocityA =
+    [0.5, 1.0, 1.5, 2.0][
+      Math.floor(Math.random() * 4)
+    ];
+
+  window.velocityOmega =
+    [2, 3, 4, 5][
+      Math.floor(Math.random() * 4)
+    ];
+
+  window.velocityX =
+    [0, 0.2, 0.4, 0.6, 0.8][
+      Math.floor(Math.random() * 5)
+    ];
+
+
+  document.getElementById("velocityA")
+    .textContent =
+      window.velocityA.toFixed(1);
+
+  document.getElementById("velocityOmega")
+    .textContent =
+      window.velocityOmega.toFixed(1);
+
+  document.getElementById("velocityX")
+    .textContent =
+      window.velocityX.toFixed(1);
+
+}
+
+  /* =========================================================
    CHECK VELOCITY
 ========================================================= */
 
@@ -3011,6 +3034,7 @@ function checkVelocity(){
 
   const answer =
     parseFloat(input.value);
+
 
   if(isNaN(answer)){
 
@@ -3033,16 +3057,18 @@ function checkVelocity(){
     window.velocityX;
 
 
-  const inside =
-    Math.max(
-      0,
-      A * A - x * x
-    );
-
+  /* สูตร
+     v = ω√(A² − x²)
+  */
 
   const correctVelocity =
     omega *
-    Math.sqrt(inside);
+    Math.sqrt(
+      Math.max(
+        0,
+        A * A - x * x
+      )
+    );
 
 
   const error =
@@ -3056,8 +3082,9 @@ function checkVelocity(){
     addScore(350);
 
     showMessage(
-      "ถูกต้อง! ความเร็วพอดีเลย +350"
+      "ถูกต้อง! ความเร็วพอดีเลย! +350"
     );
+
 
     setTimeout(() => {
 
@@ -3065,44 +3092,20 @@ function checkVelocity(){
 
     }, 1200);
 
+
   }else{
 
     loseLife();
 
     showMessage(
-      "ยังไม่ถูก! ลองใช้สูตร v = ω√(A² − x²) ใหม่"
+      "ยังไม่ถูก! ลองแทนค่าในสูตร v = ω√(A² − x²) ใหม่"
     );
 
   }
 
    }
-  /* =========================
-     RANDOM VALUES
-  ========================= */
 
-  window.velocityA = 1.0;
-
-  window.velocityOmega = 4;
-
-  window.velocityX =
-    [0, 0.2, 0.4, 0.6, 0.8][
-      Math.floor(Math.random() * 5)
-    ];
-
-
-  document.getElementById("velocityA")
-    .textContent =
-      window.velocityA.toFixed(1);
-
-  document.getElementById("velocityOmega")
-    .textContent =
-      window.velocityOmega.toFixed(1);
-
-  document.getElementById("velocityX")
-    .textContent =
-      window.velocityX.toFixed(1);
-
-}
+  
 /* =========================================================
    NEXT LEVEL
 ========================================================= */
