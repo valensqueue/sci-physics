@@ -820,15 +820,18 @@ input[type=range]{
   top:15px;
   transform-origin:bottom;
 }
-
+   
 .boss-controls{
-  position:relative;
+  position:absolute;
+  top:320px;
+  left:50%;
+  transform:translateX(-50%);
   width:min(700px,90%);
-  margin:25px auto 0;
   background:rgba(255,255,255,.92);
   border:2px solid #d7cbb9;
   border-radius:15px;
   padding:15px;
+  z-index:5;
 }
 
 .frequency-value{
