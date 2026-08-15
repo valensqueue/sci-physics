@@ -749,6 +749,30 @@ input[type=range]{
   border:2px solid #d9cdbb;
 }
 
+/* ใส่ต่อจากตรงนี้ */
+
+.wave-controls{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:12px;
+}
+
+.wave-control-btn{
+  width:70px;
+  height:55px;
+  border:3px solid #d8b85c;
+  border-radius:18px;
+  background:#fff0a8;
+  font-size:28px;
+  font-weight:bold;
+  color:#8d7040;
+}
+
+.wave-control-btn:active{
+  transform:translateY(4px);
+}
+   
 /* =========================================================
    LEVEL 4 BOSS
 ========================================================= */
@@ -2091,12 +2115,28 @@ function loadWaveLevel(){
 
 
         <button
-          class="cute-button yellow"
-          onclick="startWaveGame()">
+  class="cute-button yellow"
+  onclick="startWaveGame()">
 
-          START WAVE
+  START WAVE
 
-        </button>
+</button>
+
+<div class="wave-controls">
+
+  <button
+    class="wave-control-btn"
+    onclick="moveWaveTomato(-25)">
+    ▲
+  </button>
+
+  <button
+    class="wave-control-btn"
+    onclick="moveWaveTomato(25)">
+    ▼
+  </button>
+
+</div>
 
       </div>
 
@@ -2108,7 +2148,6 @@ function loadWaveLevel(){
   window.waveRunning = false;
 
 }
-
 
 /* =========================================================
    START WAVE
@@ -2132,6 +2171,43 @@ function startWaveGame(){
   animateWave();
 
 }
+   function moveWaveTomato(amount){
+
+  const tomato =
+    document.getElementById("waveTomato");
+
+  const game =
+    document.getElementById("waveGame");
+
+  if(!tomato || !game){
+    return;
+  }
+
+  const rect =
+    game.getBoundingClientRect();
+
+  let top =
+    parseFloat(
+      tomato.dataset.y ||
+      rect.height / 2
+    );
+
+  top += amount;
+
+  top =
+    Math.max(
+      30,
+      Math.min(
+        rect.height - 30,
+        top
+      )
+    );
+
+  tomato.dataset.y = top;
+
+  tomato.style.top =
+    top + "px";
+   }
 
 
 /* =========================================================
