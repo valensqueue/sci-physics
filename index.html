@@ -1486,14 +1486,30 @@ function loadSpringLevel(){
   document.getElementById("levelDescription")
     .textContent =
       "ปรับมวลและค่าคงที่สปริงให้คาบตรงกับเป้าหมาย แล้วปล่อย Tomato!";
-
-   const targetPeriod =
-  [0.50, 0.75, 1.00, 1.25, 1.50, 1.75][
+   
+window.targetPeriod =
+  [0.63, 0.79, 0.99, 1.15, 1.40, 1.57][
     Math.floor(
       Math.random() * 6
     )
   ];
 
+   window.givenMass =
+  [0.5, 1.0, 1.5, 2.0][
+    Math.floor(
+      Math.random() * 4
+    )
+  ];
+
+window.givenK =
+  100;
+
+   window.givenType =
+  Math.random() < 0.5
+    ? "mass"
+    : "spring";
+
+   
   document.getElementById("gameContent")
     .innerHTML = `
 
@@ -1526,9 +1542,7 @@ function loadSpringLevel(){
               มวล m
             </span>
 
-            <span id="massValue">
-              1.0 kg
-            </span>
+         
 
           </label>
 
@@ -1551,10 +1565,7 @@ function loadSpringLevel(){
               ค่าคงที่ k
             </span>
 
-            <span id="kValue">
-              100 N/m
-            </span>
-
+            
           </label>
 
           <input
@@ -1579,8 +1590,17 @@ function loadSpringLevel(){
 
         <div>
 
-          คาบที่ได้:
-
+          
+          <div style="
+  font-size:20px;
+  font-weight:700;
+  color:#683f39;
+  margin-bottom:10px;
+">
+  สูตร:
+  T = 2π√(m/k)
+</div>
+           คาบที่ได้:
           <b id="periodValue">
             —
           </b>
@@ -1595,6 +1615,15 @@ function loadSpringLevel(){
 
           เป้าหมาย:
           <b>${targetPeriod.toFixed(2)} s</b>
+
+          <div
+  id="givenValue"
+  style="
+    margin-top:8px;
+    font-weight:700;
+    color:#683f39;
+  ">
+</div>
 
         </div>
 
@@ -1611,7 +1640,30 @@ function loadSpringLevel(){
       </div>
 
     `;
+   
+const givenValue =
+  document.getElementById("givenValue");
 
+if(givenValue){
+
+  if(window.givenType === "mass"){
+
+    givenValue.textContent =
+      "กำหนดให้ m = " +
+      window.givenMass.toFixed(1) +
+      " kg • จงหาค่า k";
+
+  }else{
+
+    givenValue.textContent =
+      "กำหนดให้ k = " +
+      window.givenK +
+      " N/m • จงหาค่า m";
+
+  }
+
+}
+   
 
   const mass =
     document.getElementById("massSlider");
@@ -1619,33 +1671,41 @@ function loadSpringLevel(){
   const k =
     document.getElementById("kSlider");
 
+   if(window.givenType === "mass"){
+
+  mass.value =
+    window.givenMass;
+
+}else{
+
+  k.value =
+    window.givenK;
+
+   }
+
+   if(window.givenType === "mass"){
+
+  mass.disabled = true;
+
+}else{
+
+  k.disabled = true;
+
+   }
 
   function updateSpring(){
 
-    const m =
-      parseFloat(mass.value);
+  const m =
+    parseFloat(mass.value);
 
-    const springK =
-      parseFloat(k.value);
+  const springK =
+    parseFloat(k.value);
 
-    const T =
-      2 * Math.PI *
-      Math.sqrt(m / springK);
+  const T =
+    2 * Math.PI *
+    Math.sqrt(m / springK);
 
-
-    document.getElementById("massValue")
-      .textContent =
-        m.toFixed(1) + " kg";
-
-    document.getElementById("kValue")
-      .textContent =
-        springK + " N/m";
-
-    document.getElementById("periodValue")
-      .textContent =
-        T.toFixed(2) + " s";
-
-  }
+}
 
 
   mass.addEventListener(
