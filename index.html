@@ -1483,10 +1483,9 @@ function loadLevel(){
    LEVEL 1
    SPRING BOUNCE
 ========================================================= */
-
 function loadSpringLevel(){
 
-  document.getElementById("levelLabel")
+        document.getElementById("levelLabel")
     .textContent = "LEVEL 1 • SPRING";
 
   document.getElementById("levelTitle")
@@ -1494,31 +1493,61 @@ function loadSpringLevel(){
 
   document.getElementById("levelDescription")
     .textContent =
-      "ปรับมวลและค่าคงที่สปริงให้คาบตรงกับเป้าหมาย แล้วปล่อย Tomato!";
-   
-window.targetPeriod =
-  [0.63, 0.79, 0.99, 1.15, 1.40, 1.57][
-    Math.floor(
-      Math.random() * 6
-    )
+      "ใช้สูตร T = 2π√(m/k) แล้วคำนวณหาค่าที่หายไป!";
+
+
+  /* =========================
+     RANDOM TARGET
+  ========================= */
+
+  const targets = [
+    0.50,
+    0.75,
+    1.00,
+    1.25,
+    1.50,
+    1.75
   ];
 
-   window.givenMass =
-  [0.5, 1.0, 1.5, 2.0][
-    Math.floor(
-      Math.random() * 4
-    )
-  ];
+  window.targetPeriod =
+    targets[
+      Math.floor(
+        Math.random() * targets.length
+      )
+    ];
 
-window.givenK =
-  100;
 
-   window.givenType =
-  Math.random() < 0.5
-    ? "mass"
-    : "spring";
+  /* =========================
+     RANDOM GIVEN VALUE
+  ========================= */
 
-   
+  window.givenType =
+    Math.random() < 0.5
+      ? "mass"
+      : "k";
+
+
+  if(window.givenType === "mass"){
+
+    window.givenMass =
+      [0.5, 1.0, 1.5, 2.0, 2.5, 3.0][
+        Math.floor(Math.random() * 6)
+      ];
+
+  }else{
+
+    window.givenK =
+      [20, 40, 60, 80, 100, 120, 160, 200][
+        Math.floor(Math.random() * 8)
+      ];
+
+  }
+
+
+  /* =========================
+     GAME HTML
+  ========================= */
+
   document.getElementById("gameContent")
     .innerHTML = `
 
@@ -1541,80 +1570,6 @@ window.givenK =
       </div>
 
 
-<div class="control-box">
-
-  <div
-    style="
-      font-size:18px;
-      font-weight:700;
-      color:#683f39;
-      margin-bottom:10px;
-    ">
-    โจทย์
-  </div>
-
-  <div id="givenValue"></div>
-
-  <div
-    style="
-      margin-top:8px;
-      font-size:15px;
-      color:#8c7b70;
-    ">
-    ใช้สูตร:
-    <b>T = 2π√(m/k)</b>
-  </div>
-
-</div>
-
-         
-
-          </label>
-
-          <input
-            id="massSlider"
-            type="range"
-            min="0.5"
-            max="5"
-            step="0.1"
-            value="1">
-
-            <div class="slider-range">
-  <span>0.5 kg</span>
-  <span>5.0 kg</span>
-</div>
-
-        </div>
-
-
-        <div class="control-box">
-
-          <label>
-
-            <span>
-              ค่าคงที่ k
-            </span>
-
-            
-          </label>
-
-          <input
-            id="kSlider"
-            type="range"
-            min="20"
-            max="300"
-            step="5"
-            value="100">
-            
-<div class="slider-range">
-  <span>20 N/m</span>
-  <span>300 N/m</span>
-</div>
-        </div>
-
-      </div>
-
-
       <div
         class="control-box"
         style="
@@ -1622,153 +1577,159 @@ window.givenK =
           text-align:center;
         ">
 
-        <div>
+        <div style="
+          font-size:20px;
+          font-weight:700;
+          color:#683f39;
+          margin-bottom:10px;
+        ">
 
-          
-          <div style="
-  font-size:20px;
-  font-weight:700;
-  color:#683f39;
-  margin-bottom:10px;
-">
-  สูตร:
-  T = 2π√(m/k)
-
-        <div
-          style="
-            font-size:13px;
-            color:#8c7b70;
-          ">
-
-          เป้าหมาย:
-          <b>${targetPeriod.toFixed(2)} s</b>
-
-          <div
-  id="givenValue"
-  style="
-    margin-top:8px;
-    font-weight:700;
-    color:#683f39;
-  ">
-</div>
-<div style="margin-top:15px;">
-
-  <input
-    id="answerInput"
-    type="number"
-    step="0.1"
-    placeholder="ใส่คำตอบที่คำนวณได้"
-    style="
-      width:80%;
-      padding:12px;
-      border:2px solid #d7cbb9;
-      border-radius:12px;
-      text-align:center;
-      font-size:18px;
-    ">
-
-</div>
+          สูตร:
+          T = 2π√(m/k)
 
         </div>
 
+
+        <div style="
+          font-size:15px;
+          color:#8c7b70;
+        ">
+
+          เป้าหมาย:
+          <b>${window.targetPeriod.toFixed(2)} s</b>
+
+        </div>
+
+
+        <div
+          id="givenValue"
+          style="
+            margin-top:10px;
+            font-weight:700;
+            color:#683f39;
+          ">
+        </div>
+
+
+        <div style="
+          margin-top:15px;
+        ">
+
+          <input
+            id="answerInput"
+            type="number"
+            step="0.01"
+            placeholder="ใส่คำตอบที่คำนวณได้"
+            style="
+              width:80%;
+              padding:12px;
+              border:2px solid #d7cbb9;
+              border-radius:12px;
+              text-align:center;
+              font-size:18px;
+              box-sizing:border-box;
+            ">
+
+        </div>
+
+
         <br>
 
+
         <button
-  class="cute-button red"
-  onclick="launchSpring()">
+          class="cute-button red"
+          onclick="launchSpring()">
 
-  CHECK ANSWER
+          CHECK ANSWER
 
-</button>
+        </button>
 
       </div>
 
     `;
-   
-const givenValue =
-  document.getElementById("givenValue");
 
-if(givenValue){
 
-  if(window.givenType === "mass"){
+  /* =========================
+     SHOW GIVEN VALUE
+  ========================= */
 
-    givenValue.textContent =
-      "กำหนดให้ m = " +
-      window.givenMass.toFixed(1) +
-      " kg • จงหาค่า k";
+  const givenValue =
+    document.getElementById("givenValue");
 
-  }else{
 
-    givenValue.textContent =
-      "กำหนดให้ k = " +
-      window.givenK +
-      " N/m • จงหาค่า m";
+  if(givenValue){
+
+    if(window.givenType === "mass"){
+
+      givenValue.textContent =
+        "กำหนดให้ m = " +
+        window.givenMass.toFixed(1) +
+        " kg • จงหาค่า k";
+
+    }else{
+
+      givenValue.textContent =
+        "กำหนดให้ k = " +
+        window.givenK +
+        " N/m • จงหาค่า m";
+
+    }
 
   }
 
-}
-
+         }
+      
 
 
 /* =========================================================
    SPRING GAME
 ========================================================= */
-
 function launchSpring(){
 
- const answer =
-  parseFloat(
-    document.getElementById(
-      "answerInput"
-    ).value
-  );
+  const input =
+    document.getElementById("answerInput");
 
-if(isNaN(answer)){
-  showMessage(
-    "กรุณาใส่คำตอบก่อน!"
-  );
-  return;
-   }
+  const answer =
+    parseFloat(input.value);
 
-   let m;
-let k;
 
-if(window.givenType === "mass"){
+  if(isNaN(answer)){
 
-  m = window.givenMass;
-  k = answer;
+    showMessage(
+      "กรุณาใส่คำตอบก่อน!"
+    );
 
-}else{
+    return;
 
-  m = answer;
-  k = window.givenK;
+  }
 
-}
 
-   let m;
-let k;
+  let m;
+  let k;
 
-if(window.givenType === "mass"){
 
-  m = window.givenMass;
-  k = answer;
+  if(window.givenType === "mass"){
 
-}else{
+    m = window.givenMass;
+    k = answer;
 
-  m = answer;
-  k = window.givenK;
+  }else{
 
-}
+    m = answer;
+    k = window.givenK;
+
+  }
+
 
   const T =
     2 * Math.PI *
     Math.sqrt(m / k);
 
 
+  const target =
+    window.targetPeriod;
 
-const target =
-  window.targetPeriod;
-   
+
   const error =
     Math.abs(T - target);
 
@@ -1791,6 +1752,7 @@ const target =
     tomato.style.transition =
       "bottom .8s cubic-bezier(.2,.8,.3,1)";
 
+
     tomato.style.bottom =
       "calc(28% + 290px)";
 
@@ -1809,32 +1771,18 @@ const target =
 
     }, 1600);
 
-  }
 
-
-  else if(error <= 0.15){
-
-    addScore(100);
-
-    showMessage(
-      "เกือบแล้ว! คาบใกล้มาก +100"
-    );
-
-  }
-
-
-  else{
+  }else{
 
     loseLife();
 
     showMessage(
-      "ยังไม่ตรง! ลองปรับ m หรือ k ใหม่"
+      "ยังไม่ถูก! ลองคำนวณใหม่อีกครั้ง"
     );
 
   }
 
 }
-
 
 /* =========================================================
    LEVEL 2
