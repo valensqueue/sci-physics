@@ -1300,17 +1300,19 @@ let gameRunning = false;
    START GAME
 ========================================================= */
 
+
 function startGame(){
 
   document.getElementById("startScreen").classList.remove("active");
+
   document.getElementById("gameScreen").classList.add("active");
-  document.getElementById("winScreen").classList.remove("active");
 
   score = 0;
   life = 3;
   currentLevel = 1;
 
   updateStats();
+
   loadLevel();
 
 }
