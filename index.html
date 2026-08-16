@@ -946,14 +946,19 @@ input[type=range]{
 
 
 /* =========================
-   DECORATIONS
+   LEVEL 11 • DECORATIONS
 ========================= */
+
+.team-credits{
+  position:relative;
+  overflow:visible;
+}
 
 .team-deco{
 
   position:absolute;
 
-  z-index:2;
+  z-index:10;
 
   width:85px;
 
@@ -966,50 +971,60 @@ input[type=range]{
 }
 
 
+/* มุมซ้ายบน — ทับขอบกรอบ */
+
 .deco-1{
 
-  top:25px;
-  left:5%;
+  top:-45px;
+  left:-25px;
 
   transform:rotate(-12deg);
 
 }
 
 
+/* มุมขวาบน — ทับขอบกรอบ */
+
 .deco-2{
 
-  top:35px;
-  right:6%;
+  top:-45px;
+  right:-25px;
 
   transform:rotate(12deg);
 
 }
 
 
+/* มุมซ้ายล่าง — ทับขอบกรอบ */
+
 .deco-3{
 
-  bottom:30px;
-  left:7%;
+  bottom:-40px;
+  left:-25px;
 
   transform:rotate(8deg);
 
 }
 
 
+/* มุมขวาล่าง — ทับขอบกรอบ */
+
 .deco-4{
 
-  bottom:25px;
-  right:7%;
+  bottom:-40px;
+  right:-25px;
 
   transform:rotate(-10deg);
 
 }
 
 
+/* ด้านซ้าย */
+
 .deco-5{
 
   top:45%;
-  left:1%;
+  left:-30px;
 
   width:65px;
 
@@ -1018,10 +1033,12 @@ input[type=range]{
 }
 
 
+/* ด้านขวา */
+
 .deco-6{
 
   top:42%;
-  right:1%;
+  right:-30px;
 
   width:65px;
 
