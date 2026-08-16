@@ -1175,13 +1175,44 @@ input[type=range]{
 .png3{width:100px;left:3%;bottom:10%;}
 .png4{width:85px;right:4%;bottom:8%;}
 
-.png5{width:75px;left:8%;top:25%;}
-.png6{width:100px;right:7%;top:34%;}
-.png7{width:80px;left:4%;bottom:28%;}
-.png8{width:90px;right:5%;bottom:25%;}
+#gameScreen .deco{
+  position: relative;
+  display: block;
+  margin: 15px auto;
+  z-index: 1;
+  pointer-events: none;
+}
 
-.png9{width:70px;left:14%;top:15%;}
-.png10{width:80px;right:13%;top:18%;}
+#gameScreen .deco img{
+  display: block;
+  margin: 0 auto;
+  max-width: 120px;
+  height: auto;
+}
+
+#gameScreen .png5 img{
+  width:75px;
+}
+
+#gameScreen .png6 img{
+  width:100px;
+}
+
+#gameScreen .png7 img{
+  width:80px;
+}
+
+#gameScreen .png8 img{
+  width:90px;
+}
+
+#gameScreen .png9 img{
+  width:70px;
+}
+
+#gameScreen .png10 img{
+  width:80px;
+}
 .png11{width:70px;left:12%;bottom:15%;}
 .png12{width:95px;right:12%;bottom:12%;}
 
@@ -1194,6 +1225,31 @@ input[type=range]{
 .png18{width:70px;right:18%;top:6%;}
 .png19{width:80px;left:16%;bottom:5%;}
 .png20{width:80px;right:16%;bottom:5%;}
+
+   /* =========================================================
+   LEVEL DECORATIONS
+========================================================= */
+
+#levelDecorations{
+  display:none;
+  width:100%;
+  text-align:center;
+  margin-top:20px;
+}
+
+#levelDecorations .deco{
+  position:relative;
+  display:none;
+  margin:10px auto;
+  text-align:center;
+}
+
+#levelDecorations .deco img{
+  display:block;
+  margin:0 auto;
+  max-width:100px;
+  height:auto;
+}
 
 /* =========================================================
    ANIMATIONS
@@ -1421,9 +1477,11 @@ input[type=range]{
   </div>
 
 
-  <!-- =======================================================
-       DECORATIVE PNG
-  ======================================================= -->
+<!-- =======================================================
+     DECORATIVE PNG • LEVEL 1–10
+======================================================= -->
+
+<div id="levelDecorations">
 
   <div class="deco png5">
     <img src="ไม่มีชื่อ 208_20260816220302.png"
@@ -1461,8 +1519,9 @@ input[type=range]{
          alt="">
   </div>
 
-</section>
+</div>
 
+</section>
 
 <!-- =======================================================
      WIN SCREEN
@@ -1489,7 +1548,7 @@ input[type=range]{
   </div>
 
   <div class="deco png20">
-    <img src="ไม่มีชื่อ 208_20260816222428.png
+    <img src="ไม่มีชื่อ 208_20260816222428.png"
          onerror="this.style.display='none'"
          alt="">
   </div>
@@ -1675,7 +1734,6 @@ function showMessage(text){
 
 }
 
-
 /* =========================================================
    LOAD LEVEL
 ========================================================= */
@@ -1686,6 +1744,40 @@ function loadLevel(){
 
   gameRunning = false;
 
+
+  /* =====================================================
+     HIDE ALL LEVEL DECORATIONS
+  ===================================================== */
+
+  const decorations =
+    document.querySelectorAll(
+      "#levelDecorations .deco"
+    );
+
+  decorations.forEach(function(deco){
+    deco.style.display = "none";
+  });
+
+
+  /* =====================================================
+     SHOW DECORATION FOR CURRENT LEVEL
+  ===================================================== */
+
+  const levelDecoration =
+    document.querySelector(
+      "#levelDecorations .png" + (currentLevel + 4)
+    );
+
+  if(levelDecoration){
+
+    levelDecoration.style.display = "block";
+
+  }
+
+
+  /* =====================================================
+     LOAD LEVEL
+  ===================================================== */
 
   if(currentLevel === 1){
 
@@ -1699,11 +1791,11 @@ function loadLevel(){
 
   }
 
-else if(currentLevel === 3){
+  else if(currentLevel === 3){
 
-  loadCalculationLevel();
+    loadCalculationLevel();
 
-   }
+  }
 
   else if(currentLevel === 4){
 
@@ -1716,12 +1808,14 @@ else if(currentLevel === 3){
     loadEnergyLevel();
 
   }
-   else if(currentLevel === 6){
 
-  loadVelocityLevel();
+  else if(currentLevel === 6){
 
-}
-   else if(currentLevel === 7){
+    loadVelocityLevel();
+
+  }
+
+  else if(currentLevel === 7){
 
     loadPendulumProblemLevel();
 
@@ -1732,23 +1826,24 @@ else if(currentLevel === 3){
     loadResonanceLevel();
 
   }
-   else if(currentLevel === 9){
 
-  loadDoubleSpringLevel();
+  else if(currentLevel === 9){
 
-   }
+    loadDoubleSpringLevel();
 
-   else if(currentLevel === 10){
+  }
 
-  loadFinalLevel();
+  else if(currentLevel === 10){
 
-}
+    loadFinalLevel();
 
-else if(currentLevel === 11){
+  }
 
-  loadCreditsLevel();
+  else if(currentLevel === 11){
 
-   }
+    loadCreditsLevel();
+
+  }
 
    }
    
