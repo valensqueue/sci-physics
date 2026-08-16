@@ -1569,24 +1569,22 @@ function startGame(){
     document.getElementById("gameScreen");
 
   if(!startScreen || !gameScreen){
+    alert("ไม่พบ startScreen หรือ gameScreen");
     return;
   }
 
-  // Reset game
+  startScreen.classList.remove("active");
+
+  gameScreen.classList.add("active");
+
   score = 0;
   life = 3;
   currentLevel = 1;
   gameRunning = true;
 
-  // Change screen
-  startScreen.classList.remove("active");
-  gameScreen.classList.add("active");
-
-  // Update stats
   updateStats();
 
-  // Start Level 1
-  loadLevel(currentLevel);
+  loadLevel();
 
    }
    
@@ -4109,6 +4107,7 @@ function checkResonanceAnswer(choice){
 
    }
 
+
    /* =========================================================
    LEVEL 9 • DOUBLE SPRING TOMATO
 ========================================================= */
@@ -4126,10 +4125,6 @@ function loadDoubleSpringLevel(){
   document.getElementById("levelDescription")
     .textContent =
       "มาช่วย Tomato หาความถี่ของการสั่นจากสปริงสองข้าง!";
-
-  /* =========================
-     QUESTION DATA
-  ========================= */
 
   window.doubleSpringAnswer =
     "f = (1/2π)√(2k/m)";
@@ -4150,7 +4145,6 @@ function loadDoubleSpringLevel(){
           </div>
 
         </div>
-
 
         <div class="question-box">
 
@@ -4178,81 +4172,72 @@ function loadDoubleSpringLevel(){
 
           <br><br>
 
-          <b>
-            ความถี่ของการสั่น f มีค่าเท่าใด?
-          </b>
-
-        </div>
-
-
-        <!-- DIAGRAM -->
-
-        <div style="
-          margin-top:18px;
-          padding:20px 10px;
-          background:#eef8f4;
-          border:3px solid #b9d9e5;
-          border-radius:16px;
-          text-align:center;
-          overflow:hidden;
-        ">
-
           <div style="
-            font-size:28px;
-            letter-spacing:2px;
-            white-space:nowrap;
+            margin-top:18px;
+            padding:20px 10px;
+            background:#eef8f4;
+            border:3px solid #b9d9e5;
+            border-radius:16px;
+            text-align:center;
+            overflow:hidden;
           ">
-            ── k ── 🍅 ── k ──
+
+            <div style="
+              font-size:28px;
+              letter-spacing:2px;
+              white-space:nowrap;
+            ">
+              ── k ── 🍅 ── k ──
+            </div>
+
+            <div style="
+              margin-top:8px;
+              font-size:13px;
+              color:#8c7b70;
+            ">
+              สปริงซ้ายและขวามีค่าคงที่เท่ากัน
+            </div>
+
           </div>
 
-          <div style="
-            margin-top:8px;
-            font-size:13px;
-            color:#8c7b70;
-          ">
-            สปริงซ้ายและขวามีค่าคงที่เท่ากัน
+          <div class="work-box">
+
+            <b>วิธีคิด</b>
+
+            <div class="work-line">
+              1. หาค่าคงที่สปริงรวม
+            </div>
+
+            <div class="work-line">
+              2. ใช้สูตร
+              <b>kₜₒₜₐₗ = k + k = 2k</b>
+            </div>
+
+            <div class="work-line">
+              3. ใช้สูตรความถี่
+              <b>f = 1/(2π)√(kₜₒₜₐₗ/m)</b>
+            </div>
+
+            <div class="work-line">
+              4. แทนค่า kₜₒₜₐₗ = 2k
+            </div>
+
           </div>
 
-        </div>
+          <div
+            id="doubleSpringChoices"
+            class="answer-area"
+            style="margin-top:18px;"
+          >
 
+            <div style="
+              font-weight:700;
+              color:#683f39;
+              margin-bottom:12px;
+            ">
+              🍅 เลือกคำตอบ
+            </div>
 
-        <div class="work-box">
-
-          <b>วิธีคิด</b>
-
-          <div class="work-line">
-            1. หาค่าคงที่สปริงรวม
-          </div>
-
-          <div class="work-line">
-            2. ใช้สูตร
-            <b>kₜₒₜₐₗ = k + k = 2k</b>
-          </div>
-
-          <div class="work-line">
-            3. ใช้สูตรความถี่
-            <b>f = 1/(2π)√(kₜₒₜₐₗ/m)</b>
-          </div>
-
-          <div class="work-line">
-            4. แทนค่า kₜₒₜₐₗ = 2k
-          </div>
-
-        </div>
-
-
-        <div
-          id="doubleSpringChoices"
-          class="answer-area"
-          style="margin-top:18px;"
-        >
-
-          <div style="
-            font-weight:700;
-            color:#683f39;
-            margin-bottom:12px;
-          ">
-            🍅 เลือกคำตอบ
           </div>
 
         </div>
@@ -4261,13 +4246,7 @@ function loadDoubleSpringLevel(){
 
     `;
 
-}
-
-   /* =========================================================
-   LEVEL 9 • ANSWER
-========================================================= */
-
-  const choices = [
+     const choices = [
 
     "f = (1/2π)√(k/m)",
 
@@ -4303,11 +4282,7 @@ function loadDoubleSpringLevel(){
               width:90%;
               max-width:360px;
             "
-            onclick="
-              checkDoubleSpringAnswer(
-                '${choice}'
-              )
-            "
+            onclick="checkDoubleSpringAnswer('${choice}')"
           >
 
             ${choice}
@@ -4321,14 +4296,9 @@ function loadDoubleSpringLevel(){
 
   `;
 
-}
+   }
 
-
-/* =========================================================
-   LEVEL 9 • CHECK ANSWER
-========================================================= */
-
-function checkDoubleSpringAnswer(choice){
+   function checkDoubleSpringAnswer(choice){
 
   const correctAnswer =
     "f = (1/2π)√(2k/m)";
@@ -4409,7 +4379,9 @@ function checkDoubleSpringAnswer(choice){
 
   }
 
-}
+   }
+
+
 
    /* =========================================================
    LEVEL 10 • TOMATO SHM MASTER
