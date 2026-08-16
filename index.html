@@ -1556,11 +1556,9 @@ let animationID = null;
 
 let gameRunning = false;
 
-
 /* =========================================================
    START GAME
 ========================================================= */
-
 
 function startGame(){
 
@@ -1574,18 +1572,21 @@ function startGame(){
     return;
   }
 
-  startScreen.classList.remove("active");
-
-  gameScreen.classList.add("active");
-
+  // Reset game
   score = 0;
   life = 3;
   currentLevel = 1;
   gameRunning = true;
 
+  // Change screen
+  startScreen.classList.remove("active");
+  gameScreen.classList.add("active");
+
+  // Update stats
   updateStats();
 
-  loadLevel();
+  // Start Level 1
+  loadLevel(currentLevel);
 
    }
    
@@ -5131,38 +5132,6 @@ function finishGame(){
     }
 
   }
-
-}
-
-/* =========================================================
-   START GAME ON PAGE
-========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function(){
-
-    updateStats();
-
-    document.querySelector('.start-button').addEventListener('click', function () {
-
-      document.getElementById('startScreen').classList.remove('active');
-
-      document.getElementById('gameScreen').classList.add('active');
-
-    });
-
-  }
-);
-
-
-function showWinScreen(){
-
-  document.getElementById("gameScreen").classList.remove("active");
-
-  document.getElementById("winScreen").classList.add("active");
-
-  document.getElementById("finalScore").textContent = score;
 
 }
 
