@@ -1972,329 +1972,61 @@ document.addEventListener(
   }
 );
 
-
-   /* =========================================================
-   LEVEL 3 • FIND OMEGA
-   หาความถี่เชิงมุมจากคาบ
-========================================================= */
-
-function loadOmegaLevel(){
-
-  document.getElementById("levelLabel")
-    .textContent = "LEVEL 3 • ANGULAR FREQUENCY";
-
-  document.getElementById("levelTitle")
-    .textContent = "Omega Garden";
-
-  document.getElementById("levelDescription")
-    .textContent =
-      "ช่วย Tomato หาความถี่เชิงมุม ω จากคาบ T ให้ถูกต้อง!";
-
-  /* =========================
-     RANDOM QUESTION
-  ========================= */
-
-  const periods = [
-    0.25,
-    0.50,
-    1.00,
-    1.25,
-    1.50,
-    2.00
-  ];
-
-  window.omegaT =
-    periods[
-      Math.floor(
-        Math.random() * periods.length
-      )
-    ];
-
-  window.omegaAnswer =
-    (2 * Math.PI) / window.omegaT;
-
-
-  /* =========================
-     GAME HTML
-  ========================= */
-
-  document.getElementById("gameContent")
-    .innerHTML = `
-
-      <div class="control-box">
-
-        <div style="
-          text-align:center;
-          font-size:22px;
-          font-weight:700;
-          color:#683f39;
-        ">
-
-          สูตร
-
-        </div>
-
-        <div style="
-          text-align:center;
-          font-size:25px;
-          font-weight:700;
-          margin:10px 0;
-          color:#4e8cad;
-        ">
-
-          ω = 2π / T
-
-        </div>
-
-        <div style="
-          text-align:center;
-          color:#8c7b70;
-          line-height:1.8;
-        ">
-
-          ω = ความถี่เชิงมุม<br>
-          T = คาบ
-
-        </div>
-
-      </div>
-
-
-      <div class="control-box"
-        style="
-          margin-top:15px;
-          text-align:center;
-        ">
-
-        <div style="
-          font-size:19px;
-          font-weight:700;
-          color:#683f39;
-        ">
-
-          กำหนดให้
-
-        </div>
-
-        <div style="
-          font-size:23px;
-          color:#c9434c;
-          font-weight:700;
-          margin:10px;
-        ">
-
-          T = ${window.omegaT.toFixed(2)} s
-
-        </div>
-
-        <div style="
-          font-size:17px;
-          color:#7c6c62;
-          margin-bottom:15px;
-        ">
-
-          จงหา ω ในหน่วย rad/s
-
-        </div>
-
-
-        <input
-          id="omegaAnswer"
-          type="number"
-          step="0.01"
-          placeholder="ใส่คำตอบ"
-          style="
-            width:80%;
-            padding:12px;
-            border:2px solid #d7cbb9;
-            border-radius:12px;
-            text-align:center;
-            font-size:18px;
-          ">
-
-        <br><br>
-
-        <button
-          class="cute-button red"
-          onclick="checkOmegaAnswer()">
-
-          CHECK ANSWER
-
-        </button>
-
-      </div>
-
-    `;
-
-   }
-
-   
-
-   /* =========================================================
-   LEVEL 3 • SHM CALCULATION
-========================================================= */
-
-.shm-calc-game{
-  background:#f8fcf4;
-  border:3px solid #b9d9e5;
-  border-radius:15px;
-  padding:22px;
-}
-
-.formula-card{
-  background:#fff;
-  border:2px dashed #c9b99f;
-  border-radius:14px;
-  padding:18px;
-  text-align:center;
-  margin-bottom:18px;
-}
-
-.formula-main{
-  font-size:24px;
-  font-weight:700;
-  color:#5c8fa8;
-  margin-bottom:8px;
-}
-
-.formula-help{
-  font-size:14px;
-  color:#88786d;
-  line-height:1.8;
-}
-
-.question-box{
-  background:#fffdf4;
-  border:2px solid #e4d6bf;
-  border-radius:14px;
-  padding:18px;
-  line-height:2;
-  font-size:16px;
-}
-
-.question-number{
-  display:inline-block;
-  background:#fff0b5;
-  border:2px solid #e0c873;
-  border-radius:20px;
-  padding:3px 12px;
-  font-size:13px;
-  color:#796633;
-}
-
-.answer-area{
-  margin-top:18px;
-  text-align:center;
-}
-
-.answer-input{
-  width:80%;
-  max-width:350px;
-  padding:12px;
-  border:2px solid #cdbfae;
-  border-radius:12px;
-  text-align:center;
-  font-size:18px;
-  font-family:inherit;
-}
-
-.work-box{
-  margin-top:15px;
-  background:#fff;
-  border:2px dashed #b9d9e5;
-  border-radius:12px;
-  padding:14px;
-  text-align:left;
-}
-
-.work-box b{
-  color:#5c8fa8;
-}
-
-.work-line{
-  margin:7px 0;
-  color:#6f625a;
-   }
-
-     /* =========================================================
+/* =========================================================
    LEVEL 3 • SHM CALCULATION
 ========================================================= */
 
 function loadCalculationLevel(){
 
   document.getElementById("levelLabel")
-    .textContent =
-      "LEVEL 3 • SHM CALCULATION";
+    .textContent = "LEVEL 3 • SHM CALCULATION";
 
   document.getElementById("levelTitle")
-    .textContent =
-      "SHM Calculator";
+    .textContent = "SHM Calculator";
 
   document.getElementById("levelDescription")
     .textContent =
       "คำนวณจากสูตร SHM ให้ถูกต้อง แล้วช่วย Tomato หาคำตอบ!";
 
-
-  /* =======================================================
-     RANDOM QUESTION
-  ======================================================= */
-
   const questions = [
-
     {
-      type:"k",
-      T:1.00,
-      m:2.0
+      type: "k",
+      T: 1.00,
+      m: 2.0
     },
-
     {
-      type:"k",
-      T:1.50,
-      m:2.0
+      type: "k",
+      T: 1.50,
+      m: 2.0
     },
-
     {
-      type:"k",
-      T:1.75,
-      m:2.0
+      type: "k",
+      T: 2.00,
+      m: 2.0
     },
-
     {
-      type:"m",
-      T:1.00,
-      k:20
+      type: "m",
+      T: 1.00,
+      k: 20
     },
-
     {
-      type:"m",
-      T:1.50,
-      k:20
+      type: "m",
+      T: 1.50,
+      k: 20
     },
-
     {
-      type:"m",
-      T:2.00,
-      k:20
+      type: "m",
+      T: 2.00,
+      k: 20
     }
-
   ];
-
 
   window.shmQuestion =
     questions[
-      Math.floor(
-        Math.random() * questions.length
-      )
+      Math.floor(Math.random() * questions.length)
     ];
 
-
-  const q =
-    window.shmQuestion;
-
-
-  /* =======================================================
-     CALCULATE CORRECT ANSWER
-  ======================================================= */
+  const q = window.shmQuestion;
 
   if(q.type === "k"){
 
@@ -2302,18 +2034,14 @@ function loadCalculationLevel(){
       (4 * Math.PI * Math.PI * q.m)
       / (q.T * q.T);
 
-  }
-
-  else{
+  }else{
 
     window.shmAnswer =
       (q.T * q.T * q.k)
       / (4 * Math.PI * Math.PI);
 
-  }
-
-
-  /* =======================================================
+     }
+     /* =======================================================
      GAME HTML
   ======================================================= */
 
@@ -2329,11 +2057,9 @@ function loadCalculationLevel(){
           </div>
 
           <div class="formula-help">
-
             T = คาบ (s)<br>
             m = มวล (kg)<br>
             k = ค่าคงที่สปริง (N/m)
-
           </div>
 
         </div>
@@ -2347,31 +2073,32 @@ function loadCalculationLevel(){
 
           <br><br>
 
-          ${q.type === "k"
-            ? `
-              กำหนดให้
-              <b>T = ${q.T.toFixed(2)} s</b>
-              และ
-              <b>m = ${q.m.toFixed(1)} kg</b>
+          ${
+            q.type === "k"
+              ? `
+                กำหนดให้
+                <b>T = ${q.T.toFixed(2)} s</b>
+                และ
+                <b>m = ${q.m.toFixed(1)} kg</b>
 
-              <br>
+                <br><br>
 
-              จงหาค่า
-              <b>k</b>
-              ในหน่วย N/m
-            `
-            : `
-              กำหนดให้
-              <b>T = ${q.T.toFixed(2)} s</b>
-              และ
-              <b>k = ${q.k} N/m</b>
+                จงหาค่า
+                <b>k</b>
+                ในหน่วย N/m
+              `
+              : `
+                กำหนดให้
+                <b>T = ${q.T.toFixed(2)} s</b>
+                และ
+                <b>k = ${q.k} N/m</b>
 
-              <br>
+                <br><br>
 
-              จงหาค่า
-              <b>m</b>
-              ในหน่วย kg
-            `
+                จงหาค่า
+                <b>m</b>
+                ในหน่วย kg
+              `
           }
 
         </div>
@@ -2379,10 +2106,10 @@ function loadCalculationLevel(){
 
         <div class="work-box">
 
-          <b>💡 วิธีคิด</b>
+          <b>วิธีทำ</b>
 
           <div class="work-line">
-            1. เริ่มจากสูตร
+            1. ใช้สูตร
             <b>T = 2π√(m/k)</b>
           </div>
 
@@ -2391,7 +2118,7 @@ function loadCalculationLevel(){
           </div>
 
           <div class="work-line">
-            3. จัดสมการเพื่อหาค่าที่โจทย์ถาม
+            3. จัดสมการหาค่าที่โจทย์ถาม
           </div>
 
           <div class="work-line">
@@ -2400,6 +2127,7 @@ function loadCalculationLevel(){
 
         </div>
 
+
         <div class="answer-area">
 
           <input
@@ -2407,7 +2135,8 @@ function loadCalculationLevel(){
             class="answer-input"
             type="number"
             step="0.01"
-            placeholder="ใส่คำตอบ">
+            placeholder="ใส่คำตอบ"
+          >
 
           <br><br>
 
@@ -2425,10 +2154,9 @@ function loadCalculationLevel(){
 
     `;
 
-   }
-
+}
    /* =========================================================
-   CHECK LEVEL 3 ANSWER
+   LEVEL 3 • CHECK ANSWER
 ========================================================= */
 
 function checkCalculationAnswer(){
@@ -2450,9 +2178,7 @@ function checkCalculationAnswer(){
     );
 
     return;
-
   }
-
 
   const correctAnswer =
     window.shmAnswer;
@@ -2463,9 +2189,9 @@ function checkCalculationAnswer(){
     );
 
 
-  /* =======================================================
+  /* =========================
      CORRECT
-  ======================================================= */
+  ========================= */
 
   if(error <= 0.05){
 
@@ -2474,7 +2200,6 @@ function checkCalculationAnswer(){
     showMessage(
       "ถูกต้อง! คำนวณเก่งมาก +300"
     );
-
 
     setTimeout(() => {
 
@@ -2485,9 +2210,9 @@ function checkCalculationAnswer(){
   }
 
 
-  /* =======================================================
+  /* =========================
      WRONG
-  ======================================================= */
+  ========================= */
 
   else{
 
@@ -2500,212 +2225,256 @@ function checkCalculationAnswer(){
   }
 
 }
-    
-/* =========================================================
-   LEVEL 4
-   FINAL BOSS
+   /* =========================================================
+   LEVEL 4 • SHM STEP BY STEP
 ========================================================= */
 
 function loadBossLevel(){
 
   document.getElementById("levelLabel")
-    .textContent =
-      "FINAL LEVEL • RESONANCE";
+    .textContent = "LEVEL 4 • SHM STEP BY STEP";
 
   document.getElementById("levelTitle")
-    .textContent =
-      "Tomato Machine";
+    .textContent = "Tomato Physics Lab";
 
   document.getElementById("levelDescription")
     .textContent =
-      "เครื่องจักรกำลังสั่น! ปรับความถี่ให้ตรงกับความถี่ธรรมชาติ";
+      "แสดงวิธีทำทีละขั้น แล้วหาคำตอบของโจทย์ SHM ให้ถูกต้อง!";
 
+
+  /* =========================
+     RANDOM QUESTION
+  ========================= */
+
+  const questions = [
+
+    {
+      m: 2.0,
+      k: 8.0
+    },
+
+    {
+      m: 1.0,
+      k: 4.0
+    },
+
+    {
+      m: 2.0,
+      k: 16.0
+    },
+
+    {
+      m: 4.0,
+      k: 16.0
+    },
+
+    {
+      m: 1.5,
+      k: 6.0
+    }
+
+  ];
+
+
+  window.bossQuestion =
+    questions[
+      Math.floor(
+        Math.random() * questions.length
+      )
+    ];
+
+
+  const q =
+    window.bossQuestion;
+
+
+  /* =========================
+     FIND PERIOD
+  ========================= */
+
+  window.bossAnswer =
+    2 * Math.PI *
+    Math.sqrt(q.m / q.k);
+     /* =========================
+     GAME HTML
+  ========================= */
 
   document.getElementById("gameContent")
     .innerHTML = `
 
-      <div class="boss-game">
+      <div class="shm-calc-game">
 
-        <div
-          class="boss-machine"
-          id="bossMachine">
+        <div class="formula-card">
 
-          <div
-            class="machine-arm"
-            id="machineArm">
+          <div class="formula-main">
+            T = 2π√(m/k)
           </div>
 
-          <div
-            class="machine-core">
+          <div class="formula-help">
+            T = คาบ (s)<br>
+            m = มวล (kg)<br>
+            k = ค่าคงที่สปริง (N/m)
           </div>
 
         </div>
 
 
-        <div class="boss-controls">
+        <div class="question-box">
 
-          <div class="target-frequency">
-            NATURAL FREQUENCY
-          </div>
+          <span class="question-number">
+            QUESTION 4
+          </span>
 
+          <br><br>
 
-          <div class="frequency-value">
-
-            Target:
-
-            <span id="targetFreq">
-              1.50
-            </span>
-
-            Hz
-
-          </div>
-
-
-          <input
-            type="range"
-            id="frequencySlider"
-            min="0.5"
-            max="3"
-            step="0.01"
-            value="1.0"
-          >
-
-
-          <div style="text-align:center">
-
-            Your frequency:
-
-            <b id="yourFreq">
-              1.00
-            </b>
-
-            Hz
-
-          </div>
-
+          กำหนดให้
 
           <br>
 
+          <b>
+            m = ${q.m.toFixed(1)} kg
+          </b>
 
-          <div style="text-align:center">
+          <br>
 
-            <button
-              class="cute-button red"
-              onclick="activateMachine()">
+          <b>
+            k = ${q.k.toFixed(1)} N/m
+          </b>
 
-              🍅 ACTIVATE!
+          <br><br>
 
-            </button>
+          จงหาค่า
 
+          <b>T</b>
+
+          ในหน่วยวินาที (s)
+
+        </div>
+
+
+        <div class="work-box">
+
+          <b>วิธีทำ</b>
+
+          <div class="work-line">
+            1. เริ่มจากสูตร
+            <b>T = 2π√(m/k)</b>
           </div>
+
+          <div class="work-line">
+            2. แทนค่า m และ k ลงในสูตร
+          </div>
+
+          <div class="work-line">
+            3. คำนวณค่าภายในรากที่สอง
+          </div>
+
+          <div class="work-line">
+            4. คูณด้วย 2π
+          </div>
+
+        </div>
+
+
+        <div class="answer-area">
+
+          <input
+            id="bossAnswerInput"
+            class="answer-input"
+            type="number"
+            step="0.01"
+            placeholder="ใส่คำตอบเป็นวินาที"
+          >
+
+          <br><br>
+
+          <button
+            class="cute-button red"
+            onclick="checkBossAnswer()">
+
+            CHECK ANSWER
+
+          </button>
 
         </div>
 
       </div>
 
     `;
-
-
-  const slider =
-    document.getElementById(
-      "frequencySlider"
-    );
-
-
-  slider.addEventListener(
-    "input",
-    function(){
-
-      const value =
-        parseFloat(slider.value);
-
-      document.getElementById("yourFreq")
-        .textContent =
-          value.toFixed(2);
-
-
-      const arm =
-        document.getElementById("machineArm");
-
-      if(arm){
-
-        const target = 1.50;
-
-        const difference =
-          Math.abs(value - target);
-
-        const intensity =
-          Math.max(
-            0.15,
-            1 - difference / 1.5
-          );
-
-        arm.style.transform =
-          `rotate(${value * 120}deg)`;
-
-        arm.style.opacity =
-          0.5 + intensity * 0.5;
-
-      }
-
-    }
-  );
-
-
-  slider.dispatchEvent(
-    new Event("input")
-  );
-
-}
-
+   }
+ 
 /* =========================================================
-   FINAL BOSS
-   ACTIVATE MACHINE
+   LEVEL 4 • CHECK ANSWER
 ========================================================= */
 
-function activateMachine(){
+function checkBossAnswer(){
 
-  const slider =
-    document.getElementById("frequencySlider");
+  const input =
+    document.getElementById("bossAnswerInput");
 
-  if(!slider){
+  if(!input){
     return;
   }
 
-  const frequency =
-    parseFloat(slider.value);
+  const answer =
+    parseFloat(input.value);
 
-  const target = 1.50;
+  if(isNaN(answer)){
+
+    showMessage(
+      "กรุณาใส่คำตอบก่อนนะ!"
+    );
+
+    return;
+  }
+
+  const correctAnswer =
+    window.bossAnswer;
 
   const error =
-    Math.abs(frequency - target);
+    Math.abs(
+      answer - correctAnswer
+    );
+
+
+  /* =========================
+     CORRECT
+  ========================= */
 
   if(error <= 0.05){
 
-    addScore(500);
+    addScore(400);
 
     showMessage(
-      "RESONANCE PERFECT! Tomato รอดแล้ว! +500"
+      "ถูกต้อง! แสดงวิธีทำได้ครบเลย +400"
     );
 
     setTimeout(() => {
 
-  nextLevel();
+      nextLevel();
 
-}, 700);
-     
-  }else{
+    }, 1200);
+
+  }
+
+
+  /* =========================
+     WRONG
+  ========================= */
+
+  else{
 
     loseLife();
 
     showMessage(
-      "ยังไม่ตรง! ปรับความถี่ให้ใกล้ 1.50 Hz"
+      "ยังไม่ถูก ลองคำนวณตามขั้นตอนอีกครั้ง!"
     );
 
   }
 
 }
+
+
 /* =========================================================
    LEVEL 5
    ENERGY & AMPLITUDE
