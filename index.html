@@ -1397,6 +1397,17 @@ else if(currentLevel === 3){
   loadVelocityLevel();
 
 }
+   else if(currentLevel === 7){
+
+    loadPendulumProblemLevel();
+
+  }
+
+  else if(currentLevel === 8){
+
+    loadResonanceLevel();
+
+  }
    }
    
 /* =========================================================
@@ -2930,7 +2941,9 @@ function loadVelocityLevel(){
     `;
 
    }
-   /* =========================================================
+
+   
+/* =========================================================
    LEVEL 6 • CHECK ANSWER
 ========================================================= */
 
@@ -2952,65 +2965,23 @@ function checkVelocityAnswer(choice){
       "ถูกต้อง! Tomato วิ่งทันแล้ว +350"
     );
 
-    document.getElementById(
-      "velocityChoices"
-    ).innerHTML = `
+    setTimeout(() => {
 
-      <div class="work-box">
+      nextLevel();
 
-        <b>วิธีคิด</b>
-
-        <div class="work-line">
-          1. ใช้สูตร
-          <b>v = ω√(A² − x²)</b>
-        </div>
-
-        <div class="work-line">
-          2. แทนค่า
-          <b>
-            v = 5√(0.4² − 0.2²)
-          </b>
-        </div>
-
-        <div class="work-line">
-          3. คำนวณในวงเล็บ
-          <b>
-            0.16 − 0.04 = 0.12
-          </b>
-        </div>
-
-        <div class="work-line">
-          4. ถอดรากแล้วคูณด้วย 5
-          <b>v ≈ 1.73 m/s</b>
-        </div>
-
-      </div>
-
-      <button
-        class="cute-button red"
-        style="
-          margin-top:15px;
-          width:85%;
-          max-width:320px;
-        "
-        onclick="nextLevel()"
-      >
-        NEXT LEVEL →
-      </button>
-
-    `;
+    }, 1000);
 
   }else{
 
     loseLife();
 
     showMessage(
-      "ยังไม่ถูก! ลองใช้สูตร v = ω√(A² − x²) อีกครั้ง"
+      "ยังไม่ถูก! ลองคำนวณใหม่อีกครั้ง"
     );
 
   }
 
-   }
+}
    
    /* =========================================================
    LEVEL 7 • TOMATO PENDULUM
