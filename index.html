@@ -2191,36 +2191,35 @@ function checkOmega(){
 
   `;
 
+/* =========================
+   CHECK ANSWER
+========================= */
 
-  /* =========================
-     CHECK ANSWER
-  ========================= */
+if(error <= 0.05){
 
-  if(error <= 0.05){
+  addScore(300);
 
-    addScore(300);
+  showMessage(
+    "ถูกต้อง! +300 คะแนน"
+  );
 
-    showMessage(
-      "ถูกต้อง! +300 คะแนน"
-    );
+  setTimeout(function(){
 
+    currentLevel++;
 
-    setTimeout(() => {
+    updateStats();
 
-      nextLevel();
+    loadLevel();
 
-    }, 2200);
+  }, 1800);
 
+}else{
 
-  }else{
+  loseLife();
 
-    loseLife();
-
-    showMessage(
-      "คำตอบยังไม่ถูก ลองดูวิธีทำด้านบน!"
-    );
-
-  }
+  showMessage(
+    "ยังไม่ถูก! ดูวิธีทำแล้วลองใหม่"
+  );
 
    }
 
