@@ -1063,8 +1063,6 @@ input[type=range]{
 
     </div>
 
-    </div>
-
   </header>
 
 
@@ -1972,104 +1970,137 @@ document.addEventListener(
   }
 );
 
+
    /* =========================================================
-   LEVEL 3
-   FIND ANGULAR FREQUENCY
+   LEVEL 3 • FIND OMEGA
+   หาความถี่เชิงมุมจากคาบ
 ========================================================= */
 
-function loadWaveLevel(){
+function loadOmegaLevel(){
 
   document.getElementById("levelLabel")
-    .textContent =
-      "LEVEL 3 • ANGULAR FREQUENCY";
+    .textContent = "LEVEL 3 • ANGULAR FREQUENCY";
 
   document.getElementById("levelTitle")
-    .textContent =
-      "Frequency Finder";
+    .textContent = "Omega Garden";
 
   document.getElementById("levelDescription")
     .textContent =
-      "ช่วย Tomato หา ω จากคาบการสั่น แล้วดูวิธีทำไปพร้อมกัน!";
+      "ช่วย Tomato หาความถี่เชิงมุม ω จากคาบ T ให้ถูกต้อง!";
+
+  /* =========================
+     RANDOM QUESTION
+  ========================= */
+
+  const periods = [
+    0.25,
+    0.50,
+    1.00,
+    1.25,
+    1.50,
+    2.00
+  ];
+
+  window.omegaT =
+    periods[
+      Math.floor(
+        Math.random() * periods.length
+      )
+    ];
+
+  window.omegaAnswer =
+    (2 * Math.PI) / window.omegaT;
+
+
+  /* =========================
+     GAME HTML
+  ========================= */
 
   document.getElementById("gameContent")
     .innerHTML = `
 
-      <div class="control-box"
-        style="
-          text-align:center;
-          padding:25px;
-        ">
+      <div class="control-box">
 
         <div style="
+          text-align:center;
           font-size:22px;
           font-weight:700;
           color:#683f39;
-          margin-bottom:15px;
-        ">
-          🍅 FIND ω
-        </div>
-
-        <div style="
-          background:#e7f5ed;
-          border:2px dashed #8fba91;
-          border-radius:15px;
-          padding:18px;
-          margin-bottom:18px;
         ">
 
-          <div style="
-            font-size:21px;
-            font-weight:700;
-          ">
-            สูตร
-          </div>
-
-          <div style="
-            font-size:24px;
-            margin:8px;
-          ">
-            ω = 2π / T
-          </div>
-
-          <div style="
-            font-size:14px;
-            color:#6f8278;
-          ">
-            ω = ความถี่เชิงมุม
-            <br>
-            T = คาบ
-          </div>
+          สูตร
 
         </div>
 
         <div style="
-          font-size:18px;
-          margin-bottom:15px;
+          text-align:center;
+          font-size:25px;
+          font-weight:700;
+          margin:10px 0;
+          color:#4e8cad;
+        ">
+
+          ω = 2π / T
+
+        </div>
+
+        <div style="
+          text-align:center;
+          color:#8c7b70;
+          line-height:1.8;
+        ">
+
+          ω = ความถี่เชิงมุม<br>
+          T = คาบ
+
+        </div>
+
+      </div>
+
+
+      <div class="control-box"
+        style="
+          margin-top:15px;
+          text-align:center;
+        ">
+
+        <div style="
+          font-size:19px;
+          font-weight:700;
+          color:#683f39;
         ">
 
           กำหนดให้
 
-          <br>
+        </div>
 
-          T =
-          <b id="omegaPeriod">—</b>
-          s
+        <div style="
+          font-size:23px;
+          color:#c9434c;
+          font-weight:700;
+          margin:10px;
+        ">
 
-          <br><br>
-
-          จงหา
-
-          <b>ω</b>
-
-          ในหน่วย rad/s
+          T = ${window.omegaT.toFixed(2)} s
 
         </div>
+
+        <div style="
+          font-size:17px;
+          color:#7c6c62;
+          margin-bottom:15px;
+        ">
+
+          จงหา ω ในหน่วย rad/s
+
+        </div>
+
 
         <input
           id="omegaAnswer"
           type="number"
           step="0.01"
-          placeholder="ใส่ค่า ω"
+          placeholder="ใส่คำตอบ"
           style="
             width:80%;
             padding:12px;
@@ -2083,122 +2114,329 @@ function loadWaveLevel(){
 
         <button
           class="cute-button red"
-          onclick="checkOmega()">
+          onclick="checkOmegaAnswer()">
 
           CHECK ANSWER
 
         </button>
 
-        <div
-          id="omegaSolution"
-          style="
-            display:none;
-            margin-top:20px;
-            padding:15px;
-            background:#fff9df;
-            border:2px solid #e4cf82;
-            border-radius:15px;
-            text-align:left;
-            line-height:1.8;
-          ">
+      </div>
+
+    `;
+
+   }
+
+   
+
+   /* =========================================================
+   LEVEL 3 • SHM CALCULATION
+========================================================= */
+
+.shm-calc-game{
+  background:#f8fcf4;
+  border:3px solid #b9d9e5;
+  border-radius:15px;
+  padding:22px;
+}
+
+.formula-card{
+  background:#fff;
+  border:2px dashed #c9b99f;
+  border-radius:14px;
+  padding:18px;
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.formula-main{
+  font-size:24px;
+  font-weight:700;
+  color:#5c8fa8;
+  margin-bottom:8px;
+}
+
+.formula-help{
+  font-size:14px;
+  color:#88786d;
+  line-height:1.8;
+}
+
+.question-box{
+  background:#fffdf4;
+  border:2px solid #e4d6bf;
+  border-radius:14px;
+  padding:18px;
+  line-height:2;
+  font-size:16px;
+}
+
+.question-number{
+  display:inline-block;
+  background:#fff0b5;
+  border:2px solid #e0c873;
+  border-radius:20px;
+  padding:3px 12px;
+  font-size:13px;
+  color:#796633;
+}
+
+.answer-area{
+  margin-top:18px;
+  text-align:center;
+}
+
+.answer-input{
+  width:80%;
+  max-width:350px;
+  padding:12px;
+  border:2px solid #cdbfae;
+  border-radius:12px;
+  text-align:center;
+  font-size:18px;
+  font-family:inherit;
+}
+
+.work-box{
+  margin-top:15px;
+  background:#fff;
+  border:2px dashed #b9d9e5;
+  border-radius:12px;
+  padding:14px;
+  text-align:left;
+}
+
+.work-box b{
+  color:#5c8fa8;
+}
+
+.work-line{
+  margin:7px 0;
+  color:#6f625a;
+   }
+
+     /* =========================================================
+   LEVEL 3 • SHM CALCULATION
+========================================================= */
+
+function loadCalculationLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 3 • SHM CALCULATION";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "SHM Calculator";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "คำนวณจากสูตร SHM ให้ถูกต้อง แล้วช่วย Tomato หาคำตอบ!";
+
+
+  /* =======================================================
+     RANDOM QUESTION
+  ======================================================= */
+
+  const questions = [
+
+    {
+      type:"k",
+      T:1.00,
+      m:2.0
+    },
+
+    {
+      type:"k",
+      T:1.50,
+      m:2.0
+    },
+
+    {
+      type:"k",
+      T:1.75,
+      m:2.0
+    },
+
+    {
+      type:"m",
+      T:1.00,
+      k:20
+    },
+
+    {
+      type:"m",
+      T:1.50,
+      k:20
+    },
+
+    {
+      type:"m",
+      T:2.00,
+      k:20
+    }
+
+  ];
+
+
+  window.shmQuestion =
+    questions[
+      Math.floor(
+        Math.random() * questions.length
+      )
+    ];
+
+
+  const q =
+    window.shmQuestion;
+
+
+  /* =======================================================
+     CALCULATE CORRECT ANSWER
+  ======================================================= */
+
+  if(q.type === "k"){
+
+    window.shmAnswer =
+      (4 * Math.PI * Math.PI * q.m)
+      / (q.T * q.T);
+
+  }
+
+  else{
+
+    window.shmAnswer =
+      (q.T * q.T * q.k)
+      / (4 * Math.PI * Math.PI);
+
+  }
+
+
+  /* =======================================================
+     GAME HTML
+  ======================================================= */
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="shm-calc-game">
+
+        <div class="formula-card">
+
+          <div class="formula-main">
+            T = 2π√(m/k)
+          </div>
+
+          <div class="formula-help">
+
+            T = คาบ (s)<br>
+            m = มวล (kg)<br>
+            k = ค่าคงที่สปริง (N/m)
+
+          </div>
+
+        </div>
+
+
+        <div class="question-box">
+
+          <span class="question-number">
+            QUESTION 3
+          </span>
+
+          <br><br>
+
+          ${q.type === "k"
+            ? `
+              กำหนดให้
+              <b>T = ${q.T.toFixed(2)} s</b>
+              และ
+              <b>m = ${q.m.toFixed(1)} kg</b>
+
+              <br>
+
+              จงหาค่า
+              <b>k</b>
+              ในหน่วย N/m
+            `
+            : `
+              กำหนดให้
+              <b>T = ${q.T.toFixed(2)} s</b>
+              และ
+              <b>k = ${q.k} N/m</b>
+
+              <br>
+
+              จงหาค่า
+              <b>m</b>
+              ในหน่วย kg
+            `
+          }
+
+        </div>
+
+
+        <div class="work-box">
+
+          <b>💡 วิธีคิด</b>
+
+          <div class="work-line">
+            1. เริ่มจากสูตร
+            <b>T = 2π√(m/k)</b>
+          </div>
+
+          <div class="work-line">
+            2. ยกกำลังสองทั้งสองข้าง
+          </div>
+
+          <div class="work-line">
+            3. จัดสมการเพื่อหาค่าที่โจทย์ถาม
+          </div>
+
+          <div class="work-line">
+            4. แทนค่าแล้วคำนวณ
+          </div>
+
+        </div>
+
+        <div class="answer-area">
+
+          <input
+            id="shmAnswerInput"
+            class="answer-input"
+            type="number"
+            step="0.01"
+            placeholder="ใส่คำตอบ">
+
+          <br><br>
+
+          <button
+            class="cute-button red"
+            onclick="checkCalculationAnswer()">
+
+            CHECK ANSWER
+
+          </button>
+
         </div>
 
       </div>
 
     `;
-/* =========================================================
-   LEVEL 3
-   CHECK ANSWER + SHOW SOLUTION
+
+   }
+
+   /* =========================================================
+   CHECK LEVEL 3 ANSWER
 ========================================================= */
 
-function checkOmega(){
+function checkCalculationAnswer(){
 
   const input =
-    document.getElementById("omegaAnswer");
+    document.getElementById("shmAnswerInput");
 
-  const answer =
-    parseFloat(input.value);
-
-
-  if(isNaN(answer)){
-
-    showMessage(
-      "กรุณาใส่คำตอบก่อน!"
-    );
-
+  if(!input){
     return;
-
   }
-
-
-  const T =
-    window.omegaPeriod;
-
-
-  const correctOmega =
-    (2 * Math.PI) / T;
-
-
-  const error =
-    Math.abs(
-      answer - correctOmega
-    );
-
-
-  const solution =
-    document.getElementById(
-      "omegaSolution"
-    );
-
-
-  /* =========================
-     SHOW METHOD
-  ========================= */
-
-  solution.style.display =
-    "block";
-
-  solution.innerHTML = `
-
-    <div style="
-      font-size:18px;
-      font-weight:700;
-      color:#683f39;
-      margin-bottom:8px;
-    ">
-      วิธีทำ
-    </div>
-
-    <div>
-      สูตร:
-      <b>ω = 2π / T</b>
-    </div>
-
-    <div>
-      แทนค่า:
-      <b>
-        ω = 2π / ${T.toFixed(2)}
-      </b>
-    </div>
-
-    <div>
-      ω =
-      <b>
-        ${correctOmega.toFixed(2)}
-      </b>
-      rad/s
-    </div>
-
-  `;
-/* =========================================================
-   LEVEL 3
-   CHECK OMEGA
-========================================================= */
-
-function checkOmega(){
-
-  const input =
-    document.getElementById("omegaAnswer");
 
   const answer =
     parseFloat(input.value);
@@ -2206,129 +2444,60 @@ function checkOmega(){
   if(isNaN(answer)){
 
     showMessage(
-      "กรุณาใส่คำตอบก่อน!"
+      "กรุณาใส่คำตอบก่อนนะ!"
     );
 
     return;
 
   }
 
-  const T =
-    window.omegaPeriod;
 
-  const correctOmega =
-    (2 * Math.PI) / T;
+  const correctAnswer =
+    window.shmAnswer;
 
   const error =
     Math.abs(
-      answer - correctOmega
+      answer - correctAnswer
     );
 
 
-  /* =========================
-     SHOW SOLUTION
-  ========================= */
-
-  const solution =
-    document.getElementById(
-      "omegaSolution"
-    );
-
-  if(solution){
-
-    solution.style.display =
-      "block";
-
-    solution.innerHTML = `
-
-      <div style="
-        font-size:18px;
-        font-weight:700;
-        color:#683f39;
-        margin-bottom:8px;
-      ">
-        วิธีทำ
-      </div>
-
-      <div>
-        สูตร:
-        <b>ω = 2π / T</b>
-      </div>
-
-      <div>
-        แทนค่า:
-        <b>
-          ω = 2π / ${T.toFixed(2)}
-        </b>
-      </div>
-
-      <div>
-        ดังนั้น
-        <b>
-          ω = ${correctOmega.toFixed(2)}
-        </b>
-        rad/s
-      </div>
-
-    `;
-
-  }
-
-
-  /* =========================
-     CHECK ANSWER
-  ========================= */
+  /* =======================================================
+     CORRECT
+  ======================================================= */
 
   if(error <= 0.05){
 
     addScore(300);
 
     showMessage(
-      "ถูกต้อง! +300 คะแนน"
+      "ถูกต้อง! คำนวณเก่งมาก +300"
     );
 
-    setTimeout(function(){
 
-      currentLevel++;
+    setTimeout(() => {
 
-      updateStats();
+      nextLevel();
 
-      loadLevel();
-
-    }, 1800);
+    }, 1200);
 
   }
+
+
+  /* =======================================================
+     WRONG
+  ======================================================= */
 
   else{
 
     loseLife();
 
     showMessage(
-      "ยังไม่ถูก! ดูวิธีทำแล้วลองใหม่"
+      "ยังไม่ถูก ลองแทนสูตรใหม่อีกครั้ง!"
     );
 
   }
 
-       }
-
-  /* =========================
-     RANDOM QUESTION
-  ========================= */
-
-  window.omegaPeriod =
-    [0.50, 0.75, 1.00, 1.25, 1.50, 2.00][
-      Math.floor(
-        Math.random() * 6
-      )
-    ];
-
-
-  document.getElementById("omegaPeriod")
-    .textContent =
-      window.omegaPeriod.toFixed(2);
-
 }
-
     
 /* =========================================================
    LEVEL 4
