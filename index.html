@@ -5134,7 +5134,6 @@ function finishGame(){
 
 }
 
-
 /* =========================================================
    START GAME ON PAGE
 ========================================================= */
@@ -5145,10 +5144,19 @@ document.addEventListener(
 
     updateStats();
 
+    document.querySelector('.start-button').addEventListener('click', function () {
+
+      document.getElementById('startScreen').classList.remove('active');
+
+      document.getElementById('gameScreen').classList.add('active');
+
+    });
+
   }
 );
 
-   function showWinScreen(){
+
+function showWinScreen(){
 
   document.getElementById("gameScreen").classList.remove("active");
 
@@ -5156,9 +5164,9 @@ document.addEventListener(
 
   document.getElementById("finalScore").textContent = score;
 
-   }
-   
-</script>
+}
+
+   </script>
 
 </body>
 </html>
