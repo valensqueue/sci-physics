@@ -764,7 +764,330 @@ input[type=range]{
   text-align:center;
   color:#6e8b95;
 }
+/* =========================================================
+   LEVEL 11 • TEAM CREDITS
+========================================================= */
 
+.team-credits{
+
+  position:relative;
+
+  width:100%;
+  min-height:520px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+
+  padding:40px 20px;
+
+  box-sizing:border-box;
+
+}
+
+
+.team-card{
+
+  position:relative;
+  z-index:5;
+
+  width:90%;
+  max-width:560px;
+
+  padding:35px 30px;
+
+  text-align:center;
+
+  background:#fffdf7;
+
+  border:3px solid #e8cfc2;
+
+  border-radius:28px;
+
+  box-shadow:
+    0 8px 0 rgba(104,63,57,.10),
+    0 15px 35px rgba(104,63,57,.12);
+
+}
+
+
+.team-small-title{
+
+  font-size:13px;
+
+  letter-spacing:2px;
+
+  color:#a27b70;
+
+  margin-bottom:8px;
+
+}
+
+
+.team-card h2{
+
+  margin:0;
+
+  font-size:32px;
+
+  color:#683f39;
+
+}
+
+
+.team-subtitle{
+
+  margin-top:5px;
+
+  font-size:16px;
+
+  color:#8c7568;
+
+}
+
+
+.team-list{
+
+  margin-top:25px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:12px;
+
+}
+
+
+.team-member{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  padding:13px 16px;
+
+  background:#fff5e9;
+
+  border:2px solid #f0d9c9;
+
+  border-radius:15px;
+
+  text-align:left;
+
+}
+
+
+.member-name{
+
+  font-size:15px;
+
+  font-weight:700;
+
+  color:#683f39;
+
+}
+
+
+.member-number{
+
+  flex-shrink:0;
+
+  font-size:13px;
+
+  color:#a27b70;
+
+  white-space:nowrap;
+
+}
+
+
+.team-divider{
+
+  margin:25px 0 15px;
+
+  color:#d49a91;
+
+  letter-spacing:5px;
+
+}
+
+
+.team-thanks{
+
+  font-size:17px;
+
+  font-weight:800;
+
+  color:#683f39;
+
+  letter-spacing:1px;
+
+}
+
+
+.team-message{
+
+  margin-top:7px;
+
+  font-size:13px;
+
+  color:#a27b70;
+
+}
+
+
+/* =========================
+   DECORATIONS
+========================= */
+
+.team-deco{
+
+  position:absolute;
+
+  z-index:2;
+
+  width:85px;
+
+  height:auto;
+
+  object-fit:contain;
+
+  pointer-events:none;
+
+}
+
+
+.deco-1{
+
+  top:25px;
+  left:5%;
+
+  transform:rotate(-12deg);
+
+}
+
+
+.deco-2{
+
+  top:35px;
+  right:6%;
+
+  transform:rotate(12deg);
+
+}
+
+
+.deco-3{
+
+  bottom:30px;
+  left:7%;
+
+  transform:rotate(8deg);
+
+}
+
+
+.deco-4{
+
+  bottom:25px;
+  right:7%;
+
+  transform:rotate(-10deg);
+
+}
+
+
+.deco-5{
+
+  top:45%;
+  left:1%;
+
+  width:65px;
+
+  transform:rotate(-15deg);
+
+}
+
+
+.deco-6{
+
+  top:42%;
+  right:1%;
+
+  width:65px;
+
+  transform:rotate(15deg);
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:600px){
+
+  .team-credits{
+
+    min-height:560px;
+
+    padding:30px 12px;
+
+  }
+
+
+  .team-card{
+
+    width:94%;
+
+    padding:28px 18px;
+
+  }
+
+
+  .team-card h2{
+
+    font-size:28px;
+
+  }
+
+
+  .team-member{
+
+    padding:11px 12px;
+
+  }
+
+
+  .member-name{
+
+    font-size:13px;
+
+  }
+
+
+  .member-number{
+
+    font-size:11px;
+
+  }
+
+
+  .team-deco{
+
+    width:60px;
+
+  }
+
+   }
+   
 /* =========================================================
    MESSAGE / POPUP
 ========================================================= */
@@ -1408,6 +1731,24 @@ else if(currentLevel === 3){
     loadResonanceLevel();
 
   }
+   else if(currentLevel === 9){
+
+  loadDoubleSpringLevel();
+
+   }
+
+   else if(currentLevel === 10){
+
+  loadFinalLevel();
+
+}
+
+else if(currentLevel === 11){
+
+  loadCreditsLevel();
+
+   }
+
    }
    
 /* =========================================================
@@ -3764,7 +4105,907 @@ function checkResonanceAnswer(choice){
   }
 
    }
-   
+
+   /* =========================================================
+   LEVEL 9 • DOUBLE SPRING TOMATO
+========================================================= */
+
+function loadDoubleSpringLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 9 • DOUBLE SPRING";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Double Spring Tomato";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "มาช่วย Tomato หาความถี่ของการสั่นจากสปริงสองข้าง!";
+
+  /* =========================
+     QUESTION DATA
+  ========================= */
+
+  window.doubleSpringAnswer =
+    "f = (1/2π)√(2k/m)";
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="shm-calc-game">
+
+        <div class="formula-card">
+
+          <div class="formula-main">
+            DOUBLE SPRING
+          </div>
+
+          <div class="formula-help">
+            สปริงทั้งสองมีค่าคงที่ k เท่ากัน
+          </div>
+
+        </div>
+
+
+        <div class="question-box">
+
+          <span class="question-number">
+            QUESTION 9
+          </span>
+
+          <br><br>
+
+          มะเขือเทศมวล <b>m</b>
+          วางอยู่บนพื้นราบ
+          โดยมีสปริงที่เหมือนกันทุกประการ
+          และมีค่าคงที่สปริง <b>k</b>
+          ติดอยู่ทั้งสองด้าน
+
+          <br><br>
+
+          ในสภาวะสมดุล
+          สปริงทั้งสองไม่มีการยืด
+
+          <br><br>
+
+          ถ้าเคลื่อนมะเขือเทศไปทางซ้าย
+          แล้วปล่อยให้สั่น
+
+          <br><br>
+
+          <b>
+            ความถี่ของการสั่น f มีค่าเท่าใด?
+          </b>
+
+        </div>
+
+
+        <!-- DIAGRAM -->
+
+        <div style="
+          margin-top:18px;
+          padding:20px 10px;
+          background:#eef8f4;
+          border:3px solid #b9d9e5;
+          border-radius:16px;
+          text-align:center;
+          overflow:hidden;
+        ">
+
+          <div style="
+            font-size:28px;
+            letter-spacing:2px;
+            white-space:nowrap;
+          ">
+            ── k ── 🍅 ── k ──
+          </div>
+
+          <div style="
+            margin-top:8px;
+            font-size:13px;
+            color:#8c7b70;
+          ">
+            สปริงซ้ายและขวามีค่าคงที่เท่ากัน
+          </div>
+
+        </div>
+
+
+        <div class="work-box">
+
+          <b>วิธีคิด</b>
+
+          <div class="work-line">
+            1. หาค่าคงที่สปริงรวม
+          </div>
+
+          <div class="work-line">
+            2. ใช้สูตร
+            <b>kₜₒₜₐₗ = k + k = 2k</b>
+          </div>
+
+          <div class="work-line">
+            3. ใช้สูตรความถี่
+            <b>f = 1/(2π)√(kₜₒₜₐₗ/m)</b>
+          </div>
+
+          <div class="work-line">
+            4. แทนค่า kₜₒₜₐₗ = 2k
+          </div>
+
+        </div>
+
+
+        <div
+          id="doubleSpringChoices"
+          class="answer-area"
+          style="margin-top:18px;"
+        >
+
+          <div style="
+            font-weight:700;
+            color:#683f39;
+            margin-bottom:12px;
+          ">
+            🍅 เลือกคำตอบ
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+}
+
+   /* =========================================================
+   LEVEL 9 • ANSWER
+========================================================= */
+
+  const choices = [
+
+    "f = (1/2π)√(k/m)",
+
+    "f = (1/2π)√(2k/m)",
+
+    "f = (1/2π)√(m/2k)"
+
+  ];
+
+  window.doubleSpringChoices =
+    choices.sort(
+      () => Math.random() - 0.5
+    );
+
+
+  document.getElementById(
+    "doubleSpringChoices"
+  ).innerHTML += `
+
+    <div style="
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+    ">
+
+      ${window.doubleSpringChoices.map(
+        (choice) => `
+
+          <button
+            class="cute-button red"
+            style="
+              width:90%;
+              max-width:360px;
+            "
+            onclick="
+              checkDoubleSpringAnswer(
+                '${choice}'
+              )
+            "
+          >
+
+            ${choice}
+
+          </button>
+
+        `
+      ).join("")}
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   LEVEL 9 • CHECK ANSWER
+========================================================= */
+
+function checkDoubleSpringAnswer(choice){
+
+  const correctAnswer =
+    "f = (1/2π)√(2k/m)";
+
+
+  if(choice === correctAnswer){
+
+    addScore(400);
+
+    showMessage(
+      "ถูกต้อง! Tomato สั่นด้วยสปริงทั้งสองข้าง +400"
+    );
+
+
+    document.getElementById(
+      "doubleSpringChoices"
+    ).innerHTML = `
+
+      <div class="work-box">
+
+        <b>เฉลย</b>
+
+        <div class="work-line">
+          1. สปริงทั้งสองช่วยกันคืนสู่สมดุล
+        </div>
+
+        <div class="work-line">
+          2.
+          <b>
+            kₜₒₜₐₗ = k + k = 2k
+          </b>
+        </div>
+
+        <div class="work-line">
+          3. ใช้สูตร
+          <b>
+            f = 1/(2π)√(kₜₒₜₐₗ/m)
+          </b>
+        </div>
+
+        <div class="work-line">
+          4. แทนค่า kₜₒₜₐₗ = 2k
+        </div>
+
+        <div class="work-line">
+          ดังนั้น
+          <b>
+            f = 1/(2π)√(2k/m)
+          </b>
+        </div>
+
+      </div>
+
+
+      <button
+        class="cute-button red"
+        style="
+          margin-top:15px;
+          width:85%;
+          max-width:320px;
+        "
+        onclick="nextLevel()"
+      >
+
+        NEXT LEVEL →
+
+      </button>
+
+    `;
+
+  }else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ถูก! อย่าลืมว่าสปริงมี 2 ข้างนะ"
+    );
+
+  }
+
+}
+
+   /* =========================================================
+   LEVEL 10 • TOMATO SHM MASTER
+   FINAL BOSS
+========================================================= */
+
+function loadFinalLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 10 • SHM MASTER";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Tomato SHM Master";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "ด่านสุดท้าย! เลือกสูตรให้ถูก แล้วคำนวณความเร็วของ Tomato";
+
+
+  /* =========================
+     FINAL QUESTION DATA
+  ========================= */
+
+  window.finalA = 0.5;
+  window.finalOmega = 4.0;
+
+  window.finalStep = 1;
+
+
+  /* =========================
+     GAME HTML
+  ========================= */
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="shm-calc-game">
+
+        <div class="formula-card">
+
+          <div class="formula-main">
+            🍅 FINAL TOMATO CHALLENGE
+          </div>
+
+          <div class="formula-help">
+            ผ่านทั้ง 2 ขั้น
+            เพื่อพิสูจน์ว่าเป็น SHM MASTER!
+          </div>
+
+        </div>
+
+
+        <div class="question-box">
+
+          <span class="question-number">
+            FINAL BOSS • STEP 1
+          </span>
+
+          <br><br>
+
+          Tomato ถูกดึงออกจาก
+          ตำแหน่งสมดุลแล้วปล่อยให้สั่น
+
+          <br><br>
+
+          กำหนดให้
+
+          <b>A = 0.5 m</b>
+
+          และ
+
+          <b>ω = 4.0 rad/s</b>
+
+          <br><br>
+
+          ถ้าต้องการหา
+          <b>ความเร็วสูงสุด</b>
+          ของ Tomato
+
+          <br><br>
+
+          <b>
+            ควรใช้สูตรใด?
+          </b>
+
+        </div>
+
+
+        <div class="work-box">
+
+          <b>เลือกสูตรที่ถูกต้อง</b>
+
+          <div class="work-line">
+            💡 ลองนึกว่า
+            ความเร็วสูงสุดเกิดขึ้นเมื่อ Tomato
+            ผ่านตำแหน่งสมดุล
+          </div>
+
+        </div>
+
+
+        <div
+          id="finalChoices"
+          class="answer-area"
+          style="margin-top:18px;"
+        >
+
+          <div style="
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+            align-items:center;
+          ">
+
+            <button
+              class="cute-button red"
+              style="
+                width:90%;
+                max-width:360px;
+              "
+              onclick="
+                checkFinalFormula('A')
+              "
+            >
+
+              v = ω√(A² − x²)
+
+            </button>
+
+
+            <button
+              class="cute-button red"
+              style="
+                width:90%;
+                max-width:360px;
+              "
+              onclick="
+                checkFinalFormula('B')
+              "
+            >
+
+              vmax = ωA
+
+            </button>
+
+
+            <button
+              class="cute-button red"
+              style="
+                width:90%;
+                max-width:360px;
+              "
+              onclick="
+                checkFinalFormula('C')
+              "
+            >
+
+              T = 2π√(m/k)
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+}
+   /* =========================================================
+   LEVEL 10 • CHECK FORMULA
+========================================================= */
+
+function checkFinalFormula(choice){
+
+  if(choice === "B"){
+
+    addScore(300);
+
+    showMessage(
+      "ถูกต้อง! สูตรสำหรับความเร็วสูงสุดคือ vmax = ωA"
+    );
+
+    setTimeout(() => {
+
+      loadFinalCalculation();
+
+    }, 1000);
+
+  }else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ถูก! จำไว้ว่าความเร็วสูงสุดเกิดที่ตำแหน่งสมดุล"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LEVEL 10 • STEP 2
+   FINAL CALCULATION
+========================================================= */
+
+function loadFinalCalculation(){
+
+  window.finalAnswer =
+    window.finalOmega *
+    window.finalA;
+
+
+  const choices = [
+
+    1.0,
+    2.0,
+    4.0
+
+  ];
+
+
+  window.finalChoices =
+    choices.sort(
+      () => Math.random() - 0.5
+    );
+
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="shm-calc-game">
+
+        <div class="formula-card">
+
+          <div class="formula-main">
+            🍅 FINAL CALCULATION
+          </div>
+
+          <div class="formula-help">
+            เหลืออีกเพียงขั้นเดียว!
+          </div>
+
+        </div>
+
+
+        <div class="question-box">
+
+          <span class="question-number">
+            FINAL BOSS • STEP 2
+          </span>
+
+          <br><br>
+
+          จากข้อมูลเดิม
+
+          <br><br>
+
+          <b>
+            A = 0.5 m
+          </b>
+
+          <br>
+
+          <b>
+            ω = 4.0 rad/s
+          </b>
+
+          <br><br>
+
+          ใช้สูตร
+
+          <b>
+            vmax = ωA
+          </b>
+
+          <br><br>
+
+          จงหาค่า
+
+          <b>
+            vmax
+          </b>
+
+          ในหน่วย m/s
+
+        </div>
+
+
+        <div class="work-box">
+
+          <b>วิธีคิด</b>
+
+          <div class="work-line">
+            1. ใช้สูตร
+            <b>vmax = ωA</b>
+          </div>
+
+          <div class="work-line">
+            2. แทนค่า
+            <b>vmax = 4(0.5)</b>
+          </div>
+
+          <div class="work-line">
+            3. คำนวณ
+            <b>vmax = 2.0 m/s</b>
+          </div>
+
+        </div>
+
+
+        <div
+          id="finalCalculationChoices"
+          class="answer-area"
+        >
+
+          <div style="
+            font-weight:700;
+            color:#683f39;
+            margin-bottom:12px;
+          ">
+            🍅 เลือกคำตอบ
+          </div>
+
+
+          <div style="
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            align-items:center;
+          ">
+
+            ${window.finalChoices.map(
+              (choice) => `
+
+                <button
+                  class="cute-button red"
+                  style="
+                    width:85%;
+                    max-width:320px;
+                  "
+                  onclick="
+                    checkFinalCalculation(
+                      ${choice}
+                    )
+                  "
+                >
+
+                  ${choice.toFixed(1)} m/s
+
+                </button>
+
+              `
+            ).join("")}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   LEVEL 10 • CHECK FINAL ANSWER
+========================================================= */
+
+function checkFinalCalculation(choice){
+
+  const correctAnswer =
+    window.finalAnswer;
+
+
+  if(
+    Math.abs(
+      choice - correctAnswer
+    ) <= 0.05
+  ){
+
+    addScore(700);
+
+    showMessage(
+      "FINAL BOSS CLEARED! Tomato เป็น SHM MASTER แล้ว! +700"
+    );
+
+
+    document.getElementById(
+      "finalCalculationChoices"
+    ).innerHTML = `
+
+      <div class="work-box">
+
+        <b>🎉 FINAL CLEAR!</b>
+
+        <div class="work-line">
+          สูตรที่ใช้:
+          <b>vmax = ωA</b>
+        </div>
+
+        <div class="work-line">
+          แทนค่า:
+          <b>vmax = 4(0.5)</b>
+        </div>
+
+        <div class="work-line">
+          ดังนั้น
+          <b>vmax = 2.0 m/s</b>
+        </div>
+
+        <div class="work-line">
+          เก่งมาก! ผ่านบททดสอบ SHM ครบแล้ว!
+        </div>
+
+      </div>
+
+
+      <button
+        class="cute-button red"
+        style="
+          margin-top:15px;
+          width:85%;
+          max-width:320px;
+        "
+        onclick="nextLevel()"
+      >
+
+        NEXT LEVEL →
+
+      </button>
+
+    `;
+
+  }else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ถูก! ลองคำนวณ vmax = ωA อีกครั้ง"
+    );
+
+  }
+
+   }
+
+   <!-- =========================================================
+     LEVEL 11 • TEAM CREDITS
+========================================================= -->
+
+function loadCreditsLevel(){
+
+  document.getElementById("levelLabel")
+    .textContent =
+      "LEVEL 11 • TEAM";
+
+  document.getElementById("levelTitle")
+    .textContent =
+      "Tomato Team";
+
+  document.getElementById("levelDescription")
+    .textContent =
+      "ขอบคุณที่ร่วมเล่นเกม SHM ของพวกเรา!";
+
+
+  document.getElementById("gameContent")
+    .innerHTML = `
+
+      <div class="team-credits">
+
+        <!-- =========================
+             DECORATIONS
+        ========================= -->
+
+        <img
+          src="png1.png"
+          class="team-deco deco-1"
+          onerror="this.style.display='none';"
+        >
+
+        <img
+          src="png2.png"
+          class="team-deco deco-2"
+          onerror="this.style.display='none';"
+        >
+
+        <img
+          src="png3.png"
+          class="team-deco deco-3"
+          onerror="this.style.display='none';"
+        >
+
+        <img
+          src="png4.png"
+          class="team-deco deco-4"
+          onerror="this.style.display='none';"
+        >
+
+        <img
+          src="png5.png"
+          class="team-deco deco-5"
+          onerror="this.style.display='none';"
+        >
+
+        <img
+          src="png6.png"
+          class="team-deco deco-6"
+          onerror="this.style.display='none';"
+        >
+
+
+        <!-- =========================
+             CENTER CARD
+        ========================= -->
+
+        <div class="team-card">
+
+          <div class="team-small-title">
+            🍅 SHM PROJECT
+          </div>
+
+          <h2>
+            สมาชิก
+          </h2>
+
+          <div class="team-subtitle">
+            นักเรียนชั้น ม.5/6
+          </div>
+
+
+          <div class="team-list">
+
+            <div class="team-member">
+              <span class="member-name">
+                นางสาววรรณษา วรรณอินทร์
+              </span>
+              <span class="member-number">
+                เลขที่ 2
+              </span>
+            </div>
+
+
+            <div class="team-member">
+              <span class="member-name">
+                นางสาวศศิธร วงษ์สิน
+              </span>
+              <span class="member-number">
+                เลขที่ 4
+              </span>
+            </div>
+
+
+            <div class="team-member">
+              <span class="member-name">
+                นางสาวภคภัทร ธีรพัฒน์พาณิชย์
+              </span>
+              <span class="member-number">
+                เลขที่ 11
+              </span>
+            </div>
+
+
+            <div class="team-member">
+              <span class="member-name">
+                นางสาวภวิษย์พร เชิดเชื้อ
+              </span>
+              <span class="member-number">
+                เลขที่ 33
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="team-divider">
+            ✦　✦　✦
+          </div>
+
+
+          <div class="team-thanks">
+            THANK YOU FOR PLAYING!
+          </div>
+
+          <div class="team-message">
+            เรียนรู้ SHM ไปด้วยกันกับ Tomato 🍅
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+   }
 /* =========================================================
    NEXT LEVEL
 ========================================================= */
@@ -3779,8 +5020,8 @@ function nextLevel(){
 
   currentLevel++;
 
-
-  if(currentLevel > 8){
+   
+  if(currentLevel > 11){
 
     finishGame();
 
