@@ -2190,38 +2190,126 @@ function checkOmega(){
     </div>
 
   `;
+/* =========================================================
+   LEVEL 3
+   CHECK OMEGA
+========================================================= */
 
-/* =========================
-   CHECK ANSWER
-========================= */
+function checkOmega(){
 
-if(error <= 0.05){
+  const input =
+    document.getElementById("omegaAnswer");
 
-  addScore(300);
+  const answer =
+    parseFloat(input.value);
 
-  showMessage(
-    "ถูกต้อง! +300 คะแนน"
-  );
+  if(isNaN(answer)){
 
-  setTimeout(function(){
+    showMessage(
+      "กรุณาใส่คำตอบก่อน!"
+    );
 
-    currentLevel++;
+    return;
 
-    updateStats();
+  }
 
-    loadLevel();
+  const T =
+    window.omegaPeriod;
 
-  }, 1800);
+  const correctOmega =
+    (2 * Math.PI) / T;
 
-}else{
+  const error =
+    Math.abs(
+      answer - correctOmega
+    );
 
-  loseLife();
 
-  showMessage(
-    "ยังไม่ถูก! ดูวิธีทำแล้วลองใหม่"
-  );
+  /* =========================
+     SHOW SOLUTION
+  ========================= */
 
-   }
+  const solution =
+    document.getElementById(
+      "omegaSolution"
+    );
+
+  if(solution){
+
+    solution.style.display =
+      "block";
+
+    solution.innerHTML = `
+
+      <div style="
+        font-size:18px;
+        font-weight:700;
+        color:#683f39;
+        margin-bottom:8px;
+      ">
+        วิธีทำ
+      </div>
+
+      <div>
+        สูตร:
+        <b>ω = 2π / T</b>
+      </div>
+
+      <div>
+        แทนค่า:
+        <b>
+          ω = 2π / ${T.toFixed(2)}
+        </b>
+      </div>
+
+      <div>
+        ดังนั้น
+        <b>
+          ω = ${correctOmega.toFixed(2)}
+        </b>
+        rad/s
+      </div>
+
+    `;
+
+  }
+
+
+  /* =========================
+     CHECK ANSWER
+  ========================= */
+
+  if(error <= 0.05){
+
+    addScore(300);
+
+    showMessage(
+      "ถูกต้อง! +300 คะแนน"
+    );
+
+    setTimeout(function(){
+
+      currentLevel++;
+
+      updateStats();
+
+      loadLevel();
+
+    }, 1800);
+
+  }
+
+  else{
+
+    loseLife();
+
+    showMessage(
+      "ยังไม่ถูก! ดูวิธีทำแล้วลองใหม่"
+    );
+
+  }
+
+       }
 
   /* =========================
      RANDOM QUESTION
